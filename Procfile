@@ -1,1 +1,1 @@
-web: gunicorn project.wsgi
+web: bin/runsvdir-dyno
