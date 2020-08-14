@@ -3,13 +3,14 @@ from users.models import User
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, ResizeToFit
 
+
 # Create your models here.
 class Musician(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
-    location = models.CharField(max_length=255)
     bio = models.TextField()
-    
+    city = models.CharField(max_length=255)
+
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
