@@ -138,3 +138,8 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
