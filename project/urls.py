@@ -19,11 +19,10 @@ from django.urls import include, path
 from core import views as core_views
 
 
-urlpatterns = [
-    
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('home/', core_views.Homepage.as_view(), name="homepage"),
+    path('', core_views.Homepage.as_view(), name="homepage"),
 ]
 
 if settings.DEBUG:
