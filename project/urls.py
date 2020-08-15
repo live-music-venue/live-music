@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
+from core import views as core_views
 
 
-urlpatterns = [
-    
+urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('', core_views.Homepage.as_view(), name="homepage"),
 ]
 
 if settings.DEBUG:

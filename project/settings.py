@@ -55,6 +55,8 @@ INSTALLED_APPS = [
 
     # Project-specific
     'users',
+    'core',
+
 
     # allauth
     'allauth',
@@ -66,7 +68,6 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.instagram',
     # 'allauth.socialaccount.providers.twitter',
 
-    'core'
 ]
 
 SITE_ID = 2
