@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block meta %} {% endblock meta %}
+  <title>Rhappsody</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="header-box">
+      <div class="header-left">
+        <div><a class="home-link" href='#'><h1>Rhappsody</h1></a></div>
+      </div>
+      <div class="header-right v-center">
+        <div>
+          {% if user.is_authenticated %}
+          <span class="welcome welcome-el">Welcome, {{user.username}}!</span>
+          <a class="welcome-el" href="{% url 'account_logout' %}">Logout</a>
+          {% else %}
+          <a class="welcome-el" href="{% url 'account_login' %}">Login</a>
+          <a class="welcome-el" href="{% url 'account_signup' %}">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+  <div class="body-div">
+    <div class="main-block">
+    {% block content %}
+    {% endblock content %}
+    </div>
+  </div>
+</body>
