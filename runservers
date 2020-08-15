@@ -1,0 +1,5 @@
+echo "Running servers on port 3000 ..."
+sleep 1
+npm run devBuild &
+npm run devStart &
+python manage.py runserver

@@ -4,7 +4,10 @@
   "description": "This project was generated from the Momentum Django project template. This template sets up some minimal changes:",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "devStart": "nodemon server.js",
+    "start": "node server.js",
+    "devBuild": "webpack --watch --mode development ./react/index.js --output ./static/main.js",
+    "build": "webpack --mode production ./react/index.js --output ./static/main.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +21,15 @@
   },
   "homepage": "https://github.com/live-music-venue/live-music#readme",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "nodemon": "^2.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "cors": "^2.8.5",
