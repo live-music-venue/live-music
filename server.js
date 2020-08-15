@@ -3,7 +3,7 @@ const app = express()
 app.use(require('cors')())
 const server = require('http').Server(app)
 const proxy = require('express-http-proxy')
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 const { ExpressPeerServer } = require('peer')
 
 app.use('/peer', ExpressPeerServer(server))
