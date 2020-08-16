@@ -5,8 +5,10 @@
 </div>
 
 {% if user.is_authenticated %}
-<div>
-    <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
-</div>
+    {% if not user.musician %}
+    <div>
+        <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
+    </div>
+    {% endif %}
 {% endif %}
 {% endblock content %}

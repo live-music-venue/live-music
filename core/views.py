@@ -16,16 +16,20 @@ class EventPage(View):
 
 class AddMusicianInfo(View):
     def get(self, request, user_pk):
-        form = MusicianForm()
-        return render(request, 'core/musician_form.html', {"form": form})
+        if get_object_or_404(User, pk=user_pk) == request.user:
+            form = MusicianForm()
+            return render(request, 'core/musician_form.html', {"form": form})
+        return redirect(to="homepage")
 
     def post(self, request, user_pk):
-        form = MusicianForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            musician = form.save(commit=False)
-            musician.user = request.user
-            musician.save()
-            return redirect(to='show-musician', musician_pk=musician.pk)
+        if get_object_or_404(User, pk=user_pk) == request.user:
+            form = MusicianForm(data=request.POST, files=request.FILES)
+            if form.is_valid():
+                musician = form.save(commit=False)
+                musician.user = request.user
+                musician.save()
+                return redirect(to='show-musician', musician_pk=musician.pk)
+            return redirect(to="homepage")
         return redirect(to="homepage")
 
 class ShowMusician(View):

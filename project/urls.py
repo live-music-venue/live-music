@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import include, path
 from core import views as core_views
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [ 
@@ -26,7 +28,7 @@ urlpatterns = [
     path('event/<int:pk>', core_views.EventPage.as_view(), name="event"),
     path('musician/add/<int:user_pk>', core_views.AddMusicianInfo.as_view(), name="add-musician"),
     path('musician/<int:musician_pk>', core_views.ShowMusician.as_view(), name="show-musician"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
