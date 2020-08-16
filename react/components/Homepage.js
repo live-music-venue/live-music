@@ -12,4 +12,5 @@ export default class Homepage extends React.Component {
   }
 }
 
-render(<Homepage />, document.getElementById('react-homepage'))
+const container = document.querySelector('#react-homepage')
+if (container) render(<Homepage />, container)
