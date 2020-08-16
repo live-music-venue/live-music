@@ -3,4 +3,12 @@
 {% block content %}
 <div id="react-homepage">
 </div>
+
+{% if user.is_authenticated %}
+    {% if not user.musician %}
+    <div>
+        <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
+    </div>
+    {% endif %}
+{% endif %}
 {% endblock content %}

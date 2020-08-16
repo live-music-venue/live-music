@@ -517,6 +517,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
+lock-version = "1.0"
 content-hash = "583d5fdb7820cda96974c5ce25204d223a44f24b60b8b1bd55c2a4372ca428e0"
 python-versions = "3.8.5"
 
