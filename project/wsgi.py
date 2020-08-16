@@ -11,7 +11,6 @@ import os
 import socketio
 
 from django.core.wsgi import get_wsgi_application
-from core.models import Event
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
@@ -25,13 +24,8 @@ viewer_counts = {}
 # Join event room
 @sio.event
 def join_event(sid, eventId, userId, peerId):
-    event = Event.objects.filter(pk=eventId).first()
     sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId})
     sio.enter_room(sid, eventId)
-    if event.owner.user.id == userId:
-        viewer_counts[eventId] = 0
-    else:
-        viewer_counts[eventId] += 1
     sio.emit('user-connected', peerId, to=eventId, skip_sid=sid)
     sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
 
@@ -48,11 +42,6 @@ def disconnect(sid):
     eventId = session['eventId']
     peerId = session['peerId']
     userId = session['userId']
-    event = Event.objects.filter(pk=eventId).first()
-    if event.owner.user.id == userId:
-        del viewer_counts[eventId]
-    else:
-        viewer_counts[eventId] -= 1
     sio.emit('user-disconnected', peerId, to=eventId)
     sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
     sio.leave_room(sid, eventId)
