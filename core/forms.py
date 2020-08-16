@@ -18,3 +18,15 @@ class MusicianForm(ModelForm):
         # labels = {
         #     "bio": ""
         # }
+
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            "owner",
+            "title",
+            "date_time",
+            "description",
+            "cover_photo",
+        ]
