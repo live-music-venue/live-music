@@ -7,7 +7,9 @@ const PORT = process.env.PORT || 3000
 const { ExpressPeerServer } = require('peer')
 
 app.use('/peer', ExpressPeerServer(server))
-app.use('/', proxy('http://localhost:8000'))
+app.use('/', proxy('http://localhost:8000', {
+  limit: '100mb'
+}))
 
 server.listen(PORT)
 console.log(`Peer server running on port ${PORT}`)
