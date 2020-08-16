@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', core_views.Homepage.as_view(), name="homepage"),
+    path('event/<int:pk>', core_views.EventPage.as_view(), name="event"),
 ]
 
 if settings.DEBUG:

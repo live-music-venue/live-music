@@ -8,3 +8,7 @@ from django.views import View
 class Homepage(View):
     def get(self, request):
         return render(request, 'core/homepage.html')
+
+class EventPage(View):
+    def get(self, request, pk):
+        return render(request, 'core/event.html')
