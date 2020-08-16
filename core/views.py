@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
+from .forms import MusicianForm
 from users.models import User
 from django.views import View
 
@@ -12,3 +13,22 @@ class Homepage(View):
 class EventPage(View):
     def get(self, request, pk):
         return render(request, 'core/event.html')
+
+class AddMusicianInfo(View):
+    def get(self, request, user_pk):
+        form = MusicianForm()
+        return render(request, 'core/musician_form.html', {"form": form})
+
+    def post(self, request, user_pk):
+        form = MusicianForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            musician = form.save(commit=False)
+            musician.user = request.user
+            musician.save()
+            return redirect(to='show-musician', musician_pk=musician.pk)
+        return redirect(to="homepage")
+
+class ShowMusician(View):
+    def get(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        return render(request, 'core/show_musician.html', {"musician": musician})

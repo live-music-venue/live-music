@@ -24,6 +24,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', core_views.Homepage.as_view(), name="homepage"),
     path('event/<int:pk>', core_views.EventPage.as_view(), name="event"),
+    path('musician/add/<int:user_pk>', core_views.AddMusicianInfo.as_view(), name="add-musician"),
+    path('musician/<int:musician_pk>', core_views.ShowMusician.as_view(), name="show-musician"),
 ]
 
 if settings.DEBUG:
