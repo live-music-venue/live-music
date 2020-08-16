@@ -31,9 +31,9 @@ export default class Event extends React.Component {
 
   async componentDidMount () {
     await this.setState({
-      socket: io(`http://localhost:${PORT}`),
+      socket: io(`http://192.168.1.80:${PORT}`),
       peer: new Peer({
-        host: 'localhost',
+        host: '192.168.1.80',
         port: PORT,
         path: '/peer',
         secure: PORT !== 3000
@@ -42,6 +42,11 @@ export default class Event extends React.Component {
     const { socket, peer, isOwner } = this.state
     peer.on('open', id => {
       socket.emit('join_event', props.pk, props.userId, id)
+      socket.on('update-viewer-count', viewerCount => {
+        this.setState({
+          viewers: viewerCount
+        })
+      })
       if (isOwner) {
         const peers = {}
         navigator.mediaDevices.getUserMedia({
@@ -49,30 +54,24 @@ export default class Event extends React.Component {
           audio: true
         }).then(stream => {
           this.setState({
+            viewers: 0,
             player: <Webcam audio='false' mirrored='true' />
           })
           socket.on('user-connected', peerId => {
             const call = peer.call(peerId, stream)
-            console.log(peerId, 'connected')
             peers[peerId] = call
-            this.setState({
-              viewers: this.state.viewers + 1
-            })
-            call.on('close', () => {
-              this.setState({
-                viewers: this.state.viewers - 1
-              })
+            socket.on('user-disconnected', peerId => {
+              if (peers[peerId]) peers[peerId].close()
+              delete peers[peerId]
             })
           })
         })
       } else {
         peer.on('call', (call, id) => {
-          console.log('answering call')
           call.answer()
           call.on('stream', stream => {
-            console.log('got stream, setting player')
             this.setState({
-              player: <ReactPlayer url={stream} playing={true} controls={true} />
+              player: <ReactPlayer url={stream} playing='true' controls='true' />
             })
           })
           call.on('close', () => {
@@ -87,9 +86,11 @@ export default class Event extends React.Component {
   }
 
   render () {
+    const { viewers, player } = this.state
     return (
       <>
-        {this.state.player}
+        <p>{this.state.viewers} Viewer{viewers !== 1 && 's'}</p>
+        {player}
       </>
     )
   }
