@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, DateTimeInput
 from .models import Musician, MusicianComment, Event, EventComment
 
 class MusicianForm(ModelForm):
@@ -29,3 +29,9 @@ class EventForm(ModelForm):
             "description",
             "cover_photo",
         ]
+        widgets = {
+          'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
+        }
+        labels = {
+            "date_time" : "Date and time (24 hour clock)",
+        }

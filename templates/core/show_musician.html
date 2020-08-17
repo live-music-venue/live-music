@@ -2,10 +2,14 @@
 
 {% block content %}
 <div class="musician-show center">
+    <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
     <div>
        <h3>{{musician.name}}</h3>
        <img src="{{ musician.thumbnail.url }}"">
        <img src="{{ musician.full_cover.url }}"">
     </div>
 </div>
+{% for event in musician.events.all %}
+<a href="{% url 'event' pk=event.pk %}">{{event.title}}</a>
+{% endfor %}
 {% endblock content %}

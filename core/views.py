@@ -23,7 +23,8 @@ class EventPage(View):
                 "pk": pk,
                 "ownerId": event.owner.user.id,
                 "userId": request.user.id
-            })
+            }), 
+            "event": event,
         })
 
 
@@ -32,7 +33,7 @@ class AddEvent(View):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/create_event.html', {"form": form})
+            return render(request, 'core/create_event.html', {"form": form, "musician": musician})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -43,7 +44,7 @@ class AddEvent(View):
                 event = form.save(commit=False)
                 event.owner = musician
                 event.save()
-                return redirect(to="event_page", pk=event.pk)
+                return redirect(to="event", pk=event.pk)
             return redirect(to="show_musician", musician_pk=musician_pk)
         return redirect(to="show_musician", musician_pk=musician_pk)
 
@@ -70,4 +71,4 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        return render(request, 'core/show-musician.html', {"musician": musician})
+        return render(request, 'core/show_musician.html', {"musician": musician})
