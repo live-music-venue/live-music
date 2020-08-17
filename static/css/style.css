@@ -1,125 +1,21 @@
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    height: 100vh;
-    width: 100vw;
-    background-color: white;
+.ant-page-header-back-button:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-
-h4 {
-    margin: 5px 10px 5px 10px;
+.ant-page-header-back-button:hover > span > svg {
+  color: rgb(24, 144, 255);
+  transition: 0.3s;
 }
 
-.home-link {
-    color: white;
-    text-decoration: none;
-    letter-spacing: .1em;
-}
-/* 
-a {
-    text-decoration: none;
-    color: black;
-} */
-
-img {
-    display: block;
+.ant-page-header-heading-title {
+  cursor: pointer;
+  -webkit-user-select: none;
+  padding-left: 25px;
+  color: white;
 }
 
-.question-title-top {
-    margin: 5px 10px 5px 10px;
-}
-
-.title-link {
-    text-decoration: none;
-    color: white;
-}
-
-.test-border {
-    border: 1px solid black;
-}
-
-.toggler { 
-    transition: all .3s ease-in-out;
-}
-
-.toggler:hover {
-    transform: scale(1.5);
-}
-
-.button-holder {
-    /* padding-top: 10px;
-    padding-right: 10px; */
-    display: flex;
-    flex-direction: column;
-}
-
-
-header {
-    background-color:grey;
-    height: 8%;
-    margin: 0px 0px;
-    color: white;
-}
-
-.header-box {
-    display: flex;
-    justify-content: space-between;
-}
-
-.header-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-left: 30px;
-}
-
-.header-right a {
-    color: white;
-    padding-right: 30px;
-}
-
-.welcome-el {
-    padding-right: 15px;
-}
-
-.header-p {
-    font-weight: bold;
-    font-size: 28px;
-    margin-bottom: 0;
-}
-
-.body-div {
-    /* height: 90%;
-    width: 100%; */
-    margin: 0 auto;
-}
-
-.v-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.v-space {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.flex-space {
-    display: flex;
-    justify-content: space-between;
-}
-
-.flex-v-space {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.center {
-    display: flex;
-    justify-content: space-around;
+.ant-page-header-heading-extra {
+  margin-top: 7px;
+  height: 25%;
 }

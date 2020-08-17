@@ -9,7 +9,7 @@ import ReactPlayer from 'react-player'
 /* global data */
 
 const PORT = process.env.PORT || 3000
-const props = JSON.parse(_.unescape(data))
+let props = {}
 
 export default class Event extends React.Component {
   constructor () {
@@ -30,6 +30,7 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
+    props = JSON.parse(_.unescape(data))
     await this.setState({
       socket: io(`http://localhost:${PORT}`),
       peer: new Peer({
