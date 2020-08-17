@@ -22,6 +22,7 @@ boto3 = "^1.14.43"
 django-storages = "^1.9.1"
 gevent = "^20.6.2"
 asgiref = "^3.2.10"
+pytz = "^2020.1"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"

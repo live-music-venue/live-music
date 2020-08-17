@@ -12,11 +12,18 @@
     {% endif %}
 {% endif %}
 
+<h4>Upcoming concerts:</h4>
+<div class="flex">
 {% for event in events %}
-    {% if event %}
-    <div>
-        {{event}}
+    {% if event.is_upcoming %}
+    <div class="ba ma3">
+        <img src="{{ event.thumbnail.url }}">
+        <p>
+            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
+            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+        </p>
     </div>
     {% endif %}
 {% endfor %}
+</div>
 {% endblock content %}
