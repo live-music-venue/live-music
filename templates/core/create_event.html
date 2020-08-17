@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="event-add center">
+    <div>
+        <h1>Musician Form</h1>
+        <form action="{% url 'add-event' musician_pk=musician.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div>
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

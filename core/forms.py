@@ -24,7 +24,6 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
-            "owner",
             "title",
             "date_time",
             "description",

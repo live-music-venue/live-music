@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
-from .forms import MusicianForm
+from .forms import MusicianForm, EventForm
 from users.models import User
 from django.views import View
 import json
@@ -13,6 +13,7 @@ class Homepage(View):
         events = Event.objects.filter(date_time__gt = today_date_time)
         return render(request, 'core/homepage.html', {'events': events})
 
+
 class EventPage(View):
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
@@ -24,6 +25,28 @@ class EventPage(View):
                 "userId": request.user.id
             })
         })
+
+
+class AddEvent(View):
+    def get(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        if musician.user == request.user:
+            form = EventForm()
+            return render(request, 'core/create_event.html', {"form": form})
+        return redirect(to="show-musician", musician_pk=musician_pk)
+
+    def post(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        if musician.user == request.user:
+            form = EventForm(data=request.POST, files=request.FILES)
+            if form.is_valid():
+                event = form.save(commit=False)
+                event.owner = musician
+                event.save()
+                return redirect(to="event_page", pk=event.pk)
+            return redirect(to="show_musician", musician_pk=musician_pk)
+        return redirect(to="show_musician", musician_pk=musician_pk)
+
 
 class AddMusicianInfo(View):
     def get(self, request, user_pk):
@@ -43,7 +66,8 @@ class AddMusicianInfo(View):
             return redirect(to="homepage")
         return redirect(to="homepage")
 
+
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        return render(request, 'core/show_musician.html', {"musician": musician})
+        return render(request, 'core/show-musician.html', {"musician": musician})
