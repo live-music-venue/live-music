@@ -72,7 +72,6 @@ class Event(models.Model):
         now_aware = timezone.localize(now)
         return self.date_time > now_aware
 
-    #will need modification once in_progress is added to model
     @property
     def is_finished(self):
         now = datetime.now()
