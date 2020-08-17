@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, ResizeToFit
+from imagekit.processors import ResizeToFill, ResizeToFit, Transpose
 
 
 # Create your models here.
@@ -14,13 +14,15 @@ class Musician(models.Model):
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(200, 200)],
+        processors=[ResizeToFit(200, 200),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(400, 400)],
+        processors=[ResizeToFit(400, 400),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
@@ -40,13 +42,15 @@ class Event(models.Model):
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(200, 200)],
+        processors=[ResizeToFit(200, 200),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(400, 400)],
+        processors=[ResizeToFit(400, 400),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
