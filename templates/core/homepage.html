@@ -12,10 +12,14 @@
     {% endif %}
 {% endif %}
 
+<h4>Upcoming concerts:</h4>
 {% for event in events %}
     {% if event %}
     <div>
-        {{event}}
+        <p>
+            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
+            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+        </p>
     </div>
     {% endif %}
 {% endfor %}
