@@ -1,2 +1,2 @@
-django: gunicorn project.wsgi --bind localhost:8000
+django: gunicorn -k gevent project.wsgi --bind localhost:8000
 node: node server.js

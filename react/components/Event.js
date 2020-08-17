@@ -14,6 +14,7 @@ let props = {}
 export default class Event extends React.Component {
   constructor () {
     super()
+    props = JSON.parse(_.unescape(data))
     this.state = {
       isOwner: props.ownerId === props.userId,
       streaming: false,
@@ -30,7 +31,6 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
-    props = JSON.parse(_.unescape(data))
     await this.setState({
       socket: io(`http://localhost:${PORT}`),
       peer: new Peer({
@@ -87,10 +87,9 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { viewers, player, isOwner } = this.state
+    const { viewers, player } = this.state
     return (
       <>
-        {isOwner && <button>Start</button>}
         <p>{this.state.viewers} Viewer{viewers !== 1 && 's'}</p>
         {player}
       </>
