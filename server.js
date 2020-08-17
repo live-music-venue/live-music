@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000
 const { ExpressPeerServer } = require('peer')
 
 app.use('/peer', ExpressPeerServer(server))
+app.use('/static/css', express.static('node_modules/antd/dist'))
 app.use('/', proxy('http://localhost:8000', {
   limit: '100mb'
 }))
