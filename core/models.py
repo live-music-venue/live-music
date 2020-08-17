@@ -55,7 +55,7 @@ class Event(models.Model):
     )
 
     def __str__(self):
-        return f'{self.title} by {self.owner.username}'
+        return f'{self.title} by {self.owner.user.username}'
 
 
 class EventComment(models.Model):
