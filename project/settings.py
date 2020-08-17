@@ -76,6 +76,13 @@ INSTALLED_APPS = [
 SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 
+CSRF_TRUSTED_ORIGINS = ['rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com']
+
+CORS_ORIGIN_WHITELIST = (
+    'rhappsody.herokuapp.com',
+    'rhappsody-staging.herokuapp.com'
+)
+
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
