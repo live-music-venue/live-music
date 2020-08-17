@@ -15,8 +15,15 @@ class Homepage(View):
 
 class EventPage(View):
     def get(self, request, pk):
-        
-        return render(request, 'core/event.html')
+        event = get_object_or_404(Event, pk=pk)
+        # Passing data through to react via json. MUST USE DOUBLE QUOTES
+        return render(request, 'core/event.html', {
+            'data': json.dumps({
+                "pk": pk,
+                "ownerId": event.owner.user.id,
+                "userId": request.user.id
+            })
+        })
 
 class AddMusicianInfo(View):
     def get(self, request, user_pk):
@@ -40,14 +47,3 @@ class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         return render(request, 'core/show_musician.html', {"musician": musician})
-
-        event = get_object_or_404(Event, pk=pk)
-        # Passing data through to react via json. MUST USE DOUBLE QUOTES
-        return render(request, 'core/event.html', {
-            'data': json.dumps({
-                "pk": pk,
-                "ownerId": event.owner.user.id,
-                "userId": request.user.id
-            })
-        })
-
