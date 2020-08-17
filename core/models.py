@@ -42,6 +42,7 @@ class Event(models.Model):
     public = models.BooleanField(default=True)
     thumbs_up = models.ManyToManyField(User, related_name="thumbs_up", blank=True)
     favorited_by = models.ManyToManyField(User, related_name="favorite_event", blank=True)
+    in_progress = models.BooleanField(default=False)
 
     video = models.FileField(upload_to="videos/", null=True, blank=True)
     
@@ -77,7 +78,7 @@ class Event(models.Model):
         now = datetime.now()
         timezone = pytz.timezone("America/New_York")
         now_aware = timezone.localize(now)
-        return self.date_time < now_aware
+        return self.date_time < now_aware and not self.in_progress
 
 
 class EventComment(models.Model):
