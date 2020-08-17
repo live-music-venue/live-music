@@ -8,29 +8,21 @@
   {% block meta %} {% endblock meta %}
   <title>Rhappsody</title>
   <script src="{% static 'main.js' %}" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'css/antd.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <header class="header-box">
-      <div class="header-left">
-        <div><a class="home-link" href='#'><h1>Rhappsody</h1></a></div>
-      </div>
-      <div class="header-right v-center">
-        <div>
-          {% if user.is_authenticated %}
-          <span class="welcome welcome-el">Welcome, {{user.username}}!</span>
-          <a class="welcome-el" href="{% url 'account_logout' %}">Logout</a>
-          {% else %}
-          <a class="welcome-el" href="{% url 'account_login' %}">Login</a>
-          <a class="welcome-el" href="{% url 'account_signup' %}">Register</a>
-          {% endif %}
-        </div>
-      </div>
-    </header>
+<body style="background-color: #f0f2f5;">
   <div class="body-div">
-    <div class="main-block">
-    {% block content %}
-    {% endblock content %}
+    <div class="main-block" style="display: none;">
+      <script>
+        const isAuthenticated = JSON.parse('{{user.is_authenticated}}'.toLowerCase())
+        const loginURL = "{% url 'account_login' %}"
+        const signupURL = "{% url 'account_signup' %}"
+        const logoutURL = "{% url 'account_logout' %}"
+      </script>
+      {% block content %}
+      {% endblock content %}
     </div>
   </div>
 </body>
