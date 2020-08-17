@@ -19,3 +19,7 @@
   margin-top: 7px;
   height: 25%;
 }
+
+video:focus {
+  outline: none;
+}
