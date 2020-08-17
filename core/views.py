@@ -10,7 +10,7 @@ import datetime
 class Homepage(View):
     def get(self, request):
         today_date_time = datetime.datetime.now()
-        events = Event.objects.filter(date_time__gt = today_date_time)
+        events = Event.objects.all()
         return render(request, 'core/homepage.html', {'events': events})
 
 

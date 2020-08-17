@@ -2,16 +2,40 @@
 
 {% block content %}
 <div class="musician-show center">
+    {% if musician.pk == user.pk %}
     <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+    {% endif %}
     <div>
        <h3>{{musician.name}}</h3>
        <img src="{{ musician.full_cover.url }}"">
     </div>
 </div>
 <h4>{{musician.name}}'s events:</h4>
-{% for event in musician.events.all %}
-<p>
-    <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a>
-</p>
-{% endfor %}
+<div class="flex">
+    {% for event in musician.events.all %}
+    {% if event.is_upcoming %}
+    <div class="ba ma3">
+        <img src="{{ event.thumbnail.url }}">
+        <p>
+            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
+            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+        </p>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<h4>Past events</h4>
+<div class="flex">
+    {% for event in musician.events.all %}
+    {% if event.is_finished %}
+    <div class="ba ma3">
+        <img src="{{ event.thumbnail.url }}">
+        <p>
+            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
+            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+        </p>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
 {% endblock content %}

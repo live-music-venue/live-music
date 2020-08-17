@@ -2,6 +2,9 @@ from django.db import models
 from users.models import User
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill, ResizeToFit, Transpose
+from datetime import datetime as datetime, timezone
+import pytz
+
 
 
 # Create your models here.
@@ -60,6 +63,21 @@ class Event(models.Model):
 
     def __str__(self):
         return f'{self.title} by {self.owner.user.username}'
+
+    @property
+    def is_upcoming(self):
+        now = datetime.now()
+        timezone = pytz.timezone("America/New_York")
+        now_aware = timezone.localize(now)
+        return self.date_time > now_aware
+
+    #will need modification once in_progress is added to model
+    @property
+    def is_finished(self):
+        now = datetime.now()
+        timezone = pytz.timezone("America/New_York")
+        now_aware = timezone.localize(now)
+        return self.date_time < now_aware
 
 
 class EventComment(models.Model):
