@@ -25,6 +25,9 @@ class Musician(models.Model):
         options={"quality": 100},
     )
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Event(models.Model):
     owner = models.ForeignKey(Musician, on_delete=models.CASCADE, related_name="events")
@@ -51,6 +54,9 @@ class Event(models.Model):
         options={"quality": 100},
     )
 
+    def __str__(self):
+        return f'{self.title} by {self.owner.username}'
+
 
 class EventComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_comments")
@@ -58,9 +64,15 @@ class EventComment(models.Model):
     body = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.author.username} on {self.event}'
+
 
 class MusicianComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="musician_comments")
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE, related_name="musician_comments")
     body = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.author.username} on {self.musician}'
