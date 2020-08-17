@@ -11,4 +11,12 @@
     </div>
     {% endif %}
 {% endif %}
+
+{% for event in events %}
+    {% if event %}
+    <div>
+        {{event}}
+    </div>
+    {% endif %}
+{% endfor %}
 {% endblock content %}
