@@ -1,7 +1,7 @@
 import socketio
 from .models import Event
 
-sio = socketio.Server(async_mode='threading', cors_allowed_origins=[])
+sio = socketio.Server(async_mode=None, cors_allowed_origins=[])
 
 # Keep track of viewer counts on the server. This may not be the best idea but idk
 viewer_counts = {}

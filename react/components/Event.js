@@ -34,11 +34,12 @@ export default class Event extends React.Component {
 
   async componentDidMount () {
     const secure = PORT !== 3000
-    const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost:3000'
+    const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost'
     await this.setState({
-      socket: io(`http${secure ? 's' : ''}://${hostname}`),
+      socket: io(`http${secure ? 's' : ''}://${hostname}:${secure ? '' : PORT}`),
       peer: new Peer({
         host: hostname,
+        port: secure ? null : PORT,
         path: '/peer',
         secure: PORT !== 3000
       })
