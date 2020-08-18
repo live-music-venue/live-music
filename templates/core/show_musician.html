@@ -1,41 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="musician-show center">
-    {% if musician.pk == user.pk %}
-    <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
-    {% endif %}
-    <div>
-       <h3>{{musician.name}}</h3>
-       <img src="{{ musician.full_cover.url }}"">
+{% if musician.pk == user.pk %}
+<a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+{% endif %}
+
+<div class="musician-info-area flex justify-between">
+    <div class="left pa4">
+        <div class="left-top flex">
+            <div class="picture">
+                <div class="musician-show center">
+
+                    <div class="pb3">
+                    <img class="br-100 h5 w5" src="{{ musician.full_cover.url }}">
+                    </div>
+                </div>
+            </div>
+            <div class="name-location pl4 w-50">
+
+                <h1>{{musician.name}}</h1>
+                <p class="">{{musician.bio}}</p>
+
+            </div>
+        </div>
+
+<!-- 
+        <div class="left-bottom">
+            <p>{{musician.bio}}</p>
+        </div> -->
     </div>
+
+
+
+
+
+    <div class="right flex justify-around calendar w-40">
+        <p>Right</p> 
+    </div>
+
 </div>
-<h4>{{musician.name}}'s events:</h4>
-<div class="flex">
-    {% for event in musician.events.all %}
-    {% if event.is_upcoming %}
-    <div class="ba ma3">
-        <img src="{{ event.thumbnail.url }}">
-        <p>
-            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
-            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-        </p>
+
+
+
+<div class="event-list">
+    <h3>{{musician.name}}'s events:</h3>
+    <div class="flex flex-wrap">
+        {% for event in musician.events.all %}
+        {% if event.is_upcoming %}
+        <a href="{% url 'event' pk=event.pk %}">
+            <div class="shadow-3 br3 ma3 event-pane">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ event.thumbnail.url }}">
+                    </div>
+                    <div class="info-div flex flex-column tc">
+                        <h3 class="b">
+                            {{event.title}}
+                        </h3>
+                        <p>
+                            <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                        </p>
+                        <p>
+                            {{event.date_time}}
+                        </p>
+                    </div>
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
-</div>
-<h4>Past events</h4>
-<div class="flex">
-    {% for event in musician.events.all %}
-    {% if event.is_finished %}
-    <div class="ba ma3">
-        <img src="{{ event.thumbnail.url }}">
-        <p>
-            <a href="{% url 'event' pk=event.pk %}">{{event.title}}</a> 
-            by <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-        </p>
+    <h4>Past events</h4>
+    <div class="flex flex-wrap">
+        {% for event in musician.events.all %}
+        {% if event.is_finished %}
+        <a href="{% url 'event' pk=event.pk %}">
+            <div class="shadow-3 br3 ma3 event-pane">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ event.thumbnail.url }}">
+                    </div>
+                    <div class="info-div flex flex-column tc">
+                        <h3 class="b">
+                            {{event.title}}
+                        </h3>
+                        <p>
+                            <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                        </p>
+                        <p>
+                            {{event.date_time}}
+                        </p>
+                    </div>
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
-    {% endfor %}
 </div>
 {% endblock content %}

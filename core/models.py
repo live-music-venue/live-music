@@ -49,14 +49,14 @@ class Event(models.Model):
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(200, 200),
+        processors=[ResizeToFit(250, 250),
                     Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(400, 400),
+        processors=[ResizeToFit(600, 480),
                     Transpose()],
         format="JPEG",
         options={"quality": 100},
