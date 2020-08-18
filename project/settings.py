@@ -65,8 +65,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.instagram',
     # 'allauth.socialaccount.providers.twitter',
@@ -75,13 +75,6 @@ INSTALLED_APPS = [
 
 SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
-
-CSRF_TRUSTED_ORIGINS = ['rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com']
-
-CORS_ORIGIN_WHITELIST = (
-    'rhappsody.herokuapp.com',
-    'rhappsody-staging.herokuapp.com'
-)
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -94,20 +87,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': 'Ipqb8tI-zeBlCo-ir5vwRmlx',
             'key': ''
         }
-    },
-    'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': 'a8cde1b2e24f612f5b0e',
-            'secret': '67e9eaece0631c4c1aff3a299a5cbd640581b5f5',
-            'key': ''
-        }
     }
-    
-}
 
+}
 
 
 
@@ -183,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
