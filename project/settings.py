@@ -65,15 +65,15 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.instagram',
     # 'allauth.socialaccount.providers.twitter',
 
 ]
 
-SITE_ID = 3
+SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 
 # Provider specific settings
@@ -87,19 +87,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': 'Ipqb8tI-zeBlCo-ir5vwRmlx',
             'key': ''
         }
-    },
-    'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': 'a8cde1b2e24f612f5b0e',
-            'secret': '67e9eaece0631c4c1aff3a299a5cbd640581b5f5',
-            'key': ''
-        }
     }
 
-    
 }
 
 
