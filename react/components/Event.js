@@ -8,7 +8,7 @@ import ReactPlayer from 'react-player'
 
 /* global data */
 
-const PORT = window.location.port
+const PORT = Number(window.location.port)
 let props = {}
 
 export default class Event extends React.Component {
