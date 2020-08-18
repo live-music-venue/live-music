@@ -8,13 +8,15 @@ import ReactPlayer from 'react-player'
 
 /* global data */
 
-const PORT = Number(window.location.port)
+let PORT = 3000
 let props = {}
 
 export default class Event extends React.Component {
   constructor () {
     super()
     props = JSON.parse(_.unescape(data))
+    const djangoPort = Number(props.port)
+    if (djangoPort !== 8000) PORT = djangoPort
     this.state = {
       isOwner: props.ownerId === props.userId,
       streaming: false,
@@ -31,7 +33,6 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
-    console.log(PORT)
     await this.setState({
       socket: io(`http://localhost:${PORT}`),
       peer: new Peer({
