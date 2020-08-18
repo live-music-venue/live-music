@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 {% block content %}
 <p>This will begin at {{event.date_time}}</p>
@@ -14,6 +15,25 @@
         </div>
     </div>
 </div>
+<div class="w3-container">
+    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Donate</button>
+  
+    <div id="id01" class="w3-modal">
+      <div class="w3-modal-content">
+        <div class="w3-container">
+          <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+            <div>
+                <iframe id="inlineFrameExample"
+    title="Inline Frame Example"
+    width="300"
+    height="200"
+    src="https://www.paypal.me/rajeekarunaratne">
+</iframe>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 <div id="react-event">
     <script>
         const data = '{{data}}'
