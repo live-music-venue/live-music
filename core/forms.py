@@ -30,7 +30,7 @@ class EventForm(ModelForm):
             "cover_photo",
         ]
         widgets = {
-          'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
+            'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
         }
         labels = {
             "date_time" : "Date and time (24 hour clock)",

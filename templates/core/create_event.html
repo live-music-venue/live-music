@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="event-add center">
     <div>
         <h1>Event creation form:</h1>
@@ -13,4 +14,14 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    $(function () {
+        $("#id_date_time").datetimepicker({  format: 'm/d/Y H:i', 
+                                            stepping: 15,
+                                        }
+        );
+    });
+  </script>
 {% endblock content %}
