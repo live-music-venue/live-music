@@ -2,4 +2,4 @@ echo "Running servers on port 3000 ..."
 sleep 1
 npm run devBuild &
 npm run devStart &
-gunicorn project.wsgi --bind localhost:8000 --reload
+python manage.py runserver
