@@ -102,19 +102,7 @@ SOCIALACCOUNT_PROVIDERS = {
     
 }
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '91ad8a2ac99d7d2deca3',
-            'secret': 'e7ff28cd178f46ec9a809e875386fe2437a8a2c0',
-            'key': ''
-        }
-    }
-    
-}
+
 
 
 
