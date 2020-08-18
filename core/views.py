@@ -40,13 +40,14 @@ class AddEvent(View):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm(data=request.POST, files=request.FILES)
+            print(request.POST)
             if form.is_valid():
                 event = form.save(commit=False)
                 event.owner = musician
                 event.save()
                 return redirect(to="event", pk=event.pk)
-            return redirect(to="show_musician", musician_pk=musician_pk)
-        return redirect(to="show_musician", musician_pk=musician_pk)
+            return redirect(to="show-musician", musician_pk=musician_pk)
+        return redirect(to="show-musician", musician_pk=musician_pk)
 
 
 class AddMusicianInfo(View):
