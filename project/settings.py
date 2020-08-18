@@ -195,6 +195,8 @@ INTERNAL_IPS = [
     # ...
 ]
 
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
 # AWS configuration
 
 if env("USE_S3"):
@@ -205,7 +207,17 @@ if env("USE_S3"):
     AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
     }
-    DEFAULT_FILE_STORAGE = 'project.storage_backends.MediaStorage'  
+    DEFAULT_FILE_STORAGE = 'project.storage_backends.MediaStorage'
+
+# These are default values from imagekit that are somehow not picked up
+IMAGEKIT_DEFAULT_CACHEFILE_BACKEND = 'imagekit.cachefiles.backends.Simple'
+IMAGEKIT_CACHEFILE_NAMER = 'imagekit.cachefiles.namers.hash'
+IMAGEKIT_CACHEFILE_DIR = 'CACHE/images'
+IMAGEKIT_DEFAULT_FILE_STORAGE = DEFAULT_FILE_STORAGE
+IMAGEKIT_CACHE_PREFIX = 'imagekit:'
+IMAGEKIT_USE_MEMCACHED_SAFE_CACHE_KEY = True
+IMAGEKIT_CACHE_BACKEND = 'default'
+IMAGEKIT_CACHE_TIMEOUT = None
 
 
 
