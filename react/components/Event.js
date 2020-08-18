@@ -41,7 +41,7 @@ export default class Event extends React.Component {
         host: hostname,
         port: secure ? 443 : PORT,
         path: '/peer',
-        secure: PORT !== 3000
+        secure: secure
       })
     })
     const { socket, peer, isOwner } = this.state
