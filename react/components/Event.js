@@ -39,7 +39,7 @@ export default class Event extends React.Component {
       socket: io(`http${secure ? 's' : ''}://${hostname}${secure ? '' : `:${PORT}`}`),
       peer: new Peer({
         host: hostname,
-        port: secure ? null : PORT,
+        port: secure ? 443 : PORT,
         path: '/peer',
         secure: PORT !== 3000
       })
