@@ -8,7 +8,7 @@ import ReactPlayer from 'react-player'
 
 /* global data */
 
-const PORT = process.env.PORT || 3000
+const PORT = window.location.port
 let props = {}
 
 export default class Event extends React.Component {
