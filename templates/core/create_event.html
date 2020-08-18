@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="event-add center">
-    <div>
+<div class="event-add center flex justify-around">
+    <div class="flex flex-column">
         <h1>Event creation form:</h1>
         <form action="{% url 'add-event' musician_pk=musician.pk %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
