@@ -24,7 +24,7 @@ class EventPage(View):
                 "pk": pk,
                 "ownerId": event.owner.user.id,
                 "userId": request.user.id,
-                "port": os.getenv('PORT')
+                "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
         })

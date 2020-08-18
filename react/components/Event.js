@@ -34,7 +34,7 @@ export default class Event extends React.Component {
 
   async componentDidMount () {
     await this.setState({
-      socket: io(`http://localhost:${PORT}`),
+      socket: io(`http${PORT !== 3000 ? 's' : ''}://localhost:${PORT}`),
       peer: new Peer({
         host: 'localhost',
         port: PORT,
