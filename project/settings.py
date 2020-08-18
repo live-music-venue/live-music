@@ -87,11 +87,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': 'Ipqb8tI-zeBlCo-ir5vwRmlx',
             'key': ''
         }
-    }
-    
-}
-
-SOCIALACCOUNT_PROVIDERS = {
+    },
     'github': {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
@@ -102,8 +98,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': ''
         }
     }
+
     
 }
+
+
 
 
 

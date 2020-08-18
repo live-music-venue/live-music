@@ -1,7 +1,10 @@
 from django.db import models
 from users.models import User
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, ResizeToFit
+from imagekit.processors import ResizeToFill, ResizeToFit, Transpose
+from datetime import datetime as datetime, timezone
+import pytz
+
 
 
 # Create your models here.
@@ -14,13 +17,15 @@ class Musician(models.Model):
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(200, 200)],
+        processors=[ResizeToFit(200, 200),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(400, 400)],
+        processors=[ResizeToFit(400, 400),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
@@ -37,25 +42,42 @@ class Event(models.Model):
     public = models.BooleanField(default=True)
     thumbs_up = models.ManyToManyField(User, related_name="thumbs_up", blank=True)
     favorited_by = models.ManyToManyField(User, related_name="favorite_event", blank=True)
+    in_progress = models.BooleanField(default=False)
 
     video = models.FileField(upload_to="videos/", null=True, blank=True)
     
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(200, 200)],
+        processors=[ResizeToFit(200, 200),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(400, 400)],
+        processors=[ResizeToFit(400, 400),
+                    Transpose()],
         format="JPEG",
         options={"quality": 100},
     )
 
     def __str__(self):
         return f'{self.title} by {self.owner.user.username}'
+
+    @property
+    def is_upcoming(self):
+        now = datetime.now()
+        timezone = pytz.timezone("America/New_York")
+        now_aware = timezone.localize(now)
+        return self.date_time > now_aware
+
+    @property
+    def is_finished(self):
+        now = datetime.now()
+        timezone = pytz.timezone("America/New_York")
+        now_aware = timezone.localize(now)
+        return self.date_time < now_aware and not self.in_progress
 
 
 class EventComment(models.Model):
