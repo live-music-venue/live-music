@@ -4,7 +4,7 @@
   "description": "This project was generated from the Momentum Django project template. This template sets up some minimal changes:",
   "main": "server.js",
   "scripts": {
-    "devStart": "nodemon server.js",
+    "devStart": "nodemon server.js --watch server.js",
     "start": "node server.js",
     "devBuild": "webpack --watch --mode development ./react/index.js --output ./static/main.js",
     "build": "webpack --mode production ./react/index.js --output ./static/main.js"

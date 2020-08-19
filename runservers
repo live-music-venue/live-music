@@ -1,5 +1,4 @@
-echo "Running servers on port 3000 ..."
-sleep 1
-npm run devBuild &
-npm run devStart &
-python manage.py runserver
+#!/bin/bash
+
+trap 'kill %1; kill %2' 0 1 2 3 13 15
+npm run devBuild | tee /dev/null | sed -e 's/^/[Webpack] /' & npm run devStart | tee /dev/null | sed -e 's/^/[PeerJS] /' & python manage.py runserver | tee /dev/null | sed -e 's/^/[Django] /'
