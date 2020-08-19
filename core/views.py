@@ -31,11 +31,14 @@ class EventPage(View):
 
 
 class AddEvent(View):
+    form_title = "Create an Event:"
+
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/create_event.html', {"form": form, "musician": musician})
+            return render(request, 'core/create_event.html', 
+                            {"form": form, "musician": musician, "form_title": self.form_title})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
