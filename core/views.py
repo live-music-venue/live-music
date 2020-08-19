@@ -25,6 +25,7 @@ class EventPage(View):
                 "userId": request.user.id
             }), 
             "event": event,
+            "musician": event.owner,
         })
 
 
