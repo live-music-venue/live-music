@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
+
+<!-- 
 <div id="react-homepage">
-</div>
+</div> -->
 
 {% if user.is_authenticated %}
 <h5>Hello, {{user.username}}</h5>
@@ -36,7 +39,6 @@
                     {{event.date_time}}
                 </p>
             </div>
-
     </div>
 </a>
     {% endif %}
