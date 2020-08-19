@@ -11,6 +11,8 @@ app.use('/static/css', express.static('node_modules/antd/dist'))
 app.use('/', proxy('http://localhost:8000', {
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     // Modify headers if running on Heroku
+    proxyReqOpts.headers.Upgrade = 'http'
+    proxyReqOpts.headers.Connection = 'upgrade'
     proxyReqOpts.headers['X-Forwarded-Proto'] = PORT === 3000 ? 'http' : 'https'
     proxyReqOpts.headers.Host = PORT === 3000 ? 'localhost:3000' : 'rhappsody.herokuapp.com'
     return proxyReqOpts
