@@ -5,6 +5,7 @@ from users.models import User
 from django.views import View
 import json
 import datetime
+import os
 
 # Create your views here.
 class Homepage(View):
@@ -22,7 +23,8 @@ class EventPage(View):
             'data': json.dumps({
                 "pk": pk,
                 "ownerId": event.owner.user.id,
-                "userId": request.user.id
+                "userId": request.user.id,
+                "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
         })
