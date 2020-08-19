@@ -15,7 +15,6 @@ app.use('/', proxy('http://localhost:8000', {
     proxyReqOpts.headers.Host = PORT === 3000 ? 'localhost:3000' : 'rhappsody.herokuapp.com'
     return proxyReqOpts
   },
-  ws: true,
   limit: '100mb'
 }))
 
