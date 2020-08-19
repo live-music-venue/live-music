@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
 
-/* global data */
+/* global data isAuthorized */
 
 const PORT = Number(window.location.port)
 let props = {}
@@ -22,7 +22,9 @@ export default class Event extends React.Component {
       in_progress: false,
       socket: null,
       peer: null,
-      viewers: 0
+      viewers: 0,
+      chat: [],
+      message: ''
     }
   }
 
@@ -47,6 +49,11 @@ export default class Event extends React.Component {
       socket.on('update-viewer-count', viewerCount => {
         this.setState({
           viewers: viewerCount
+        })
+      })
+      socket.on('recieve-chat-message', (data) => {
+        this.setState({
+          chat: this.state.chat.concat(<p>{`${data.username}: ${data.message}`}</p>)
         })
       })
       if (isOwner) {
@@ -88,11 +95,35 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { viewers, player } = this.state
+    const { viewers, player, socket, chat, message } = this.state
     return (
       <>
-        <p>{this.state.viewers} Viewer{viewers !== 1 && 's'}</p>
+        <p>{viewers} Viewer{viewers !== 1 && 's'}</p>
         {player}
+        <div>
+          {chat.map(msg => {
+            return msg
+          })}
+          <input
+            type='text'
+            value={message}
+            onChange={e => {
+              this.setState({
+                message: e.target.value
+              })
+            }}
+          />
+          <button
+            onClick={e => {
+              if (isAuthorized) socket.emit('send_message', message)
+              this.setState({
+                message: ''
+              })
+            }}
+          >
+            Send
+          </button>
+        </div>
       </>
     )
   }
