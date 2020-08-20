@@ -2,7 +2,7 @@ import socketio
 from .models import Event
 from users.models import User
 
-sio = socketio.Server(async_mode='threading', cors_allowed_origins=[])
+sio = socketio.Server(async_mode=None, cors_allowed_origins='*')
 
 # Keep track of viewer counts on the server. This may not be the best idea but idk
 viewer_counts = {}
@@ -10,7 +10,6 @@ viewer_counts = {}
 # Join event room
 @sio.event
 def join_event(sid, eventId, userId, peerId):
-    print(peerId, "joining", eventId)
     event = Event.objects.filter(pk=eventId).first()
     if event.owner.user.id == userId:
         viewer_counts[eventId] = 0
@@ -35,7 +34,6 @@ def disconnect(sid):
     eventId = session['eventId']
     peerId = session['peerId']
     userId = session['userId']
-    print(peerId, "leaving", eventId)
     event = Event.objects.filter(pk=eventId).first()
     if event.owner.user.id == userId:
         viewer_counts[eventId] = None
@@ -43,5 +41,6 @@ def disconnect(sid):
         viewer_counts[eventId] -= 1
     sio.emit('user-disconnected', peerId, to=eventId)
     sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
-    del viewer_counts[eventId]
+    if event.owner.user.id == userId:
+        del viewer_counts[eventId]
     sio.leave_room(sid, eventId)
