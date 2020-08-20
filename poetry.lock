@@ -28,10 +28,10 @@ description = "The AWS SDK for Python"
 name = "boto3"
 optional = false
 python-versions = "*"
-version = "1.14.45"
+version = "1.14.46"
 
 [package.dependencies]
-botocore = ">=1.17.45,<1.18.0"
+botocore = ">=1.17.46,<1.18.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.3.0,<0.4.0"
 
@@ -41,7 +41,7 @@ description = "Low-level, data-driven core of boto 3."
 name = "botocore"
 optional = false
 python-versions = "*"
-version = "1.17.45"
+version = "1.17.46"
 
 [package.dependencies]
 docutils = ">=0.10,<0.16"
@@ -63,6 +63,7 @@ version = "2020.6.20"
 [[package]]
 category = "main"
 description = "Foreign Function Interface for Python calling C code."
+marker = "platform_python_implementation == \"CPython\" and sys_platform == \"win32\""
 name = "cffi"
 optional = false
 python-versions = "*"
@@ -244,10 +245,11 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
 version = "20.6.2"
 
 [package.dependencies]
+cffi = ">=1.12.2"
+greenlet = ">=0.4.16"
+setuptools = "*"
 "zope.event" = "*"
 "zope.interface" = "*"
-cffi = {version = ">=1.12.2", markers = "platform_python_implementation == \"CPython\" and sys_platform == \"win32\""}
-greenlet = {version = ">=0.4.16", markers = "platform_python_implementation == \"CPython\""}
 
 [package.extras]
 dnspython = ["dnspython (>=1.16.0)", "idna"]
@@ -259,6 +261,7 @@ test = ["dnspython (>=1.16.0)", "idna", "requests", "objgraph", "cffi (>=1.12.2)
 [[package]]
 category = "main"
 description = "Lightweight in-process concurrent programming"
+marker = "platform_python_implementation == \"CPython\""
 name = "greenlet"
 optional = false
 python-versions = "*"
@@ -367,6 +370,7 @@ version = "2.8.5"
 [[package]]
 category = "main"
 description = "C parser in Python"
+marker = "platform_python_implementation == \"CPython\" and sys_platform == \"win32\""
 name = "pycparser"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -404,7 +408,7 @@ description = "Engine.IO server"
 name = "python-engineio"
 optional = false
 python-versions = "*"
-version = "3.13.1"
+version = "3.13.2"
 
 [package.dependencies]
 six = ">=1.9.0"
@@ -557,13 +561,23 @@ version = "5.2.0"
 brotli = ["brotli"]
 
 [[package]]
+category = "dev"
+description = "Module for decorators, wrappers and monkey patching."
+name = "wrapt"
+optional = false
+python-versions = "*"
+version = "1.12.1"
 
+[[package]]
 category = "main"
 description = "Very basic event publishing system"
 name = "zope.event"
 optional = false
 python-versions = "*"
 version = "4.4"
+
+[package.dependencies]
+setuptools = "*"
 
 [package.extras]
 docs = ["sphinx"]
@@ -577,6 +591,9 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 version = "5.1.0"
 
+[package.dependencies]
+setuptools = "*"
+
 [package.extras]
 docs = ["sphinx", "repoze.sphinx.autointerface"]
 test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
@@ -584,7 +601,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
 content-hash = "43de68256c82d0ee5a4d4195540f2b728e76d6ce65df696eed54995fef71b908"
-lock-version = "1.1"
+lock-version = "1.0"
 python-versions = "3.8.5"
 
 [metadata.files]
@@ -597,12 +614,12 @@ astroid = [
     {file = "astroid-2.4.2.tar.gz", hash = "sha256:2f4078c2a41bf377eea06d71c9d2ba4eb8f6b1af2135bec27bbbb7d8f12bb703"},
 ]
 boto3 = [
-    {file = "boto3-1.14.45-py2.py3-none-any.whl", hash = "sha256:4421aad9a9740ce95199460f3262859e1c3594cc6c86cbe552745f4bbff34300"},
-    {file = "boto3-1.14.45.tar.gz", hash = "sha256:02ad765927bb46b9f45c3bce65e763960733919eee7883217995c5df5d096695"},
+    {file = "boto3-1.14.46-py2.py3-none-any.whl", hash = "sha256:1cfbadf41777dade69a3e5eaf1b71d15b4ae616fd94d16a894b692e14319f4a2"},
+    {file = "boto3-1.14.46.tar.gz", hash = "sha256:cc3636828f1677ff93e8b1130c90dfe800187964e33786711450e8653d3f245f"},
 ]
 botocore = [
-    {file = "botocore-1.17.45-py2.py3-none-any.whl", hash = "sha256:17470c97435891cf40e147f533069de0109cda24c208c918f28997274bbac399"},
-    {file = "botocore-1.17.45.tar.gz", hash = "sha256:bc8b1c83ccc0d77963849b66a94bbb20a666ff0225aff84de7ed0175db1fd6f7"},
+    {file = "botocore-1.17.46-py2.py3-none-any.whl", hash = "sha256:6b134681c938f00b28424abf4b46fa6034b516d8add3a3f524e2292db61aa070"},
+    {file = "botocore-1.17.46.tar.gz", hash = "sha256:2f15a755b990db13a7a9e06a124c6ca5fa1c4470d76672363024d7f2a6c2566c"},
 ]
 certifi = [
     {file = "certifi-2020.6.20-py2.py3-none-any.whl", hash = "sha256:8fc0819f1f30ba15bdb34cceffb9ef04d99f420f68eb75d901e9560b8749fc41"},
@@ -849,8 +866,8 @@ python-dateutil = [
     {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
 ]
 python-engineio = [
-    {file = "python-engineio-3.13.1.tar.gz", hash = "sha256:133bdb5fb89f43a53f8612fb1ddbb3a453318713dea18a9ecf5346ed0c0f793c"},
-    {file = "python_engineio-3.13.1-py2.py3-none-any.whl", hash = "sha256:41353c2539493e9e30e0e75e53f9cbb670f09a5ebcf82fe738081a9ba28fe55c"},
+    {file = "python-engineio-3.13.2.tar.gz", hash = "sha256:36b33c6aa702d9b6a7f527eec6387a2da1a9a24484ec2f086d76576413cef04b"},
+    {file = "python_engineio-3.13.2-py2.py3-none-any.whl", hash = "sha256:cfded18156862f94544a9f8ef37f56727df731c8552d7023f5afee8369be2db6"},
 ]
 python-socketio = [
     {file = "python-socketio-4.6.0.tar.gz", hash = "sha256:358d8fbbc029c4538ea25bcaa283e47f375be0017fcba829de8a3a731c9df25a"},
@@ -900,6 +917,9 @@ werkzeug = [
 whitenoise = [
     {file = "whitenoise-5.2.0-py2.py3-none-any.whl", hash = "sha256:05d00198c777028d72d8b0bbd234db605ef6d60e9410125124002518a48e515d"},
     {file = "whitenoise-5.2.0.tar.gz", hash = "sha256:05ce0be39ad85740a78750c86a93485c40f08ad8c62a6006de0233765996e5c7"},
+]
+wrapt = [
+    {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
 ]
 "zope.event" = [
     {file = "zope.event-4.4-py2.py3-none-any.whl", hash = "sha256:d8e97d165fd5a0997b45f5303ae11ea3338becfe68c401dd88ffd2113fe5cae7"},
