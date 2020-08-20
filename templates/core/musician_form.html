@@ -1,8 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="musician-add center">
-    <div>
+<div class="event-add center flex justify-around mt5">
+    <div class="flex flex-column bgw tc shadow-c br3">
+        <h1 class="form-title">{{ form_title }}</h1>
+        <div class="pr3 pb3 pl3 pt1">
+            <form class="flex flex-column" action="{% url 'add-musician' user_pk=user.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- <div class="flex">
+                    <div class="labels pr3 pl3 pt1">
+                        <p>Title:    </p>
+                        <p>Date and time:    </p>
+                    </div>
+                    <div class="fields">
+                        <p>{{ form.title }}</p>
+                        <p>{{ form.date_time }}</p>
+                    </div>
+                </div> -->
+                <div class="vertical">
+                    <p class="form-label">Name: </p>
+                    <p class="naked-input">{{ form.name }}</p>
+                    <p class="form-label">Location:</p>
+                    <p class="naked-input">{{ form.city }}</p>
+                </div>
+                <p class="pt2">{{ form.bio }}<p>
+                <div>
+                    <p>Choose a headshot:</p>
+                    <p class="pl1"> {{ form.headshot }}</p>
+                </div>
+                <div>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+</div>   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- <div>
         <h1>Musician Form</h1>
         <form action="{% url 'add-musician' user_pk=user.pk %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -11,6 +57,6 @@
                 <button type="submit">Save</button>
             </div>
         </form>
-    </div>
-</div>
+    </div> -->
+
 {% endblock content %}
