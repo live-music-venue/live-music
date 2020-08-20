@@ -1,5 +1,6 @@
 import socketio
 from .models import Event
+from users.models import User
 
 sio = socketio.Server(async_mode='threading', cors_allowed_origins=[])
 
@@ -22,9 +23,10 @@ def join_event(sid, eventId, userId, peerId):
 
 # Send chat message. Possibly save as comment?
 @sio.event
-def send_chat(sid, message):
+def send_message(sid, message):
     session = sio.get_session(sid)
-    sio.emit('recieve-chat-message', {'userId': session['userId'], 'message': message}, to=session['eventId'])
+    user = User.objects.filter(id=session['userId']).first()
+    sio.emit('recieve-chat-message', {'username': user.username, 'message': message}, to=session['eventId'], skip_sid=None)
 
 # Leave room on disconnect
 @sio.event

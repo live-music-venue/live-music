@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
 
-/* global data */
+/* global data isAuthenticated */
 
 let PORT = 3000
 let props = {}
@@ -24,7 +24,9 @@ export default class Event extends React.Component {
       in_progress: false,
       socket: null,
       peer: null,
-      viewers: 0
+      viewers: 0,
+      chat: [],
+      message: ''
     }
   }
 
@@ -51,6 +53,13 @@ export default class Event extends React.Component {
         this.setState({
           viewers: viewerCount
         })
+      })
+      socket.on('recieve-chat-message', (data) => {
+        const chat = document.querySelector('#chat')
+        this.setState({
+          chat: this.state.chat.concat(<p>{`${data.username}: ${data.message}`}</p>)
+        })
+        chat.scrollTop = chat.scrollHeight
       })
       if (isOwner) {
         const peers = {}
@@ -91,11 +100,39 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { viewers, player } = this.state
+    const { viewers, player, socket, chat, message } = this.state
     return (
       <>
-        <p>{this.state.viewers} Viewer{viewers !== 1 && 's'}</p>
-        {player}
+        <p>{viewers} Viewer{viewers !== 1 && 's'}</p>
+        <div className='flex'>
+          {player}
+          <div>
+            <div id='chat' className='pre' style={{ width: 300, height: 200 }}>
+              {chat.map(msg => {
+                return msg
+              })}
+            </div>
+            <input
+              type='text'
+              value={message}
+              onChange={e => {
+                this.setState({
+                  message: e.target.value
+                })
+              }}
+            />
+            <button
+              onClick={e => {
+                if (isAuthenticated) socket.emit('send_message', message)
+                this.setState({
+                  message: ''
+                })
+              }}
+            >
+              Send
+            </button>
+          </div>
+        </div>
       </>
     )
   }
