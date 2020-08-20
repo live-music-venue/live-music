@@ -1,2 +1,2 @@
-django: uwsgi --http :8000 --gevent 1000 --http-websockets --master --wsgi-file project/wsgi.py --callable application
+django: gunicorn -k gevent -w 1 project.wsgi --bind localhost:8000
 node: node server.js

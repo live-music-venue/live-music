@@ -1,4 +1,4 @@
 #!/bin/bash
 
 trap 'kill %1; kill %2' 0 1 2 3 13 15
-npm run devBuild | tee /dev/null | sed -e 's/^/[Webpack] /' & npm run devStart | tee /dev/null | sed -e 's/^/[PeerJS] /' & uwsgi --http :8000 --gevent 1000 --http-websockets --master --wsgi-file project/wsgi.py --callable application | tee /dev/null | sed -e 's/^/[Django] /'
+npm run devBuild | tee /dev/null | sed -e 's/^/[Webpack] /' & npm run devStart | tee /dev/null | sed -e 's/^/[PeerJS] /' & gunicorn -k gevent -w 1 project.wsgi --bind localhost:8000 | tee /dev/null | sed -e 's/^/[Django] /'
