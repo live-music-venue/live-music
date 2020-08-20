@@ -32,6 +32,11 @@ video:focus {
   outline: none;
 }
 
+.bgw {
+  background-color: #cad6e9;
+}
+
+
 a {
   text-decoration: none;
   color: black;
@@ -56,4 +61,45 @@ p {
 
 .event-picture {
   width: 680px;
+} 
+
+input, textarea {
+  border-radius: 5px;
+}
+
+input {
+  border-width: 1px;
+}
+
+.shadow-c { box-shadow: 2px 2px 4px 2px rgba( 0, 0, 0, 0.3 ); }
+
+#id_cover_photo, #id_headshot {
+  width: 70%;
+  border-radius: 0px;
+  margin-bottom: 10px;
+}
+
+.form-label {
+  margin-bottom: 0px;
+}
+
+#id_title, #id_date_time, #id_name, #id_city, #id_bio {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
+}
+
+.form-title {
+  margin-bottom: 5px;
+}
+
+.provider-list {
+  width: 100px;
+}
+
+.test-flex {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }

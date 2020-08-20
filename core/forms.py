@@ -13,7 +13,7 @@ class MusicianForm(ModelForm):
 # These next two can be used to tweak the size of the text area if we don't do
 # it with CSS or add/remove a custom label.
         widgets = {
-          'bio': Textarea(attrs={'rows':4, 'cols':50},),
+          'bio': Textarea(attrs={"placeholder": "Tell your fans something about yourself!"},),
         }
         # labels = {
         #     "bio": ""
@@ -30,10 +30,24 @@ class EventForm(ModelForm):
             "cover_photo",
         ]
         widgets = {
-            'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
+           # 'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
+            'description': Textarea(attrs={"placeholder": "Tell everyone about your concert!"})
         }
         labels = {
             "date_time" : "Date and time:",
             "description": "",
-            "title": "         Title"
+            "title": "Title"
         }
+
+
+class DonationForm(ModelForm):
+    class Meta:
+        model = Musician
+        fields = [            
+            "cashapp_name",
+            "paypal_donation_url",
+            "cashapp_qr",
+            "paypal_qr",
+            "venmo_qr",
+        ]
+    
