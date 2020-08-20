@@ -27,7 +27,6 @@ class EventPage(View):
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
-            "musician": event.owner,
         })
 
 

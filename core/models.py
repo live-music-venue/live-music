@@ -20,7 +20,7 @@ class Musician(models.Model):
     venmo_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     
 
-    headshot = models.ImageField(upload_to="images/", null=True, blank=True)
+    headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
         processors=[ResizeToFit(200, 200),

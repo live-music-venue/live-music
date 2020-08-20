@@ -97,4 +97,26 @@
         </div>
     </div>
 </div>
+<!-- Donation Tags -->
+<br>
+{% if musician.cashapp_name %}
+    <p>Cashapp name: {{musician.cashapp_name}}</p>
+{% endif %}
+{% if musician.paypal_donation_url and not musician.paypal_qr %} 
+    <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+{% endif %}
+{% if musician.cashapp_qr %}
+    <img class="" src="{{ musician.cashapp_qr.url }}"><br>
+{% endif %}
+{% if musician.paypal_donation_url and musician.paypal_qr %}
+    <a href="{{musician.paypal_donation_url}}"><img src="{{ musician.paypal_qr.url }}" /></a><br>
+{% endif %}
+{% if musician.paypal_qr and not musician.paypal_donation_url %}
+    <img class="" src="{{ musician.paypal_qr.url }}"><br>
+{% endif %}
+{% if musician.venmo_qr %}
+    <img class="" src="{{ musician.venmo_qr.url }}">
+{% endif %}
+
+
 {% endblock content %}

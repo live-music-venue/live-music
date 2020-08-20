@@ -43,11 +43,7 @@ class EventForm(ModelForm):
 class DonationForm(ModelForm):
     class Meta:
         model = Musician
-        fields = [
-            # "name",
-            # "bio",
-            # "city",
-            # "headshot",            
+        fields = [            
             "cashapp_name",
             "paypal_donation_url",
             "cashapp_qr",
