@@ -3,6 +3,7 @@ from .models import Musician, MusicianComment, Event, EventComment
 from .forms import MusicianForm, EventForm
 from users.models import User
 from django.views import View
+from django.contrib.auth.decorators import login_required 
 import json
 import datetime
 import os
@@ -31,14 +32,11 @@ class EventPage(View):
 
 
 class AddEvent(View):
-    form_title = "Create an Event:"
-
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/create_event.html', 
-                            {"form": form, "musician": musician, "form_title": self.form_title})
+            return render(request, 'core/create_event.html', {"form": form, "musician": musician})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -56,13 +54,10 @@ class AddEvent(View):
 
 
 class AddMusicianInfo(View):
-    form_title = "Streaming signup form:"
-
     def get(self, request, user_pk):
         if get_object_or_404(User, pk=user_pk) == request.user:
             form = MusicianForm()
-            return render(request, 'core/musician_form.html', 
-                                    {"form": form, "form_title": self.form_title})
+            return render(request, 'core/musician_form.html', {"form": form})
         return redirect(to="homepage")
 
     def post(self, request, user_pk):
@@ -81,3 +76,42 @@ class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         return render(request, 'core/show_musician.html', {"musician": musician})
+
+
+def edit_event(request, event_pk):
+    event = get_object_or_404(Event, pk=event_pk)
+    musician = event.owner
+    if request.method == "POST":
+        form = EventForm(instance=event, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.owner = musician
+            event = form.save()
+            return redirect(to="event", pk=event_pk)
+    else:
+        form = EventForm(instance=event)
+
+    return render(
+        request,
+        "core/edit_event.html",
+        {"form": form, "event": event, "musician": musician}  
+    )
+
+
+# class EditEvent(View):
+#     def get(self, request, event_pk):
+#         if get_object_or_404(Event, pk=event_pk) == request.user:
+#             form = EventForm()
+#             return render(request, 'core/edit_event.html', {"form": form})
+#         return redirect(to="homepage")
+
+#     def post(self, request, event_pk):
+#         if get_object_or_404(Event, pk=event_pk) == request.user:
+#             form = EventForm(data=request.POST, files=request.FILES)
+#             if form.is_valid():
+#                 event = form.save(commit=False)
+#                 event.user = request.user
+#                 event.save()
+#                 return redirect(to='event', event_pk=event.pk)
+#             return redirect(to="homepage")
+#         return redirect(to="homepage")
