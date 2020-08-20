@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
-from .forms import MusicianForm, EventForm
+from .forms import MusicianForm, EventForm, DonationForm
 from users.models import User
 from django.views import View
 import json
@@ -76,3 +76,39 @@ class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         return render(request, 'core/show_musician.html', {"musician": musician})
+
+
+class AddDonationInfo(View):
+    def get(self, request, musician_pk):
+        print("post attempt")        
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        if musician.user == request.user:
+            form = DonationForm(instance=musician)
+            return render(request, 'core/donation_form.html', {"form": form , "musician": musician})
+        return redirect(to="homepage")
+
+    def post(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        print("post attempt")
+        # if musician.user == request.user:
+        form = DonationForm(instance=musician, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            musician = form.save(commit=False)
+            musician.user = request.user
+            musician.save()
+            return redirect(to='show-musician', musician_pk=musician_pk)
+            # return redirect(to="homepage")
+        return redirect(to="homepage")
+
+
+# def add_donation(request, musician_pk):
+#     if request.method == 'GET':
+#         form = DonationForm()
+#     else:
+#         form = DonationForm(data=request.POST, files=request.FILES)
+#         if form.is_valid():
+#             question = form.instance
+#             musician = form.save(commit=False)
+#             musician.save()
+#             return redirect(to='show_musician')
+#     return render(request, 'core/donation_form.html', {'form': form})

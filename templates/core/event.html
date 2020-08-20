@@ -10,21 +10,19 @@
         <h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
         <div class="">
             <p>{{event.description}}</p>
-            <button onclick="myFunction()">Donate</button>
         </div>
     </div>
 </div>
-<a href="{{musician.bio}}" target="_blank">Donate Link</a> 
+<a href="{{musician.bio}}" target="_blank">Donate Link</a>
+<form action="{{musician.bio}}" method="get" target="_blank">
+    <button type="submit">Click me</button>
+ </form> 
 <div id="react-event">
     <script>
         const data = '{{data}}'
     </script>
 </div>
 
-<script>
-    function myFunction() {
-      window.open("{{musician.bio}}", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-    }
-</script>
+
 
 {% endblock content %}

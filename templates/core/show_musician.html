@@ -92,6 +92,15 @@
         </a>
         {% endif %}
         {% endfor %}
+        <div>
+            <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
+        </div>
     </div>
 </div>
+<!-- Tags for donations
+<p>{{musician.cashapp_name}}</p>
+<p>{{musician.paypal_donation_url}}</p> 
+<img class="h5 w5" src="{{ musician.cashapp_qr.url }}">
+<img class="h5 w5" src="{{ musician.paypal_qr.url }}">
+<img class="h5 w5" src="{{ musician.venmo_qr.url }}"> -->
 {% endblock content %}
