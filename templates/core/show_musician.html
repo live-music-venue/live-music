@@ -75,24 +75,24 @@
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
         {% if event.is_finished %}
-        <a href="{% url 'event' pk=event.pk %}">
             <div class="shadow-3 br3 ma3 event-pane">
+                <a href="{% url 'event' pk=event.pk %}">
                     <div class="image-div flex pa2">
                         <img class="br2" src="{{ event.thumbnail.url }}">
                     </div>
-                    <div class="info-div flex flex-column tc">
-                        <h3 class="b">
-                            {{event.title}}
-                        </h3>
-                        <p>
-                            <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-                        </p>
-                        <p>
-                            {{event.date_time}}
-                        </p>
-                    </div>
+            </a>
+                <div class="info-div flex flex-column tc">
+                    <h3 class="b">
+                        {{event.title}}
+                    </h3>
+                    <p>
+                        <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                    </p>
+                    <p>
+                        {{event.date_time}}
+                    </p>
+                </div>
             </div>
-        </a>
         {% endif %}
         {% endfor %}
     </div>

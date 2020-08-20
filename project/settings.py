@@ -142,6 +142,8 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
 
+DISABLE_SERVER_SIDE_CURSORS = True  # required when using pgbouncer's pool_mode=transaction
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
