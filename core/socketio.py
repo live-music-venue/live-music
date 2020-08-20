@@ -9,7 +9,6 @@ viewer_counts = {}
 # Join event room
 @sio.event
 def join_event(sid, eventId, userId, peerId):
-    print(peerId, "joining", eventId)
     event = Event.objects.filter(pk=eventId).first()
     if event.owner.user.id == userId:
         viewer_counts[eventId] = 0
@@ -33,7 +32,6 @@ def disconnect(sid):
     eventId = session['eventId']
     peerId = session['peerId']
     userId = session['userId']
-    print(peerId, "leaving", eventId)
     event = Event.objects.filter(pk=eventId).first()
     if event.owner.user.id == userId:
         viewer_counts[eventId] = None
@@ -41,5 +39,6 @@ def disconnect(sid):
         viewer_counts[eventId] -= 1
     sio.emit('user-disconnected', peerId, to=eventId)
     sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
-    del viewer_counts[eventId]
+    if event.owner.user.id == userId:
+        del viewer_counts[eventId]
     sio.leave_room(sid, eventId)
