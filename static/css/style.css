@@ -97,3 +97,9 @@ input {
 .provider-list {
   width: 100px;
 }
+
+.test-flex {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
