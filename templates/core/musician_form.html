@@ -3,7 +3,7 @@
 {% block content %}
 <div class="event-add center flex justify-around mt5">
     <div class="flex flex-column bgw tc shadow-c br3">
-        <h1 class="form-title">Streaming signup form:</h1>
+        <h1 class="form-title">{{ form_title }}</h1>
         <div class="pr3 pb3 pl3 pt1">
             <form class="flex flex-column" action="{% url 'add-musician' user_pk=user.pk %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
