@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, ResizeToFit, Transpose
+from imagekit.processors import ResizeToFill, ResizeToFit, Transpose, SmartCrop, SmartResize, ResizeToCover
 from datetime import datetime as datetime, timezone
 import pytz
 
@@ -23,15 +23,13 @@ class Musician(models.Model):
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(200, 200),
-                    Transpose()],
+        processors=[Transpose(), ResizeToCover(400, 400), SmartCrop(400, 400)],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(400, 400),
-                    Transpose()],
+        processors=[Transpose(), ResizeToFit(600, 600), SmartCrop(400, 400)],
         format="JPEG",
         options={"quality": 100},
     )
@@ -55,15 +53,13 @@ class Event(models.Model):
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(250, 250),
-                    Transpose()],
+        processors=[Transpose(), SmartResize(250, 188),],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(600, 480),
-                    Transpose()],
+        processors=[Transpose(), SmartResize(600, 480),],
         format="JPEG",
         options={"quality": 100},
     )
