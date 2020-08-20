@@ -106,14 +106,3 @@ class AddDonationInfo(View):
         return redirect(to="homepage")
 
 
-# def add_donation(request, musician_pk):
-#     if request.method == 'GET':
-#         form = DonationForm()
-#     else:
-#         form = DonationForm(data=request.POST, files=request.FILES)
-#         if form.is_valid():
-#             question = form.instance
-#             musician = form.save(commit=False)
-#             musician.save()
-#             return redirect(to='show_musician')
-#     return render(request, 'core/donation_form.html', {'form': form})
