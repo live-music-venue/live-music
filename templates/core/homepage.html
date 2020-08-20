@@ -17,6 +17,11 @@
         <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
     </div>
     {% endif %}
+    {% if user.musician %}
+    <div>
+        <a href="{% url 'show-musician' musician_pk=user.musician.pk %}">See your musician page.</a>
+    </div>
+    {% endif %}
 {% endif %}
 
 <h4>Upcoming concerts:</h4>
