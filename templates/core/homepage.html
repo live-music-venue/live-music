@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
+
+<!-- 
 <div id="react-homepage">
-</div>
+</div> -->
 
 {% if user.is_authenticated %}
 <h5>Hello, {{user.username}}</h5>
@@ -17,14 +20,15 @@
 {% endif %}
 
 <h4>Upcoming concerts:</h4>
-<div class="flex flex-wrap justify-around">
+<div class="test-flex">
 {% for event in events %}
     {% if event.is_upcoming %}
-<a href="{% url 'event' pk=event.pk %}">
-    <div class="shadow-3 br3 ma3 event-pane">
-            <div class="image-div flex pa2">
-                <img class="br2" src="{{ event.thumbnail.url }}">
-            </div>
+        <div class="shadow-3 br3 ma3 event-pane">
+            <a href="{% url 'event' pk=event.pk %}">
+                <div class="image-div flex pa2">
+                    <img class="br2" src="{{ event.thumbnail.url }}">
+                </div>
+            </a>
             <div class="info-div flex flex-column tc">
                 <h3 class="b">
                     {{event.title}}
@@ -36,9 +40,7 @@
                     {{event.date_time}}
                 </p>
             </div>
-
-    </div>
-</a>
+        </div>
     {% endif %}
 {% endfor %}
 </div>
