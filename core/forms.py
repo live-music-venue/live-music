@@ -38,3 +38,16 @@ class EventForm(ModelForm):
             "description": "",
             "title": "Title"
         }
+
+
+class DonationForm(ModelForm):
+    class Meta:
+        model = Musician
+        fields = [            
+            "cashapp_name",
+            "paypal_donation_url",
+            "cashapp_qr",
+            "paypal_qr",
+            "venmo_qr",
+        ]
+    
