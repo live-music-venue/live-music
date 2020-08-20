@@ -3,6 +3,7 @@ from .models import Musician, MusicianComment, Event, EventComment
 from .forms import MusicianForm, EventForm
 from users.models import User
 from django.views import View
+from django.contrib.auth.decorators import login_required 
 import json
 import datetime
 import os
@@ -75,3 +76,20 @@ class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         return render(request, 'core/show_musician.html', {"musician": musician})
+
+
+def edit_event(request, event_pk):
+    event = get_object_or_404(Event, pk=event_pk)
+    if request.method == "POST":
+        form = EventForm(instance=event, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            event = form.save()
+            return redirect(to="event", pk=event_pk)
+    else:
+        form = EventForm(instance=event)
+
+    return render(
+        request,
+        "core/edit_event.html",
+        {"form": form, "event": event}
+    )
