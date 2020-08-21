@@ -126,3 +126,7 @@ class AddDonationInfo(View):
         return redirect(to="homepage")
 
 
+def donation_tutorial (request):
+   return render(request, 'core/donation_tutorial.html')
+
+
