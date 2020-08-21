@@ -56,6 +56,27 @@ class AddEvent(View):
         return redirect(to="show-musician", musician_pk=musician_pk)
 
 
+def edit_event(request, event_pk):
+    form_title = "Edit Event:"
+    event = get_object_or_404(Event, pk=event_pk)
+    musician = event.owner
+    if request.method == "POST":
+        form = EventForm(instance=event, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.owner = musician
+            event = form.save()
+            return redirect(to="show-musician", musician_pk=event.owner.pk)
+    else:
+        form = EventForm(instance=event)
+
+    return render(
+        request,
+        "core/event_add_edit.html",
+        {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
+    )
+
+
 class AddMusicianInfo(View):
     def get(self, request, user_pk):
         if get_object_or_404(User, pk=user_pk) == request.user:
@@ -102,26 +123,5 @@ class AddDonationInfo(View):
             return redirect(to='show-musician', musician_pk=musician_pk)
             # return redirect(to="homepage")
         return redirect(to="homepage")
-
-
-def edit_event(request, event_pk):
-    form_title = "Edit Event:"
-    event = get_object_or_404(Event, pk=event_pk)
-    musician = event.owner
-    if request.method == "POST":
-        form = EventForm(instance=event, data=request.POST, files=request.FILES)
-        if form.is_valid():
-            event = form.save(commit=False)
-            event.owner = musician
-            event = form.save()
-            return redirect(to="show-musician", musician_pk=event.owner.pk)
-    else:
-        form = EventForm(instance=event)
-
-    return render(
-        request,
-        "core/event_add_edit.html",
-        {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
-    )
 
 
