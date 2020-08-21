@@ -13,13 +13,15 @@ class Musician(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.TextField()
     city = models.CharField(max_length=255)
+
+    # fields having to do with money
     cashapp_name = models.CharField(max_length=255, blank=True, null=True)
     paypal_donation_url = models.CharField(max_length=255, blank=True, null=True)
     cashapp_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     paypal_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     venmo_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     
-
+    # fields having to do with images
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",

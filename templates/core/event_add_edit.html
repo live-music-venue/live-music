@@ -6,18 +6,13 @@
     <div class="flex flex-column bgw tc shadow-c br3">
         <h1 class="form-title">{{ form_title }}</h1>
         <div class="pr3 pb3 pl3 pt1">
+            {% if not edit %}
             <form class="flex flex-column" action="{% url 'add-event' musician_pk=musician.pk %}" method="POST" enctype="multipart/form-data">
+            {% endif %}
+            {% if edit %}
+            <form action="{% url 'edit-event' event_pk=event.pk %}" method="POST" enctype="multipart/form-data">
+            {% endif %}
                 {% csrf_token %}
-                <!-- <div class="flex">
-                    <div class="labels pr3 pl3 pt1">
-                        <p>Title:    </p>
-                        <p>Date and time:    </p>
-                    </div>
-                    <div class="fields">
-                        <p>{{ form.title }}</p>
-                        <p>{{ form.date_time }}</p>
-                    </div>
-                </div> -->
                 <div class="vertical">
                     <p class="form-label">Title: </p>
                     <p class="naked-input">{{ form.title }}</p>
@@ -26,7 +21,7 @@
                 </div>
                 <p class="pt1">{{ form.description }}<p>
                 <div>
-                    <p>Choose a cover photo:</p>
+                    <p>Choose a {% if edit %}new {% endif %}cover photo{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
                     <p class="pl1"> {{ form.cover_photo }}</p>
                 </div>
                 <div>
