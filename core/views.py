@@ -32,11 +32,14 @@ class EventPage(View):
 
 
 class AddEvent(View):
+    form_title = "Add an Event:"
+
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/create_event.html', {"form": form, "musician": musician})
+            return render(request, 'core/event_add_edit.html', 
+                            {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -102,6 +105,7 @@ class AddDonationInfo(View):
 
 
 def edit_event(request, event_pk):
+    form_title = "Edit Event:"
     event = get_object_or_404(Event, pk=event_pk)
     musician = event.owner
     if request.method == "POST":
@@ -110,14 +114,14 @@ def edit_event(request, event_pk):
             event = form.save(commit=False)
             event.owner = musician
             event = form.save()
-            return redirect(to="event", pk=event_pk)
+            return redirect(to="show-musician", musician_pk=event.owner.pk)
     else:
         form = EventForm(instance=event)
 
     return render(
         request,
-        "core/edit_event.html",
-        {"form": form, "event": event, "musician": musician}  
+        "core/event_add_edit.html",
+        {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
     )
 
 
