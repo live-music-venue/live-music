@@ -19,6 +19,13 @@
             <div class="name-location pl4 w-50">
 
                 <h1>{{musician.name}}</h1>
+                <a id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
+                    {% if user_favorite %}
+                        &#9733;
+                        {% else %}
+                        &#9734;
+                    {% endif %}
+                </a>
                 <p class="">{{musician.bio}}</p>
 
             </div>
@@ -120,6 +127,25 @@
 {% if musician.venmo_qr %}
     <img class="" src="{{ musician.venmo_qr.url }}">
 {% endif %}
+
+<script>
+    const toggleFavoriteLink = document.querySelector("#toggle-favorite")
+    toggleFavoriteLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        const musicianId = toggleFavoriteLink.dataset['musicianId']
+        fetch(`/musician/${musicianId}/favorite/`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.favorite) {
+                toggleFavoriteLink.innerHTML = '&#9733;'
+        } else {
+        toggleFavoriteLink.innerHTML = '&#9734;'
+        }
+        })
+    })
+</script>
 
 
 {% endblock content %}

@@ -4,6 +4,8 @@ from .forms import MusicianForm, EventForm, DonationForm
 from users.models import User
 from django.views import View
 from django.contrib.auth.decorators import login_required 
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 import json
 import datetime
 import os
@@ -120,4 +122,16 @@ def edit_event(request, event_pk):
         {"form": form, "event": event, "musician": musician}  
     )
 
+
+class FavoriteMusician(View):
+    def post(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        user = request.user
+        if musician in user.favorite_musician.all():
+            user.favorite_musician.remove(musician)
+            return JsonResponse({"favorite": False})
+
+        else:
+            user.favorite_musician.add(musician)
+            return JsonResponse({"favorite": True})
 
