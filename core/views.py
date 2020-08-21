@@ -121,3 +121,5 @@ def edit_event(request, event_pk):
     )
 
 
+def donation_tutorial (request):
+   return render(request, 'core/donation_tutorial.html')
