@@ -100,7 +100,23 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        return render(request, 'core/show_musician.html', {"musician": musician})
+        musician_comments = musician.musician_comments.order_by('date_created')
+        new_comment = None
+        if request.method == 'POST':
+            comment_form = MusicianCommentForm(data=request.POST, files=request.FILES )
+            if comment_form.is_valid():
+                new_comment = comment_form.save(commit=False)
+                new_comment.musician = musican
+                new_comment.save()
+                return redirect(to='show_musician', pk=musician_pk)
+        else:
+            comment_form = MusicianCommentForm()
+    
+        
+        return render(request, 'core/show_musician.html', {'musician': musician, 'pk': pk, 'musician_comments': musician_comments,
+                                           'new_comment': new_comment,
+                                           'comment_form': comment_form})
+        #return render(request, 'core/show_musician.html', {"musician": musician})
 
 
 class AddDonationInfo(View):

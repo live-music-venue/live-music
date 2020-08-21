@@ -1,5 +1,7 @@
 from django.forms import ModelForm, Textarea, DateTimeInput, ClearableFileInput, FileInput
 from .models import Musician, MusicianComment, Event, EventComment
+from django import forms
+
 
 class MusicianForm(ModelForm):
     class Meta:
@@ -50,5 +52,15 @@ class DonationForm(ModelForm):
             "cashapp_qr",
             "paypal_qr",
             "venmo_qr",
+        ]
+
+
+class MusicianCommentForm(forms.ModelForm):
+    class Meta:
+        model = MusicianComment
+        fields = [
+            'author',
+            'body', 
+            
         ]
     

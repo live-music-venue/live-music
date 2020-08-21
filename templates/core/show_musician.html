@@ -121,5 +121,29 @@
     <img class="" src="{{ musician.venmo_qr.url }}">
 {% endif %}
 
+<!-- comments -->
+<h2>{{ musician_comments.count }} comments</h2>
+
+<h3>Leave a comment</h3>
+<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+  {{ comment_form | crispy }}
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+</form>
+
+{% for comment in musician_comments %}
+
+<div class="comments" style="padding: 10px;">
+  <p class="font-weight-bold">
+    {{ comment.name }}
+    <span class=" text-muted font-weight-normal">
+      {{ comment.date_created }}
+    </span>
+  </p>
+  {{ comment.body | linebreaks }}
+</div>
+
+{% endfor %}
+
 
 {% endblock content %}
