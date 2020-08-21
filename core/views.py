@@ -35,11 +35,14 @@ class EventPage(View):
 
 
 class AddEvent(View):
+    form_title = "Add an Event:"
+
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/create_event.html', {"form": form, "musician": musician})
+            return render(request, 'core/event_add_edit.html', 
+                            {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -54,6 +57,28 @@ class AddEvent(View):
                 return redirect(to="event", pk=event.pk)
             return redirect(to="show-musician", musician_pk=musician_pk)
         return redirect(to="show-musician", musician_pk=musician_pk)
+
+
+def edit_event(request, event_pk):
+    form_title = "Edit Event:"
+    event = get_object_or_404(Event, pk=event_pk)
+    musician = event.owner
+    if request.user == musician.user:
+        if request.method == "POST":
+            form = EventForm(instance=event, data=request.POST, files=request.FILES)
+            if form.is_valid():
+                event = form.save(commit=False)
+                event.owner = musician
+                event = form.save()
+                return redirect(to="show-musician", musician_pk=event.owner.pk)
+        else:
+            form = EventForm(instance=event)
+        return render(
+            request,
+            "core/event_add_edit.html",
+            {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
+        )
+    return redirect(to="show-musician", musician_pk=event.owner.pk)
 
 
 class AddMusicianInfo(View):
@@ -104,24 +129,8 @@ class AddDonationInfo(View):
         return redirect(to="homepage")
 
 
-def edit_event(request, event_pk):
-    event = get_object_or_404(Event, pk=event_pk)
-    musician = event.owner
-    if request.method == "POST":
-        form = EventForm(instance=event, data=request.POST, files=request.FILES)
-        if form.is_valid():
-            event = form.save(commit=False)
-            event.owner = musician
-            event = form.save()
-            return redirect(to="event", pk=event_pk)
-    else:
-        form = EventForm(instance=event)
-
-    return render(
-        request,
-        "core/edit_event.html",
-        {"form": form, "event": event, "musician": musician}  
-    )
+def donation_tutorial (request):
+   return render(request, 'core/donation_tutorial.html')
 
 @method_decorator(csrf_exempt, name="dispatch")
 class FavoriteMusician(View):
