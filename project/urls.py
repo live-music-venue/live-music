@@ -31,6 +31,7 @@ urlpatterns = [
     path('musician/<int:musician_pk>', core_views.ShowMusician.as_view(), name="show-musician"),
     path('musician/<int:musician_pk>/donation/add', core_views.AddDonationInfo.as_view(), name="add-donation"),
     path('accounts/', include('allauth.urls')),
+    path('donation-tutorial/', core_views.donation_tutorial, name="donation_tutorial"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
