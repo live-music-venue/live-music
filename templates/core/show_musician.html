@@ -96,7 +96,8 @@
         {% endif %}
         {% endfor %}
         <div>
-            <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
+            <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br>
+            <a href="{% url 'donation_tutorial' %}">Donation Tutorial</a>
         </div>
     </div>
 </div>
