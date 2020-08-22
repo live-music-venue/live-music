@@ -34,8 +34,10 @@
         const logoutURL = "{% url 'account_logout' %}"
         {% if user.musician %}
         const profileURL = "{% url 'show-musician' musician_pk=user.pk %}"
+        const addEventURL = "{% url 'add-event' musician_pk=user.pk %}"
         {% else %}
         const profileURL = "{% url 'homepage' %}"
+        const addEventURL = "{% url 'homepage' %}"
         {%endif%}
       </script>
       {% block content %}
