@@ -28,6 +28,7 @@
     <div class="main-block" style="display: none;">
       <script>
         const isAuthenticated = JSON.parse('{{user.is_authenticated}}'.toLowerCase())
+        const username = "{{user.username}}"
         const loginURL = "{% url 'account_login' %}"
         const signupURL = "{% url 'account_signup' %}"
         const logoutURL = "{% url 'account_logout' %}"

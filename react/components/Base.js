@@ -40,6 +40,7 @@ export default class Base extends React.Component {
     })
   }
 
+
   render () {
     const { toggleMenu } = this
     const { showMenu } = this.state
@@ -97,7 +98,7 @@ export default class Base extends React.Component {
                   key='1'
                   overlay={accountMenu}
                 >
-                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>Account <DownOutlined /></span>
+                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>{isAuthenticated ? `Welcome, ${username}` : "Account"} <DownOutlined /></span>
                 </Dropdown>
               ]}
             />
