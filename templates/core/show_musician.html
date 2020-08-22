@@ -19,7 +19,19 @@
             <div class="name-location pl4 w-50">
 
                 <h1>{{musician.name}}</h1>
+                {% if user.pk is not musician.pk %}
+                    <a id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
+                        {% if user_favorite %}
+                            &#9733;
+                            {% else %}
+                            &#9734;
+                        {% endif %}
+                    </a>
+                {% endif %}
                 <p class="">{{musician.bio}}</p>
+                <div>
+                    <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
+                </div>
 
             </div>
         </div>
@@ -71,7 +83,7 @@
         {% endif %}
         {% endfor %}
     </div>
-    <h4>Past events</h4>
+    <h3>Past events:</h3>
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
         {% if event.is_finished %}
@@ -95,10 +107,14 @@
             </div>
         {% endif %}
         {% endfor %}
+
+        
+
         <div>
             <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br>
             <a href="{% url 'donation_tutorial' %}">Donation Tutorial</a>
         </div>
+
     </div>
 </div>
 <!-- Donation Tags -->
@@ -121,6 +137,28 @@
 {% if musician.venmo_qr %}
     <img class="" src="{{ musician.venmo_qr.url }}">
 {% endif %}
+
+<script>
+    window.addEventListener("load", (e) => {
+        const toggleFavoriteLink = document.querySelector("#toggle-favorite")
+        toggleFavoriteLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        const musicianId = toggleFavoriteLink.dataset['musicianId']
+        fetch(`/musician/${musicianId}/favorite`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.favorite) {
+                toggleFavoriteLink.innerHTML = '&#9733;'
+        } else {
+        toggleFavoriteLink.innerHTML = '&#9734;'
+        }
+        })
+    })
+    })
+    
+</script>
 
 
 {% endblock content %}
