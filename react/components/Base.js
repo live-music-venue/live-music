@@ -1,7 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { PageHeader, Menu, Dropdown, Layout } from 'antd'
-import { MenuOutlined, HomeOutlined, LogoutOutlined, DownOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
+import { MenuOutlined, HomeOutlined, LogoutOutlined,
+         DownOutlined, LoginOutlined, UserAddOutlined,
+          ProfileOutlined, StarOutlined, InfoCircleOutlined} from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
 
 /* global location isAuthenticated loginURL signupURL logoutURL */
@@ -130,6 +132,33 @@ export default class Base extends React.Component {
                   }}
                 >
                   Home
+                </Menu.Item>
+                <Menu.Item
+                  key='profile'
+                  icon={<ProfileOutlined />}
+                  onClick={e => {
+                    redirect(profileURL)
+                  }}
+                >
+                  Profile
+                </Menu.Item>
+                <Menu.Item
+                  key='favorites'
+                  icon={<StarOutlined />}
+                  onClick={e => {
+                    //redirect(profileURL)
+                  }}
+                >
+                  Favorites
+                </Menu.Item>
+                <Menu.Item
+                  key='about'
+                  icon={<InfoCircleOutlined />}
+                  onClick={e => {
+                    //redirect(profileURL)
+                  }}
+                >
+                  About Rhappsody
                 </Menu.Item>
               </Menu>
             </Sider>

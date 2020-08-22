@@ -31,6 +31,11 @@
         const loginURL = "{% url 'account_login' %}"
         const signupURL = "{% url 'account_signup' %}"
         const logoutURL = "{% url 'account_logout' %}"
+        {% if user.musician %}
+        const profileURL = "{% url 'show-musician' musician_pk=user.pk %}"
+        {% else %}
+        const profileURL = "{% url 'homepage' %}"
+        {%endif%}
       </script>
       {% block content %}
       {% endblock content %}
