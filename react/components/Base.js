@@ -4,7 +4,7 @@ import { PageHeader, Menu, Dropdown, Layout } from 'antd'
 import { MenuOutlined, HomeOutlined, LogoutOutlined,
          DownOutlined, LoginOutlined, UserAddOutlined,
           ProfileOutlined, StarOutlined, InfoCircleOutlined,
-          VideoCameraAddOutlined } from '@ant-design/icons'
+          VideoCameraAddOutlined, AudioOutlined } from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
 
 /* global location isAuthenticated loginURL signupURL logoutURL */
@@ -18,6 +18,8 @@ function redirect (url) {
 const container = document.querySelector('.main-block')
 const content = container.innerHTML
 console.log(content)
+
+console.log(isMusician)
 
 export default class Base extends React.Component {
   constructor () {
@@ -135,6 +137,23 @@ export default class Base extends React.Component {
                 >
                   Home
                 </Menu.Item>
+
+
+                { !isMusician && isAuthenticated &&(
+                <Menu.Item
+                  key='start-streaming'
+                  icon={<AudioOutlined />}
+                  onClick={e => {
+                    redirect(musicianSignupURL)
+                  }}
+                >
+                  Become a Streamer!
+                </Menu.Item>
+                )}
+
+
+
+                { isMusician && (
                 <Menu.Item
                   key='profile'
                   icon={<ProfileOutlined />}
@@ -144,8 +163,11 @@ export default class Base extends React.Component {
                 >
                   Profile
                 </Menu.Item>
+                )}
+
+                { isMusician && (
                 <Menu.Item
-                  key='profile'
+                  key='add-event'
                   icon={<VideoCameraAddOutlined />}
                   onClick={e => {
                     redirect(addEventURL)
@@ -153,24 +175,31 @@ export default class Base extends React.Component {
                 >
                   Add Event
                 </Menu.Item>
+                )}
+
+                { isAuthenticated && (
                 <Menu.Item
                   key='favorites'
                   icon={<StarOutlined />}
                   onClick={e => {
-                    //redirect(profileURL)
+                    redirect(favoritesURL)
                   }}
                 >
                   Favorites
                 </Menu.Item>
+                )}
+
                 <Menu.Item
                   key='about'
                   icon={<InfoCircleOutlined />}
                   onClick={e => {
-                    //redirect(profileURL)
+                    //redirect(aboutUsURL)
                   }}
                 >
                   About Rhappsody
                 </Menu.Item>
+                
+                { !isAuthenticated && (
                 <Menu.Item
                   key='login-side'
                   icon={<LoginOutlined />}
@@ -180,6 +209,21 @@ export default class Base extends React.Component {
                 >
                   Login
                 </Menu.Item>
+                )}
+
+                { !isAuthenticated && (
+                <Menu.Item
+                  key='signup-side'
+                  icon={<UserAddOutlined />}
+                  onClick={e => {
+                    redirect(signupURL)
+                  }}
+                >
+                  Register
+                </Menu.Item>
+                )}
+                
+                { isAuthenticated && (
                 <Menu.Item
                   key='logout-side'
                   icon={<LogoutOutlined />}
@@ -189,6 +233,8 @@ export default class Base extends React.Component {
                 >
                   Logout
                 </Menu.Item>
+                )}
+
               </Menu>
             </Sider>
             <Content style={{ margin: '0 16px 0', height: '100%', overflow: 'initial' }}>
