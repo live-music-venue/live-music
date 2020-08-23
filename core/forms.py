@@ -64,3 +64,12 @@ class MusicianCommentForm(forms.ModelForm):
             
         ]
     
+
+class EventCommentForm(forms.ModelForm):
+    class Meta:
+        model = EventComment
+        fields = [
+            'message',
+             
+            
+        ]
