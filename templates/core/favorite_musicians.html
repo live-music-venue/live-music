@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>{{user.username}}'s Favorite Musicians</h3>
+<div class="test-flex">
+    {% for musician in favorites %}
+    <div class="shadow-3 br3 ma3 event-pane">
+        <a href="{% url 'show-musician' musician_pk=musician.pk %}">
+            <div class="image-div flex pa2">
+                <img class="br2" src="{{ musician.thumbnail.url }}">
+            </div>
+        </a>  
+        <h4 class="tc b">{{musician.name}}</h4>      
+    </div>
+    
+    {% endfor %}
+</div>
+{% endblock %}

@@ -134,6 +134,11 @@ def donation_tutorial (request):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class FavoriteMusician(View):
+    def get(self,request):
+        user = request.user
+        favorites = user.favorite_musician.all()
+        return render(request, "core/favorite_musicians.html", {"user":user, "favorites":favorites})
+    
     def post(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
         user = request.user
