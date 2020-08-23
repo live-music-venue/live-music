@@ -4,6 +4,9 @@
 {% load crispy_forms_tags %}
 {% if musician.pk == user.pk %}
 <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+<div>
+    <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
+</div>
 {% endif %}
 
 <div class="musician-info-area flex justify-between">

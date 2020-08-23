@@ -182,18 +182,18 @@ def edit_musician(request, musician_pk):
         if request.method == "POST":
             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
             if form.is_valid():
-                event = form.save(commit=False)
-                event.owner = musician
-                event = form.save()
-                return redirect(to="show-musician", musician_pk=event.owner.pk)
+                musician = form.save(commit=False)
+                musician.owner = musician
+                musician = form.save()
+                return redirect(to="show-musician", musician_pk=musician.user.pk)
         else:
-            form = EventForm(instance=event)
+            form = MusicianForm(instance=musician)
         return render(
             request,
-            "core/event_add_edit.html",
-            {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
+            "core/edit_musician.html",
+            {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
-    return redirect(to="show-musician", musician_pk=event.owner.pk)
+    return redirect(to="show-musician", musician_pk=musician.user.pk)
 
 
 # class EditMusician(View):
