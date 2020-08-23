@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'imagekit',
     'storages',
+    'crispy_forms',
 
     # Project-specific
     'users',
@@ -198,6 +199,8 @@ INTERNAL_IPS = [
 ]
 
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # AWS configuration
 

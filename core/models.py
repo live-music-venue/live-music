@@ -98,8 +98,11 @@ class EventComment(models.Model):
 class MusicianComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="musician_comments")
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE, related_name="musician_comments")
-    body = models.TextField()
+    message = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_created']
 
     def __str__(self):
         return f'{self.author.username} on {self.musician}'
