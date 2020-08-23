@@ -26,7 +26,7 @@ class Musician(models.Model):
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[Transpose(), ResizeToCover(400, 400), SmartCrop(400, 400)],
+        processors=[Transpose(), ResizeToCover(200, 200), SmartCrop(200, 200)],
         format="JPEG",
         options={"quality": 100},
     )

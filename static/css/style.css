@@ -107,3 +107,8 @@ input {
 #id_venmo_qr, #id_paypal_qr, #id_cashapp_qr {
   padding-left: 2px;
 }
+
+.profile-photo {
+  max-width: 300px;
+  max-height: 300px;
+}
