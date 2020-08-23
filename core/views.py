@@ -175,8 +175,3 @@ class FavoriteMusician(View):
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
-
