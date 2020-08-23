@@ -127,6 +127,47 @@ class AddDonationInfo(View):
 
 
 def donation_tutorial (request):
-   return render(request, 'core/donation_tutorial.html')
+    return render(request, 'core/donation_tutorial.html')
 
+
+def edit_musician(request, musician_pk):
+    form_title = "Edit Profile:"
+    musician = get_object_or_404(Musician, pk=musician_pk)
+    if request.user == musician.user:
+        if request.method == "POST":
+            form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
+            if form.is_valid():
+                event = form.save(commit=False)
+                event.owner = musician
+                event = form.save()
+                return redirect(to="show-musician", musician_pk=event.owner.pk)
+        else:
+            form = EventForm(instance=event)
+        return render(
+            request,
+            "core/event_add_edit.html",
+            {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
+        )
+    return redirect(to="show-musician", musician_pk=event.owner.pk)
+
+
+# class EditMusician(View):
+#     def get(self, request, musician_pk):
+#         musician = get_object_or_404(Musician, pk=musician_pk)
+#         if musician == request.user:
+#             form = MusicianForm(instance=musician)
+#             return render(request, 'core/edit_musician.html', {"form": form, "musician": musician})
+#         return redirect(to="homepage")
+
+#     def post(self, request, musician_pk):
+#         musician = get_object_or_404(Musician, pk=musician_pk)
+#         if get_object_or_404(Musician, pk=musician_pk) == request.user:
+#             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
+#             if form.is_valid():
+#                 musician = form.save(commit=False)
+#                 musician.user = request.user
+#                 musician.save()
+#                 return redirect(to='show-musician', musician_pk=musician.pk)
+#             return redirect(to="homepage")
+#         return redirect(to="homepage")
 
