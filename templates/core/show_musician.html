@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load crispy_forms_tags %}
 {% if musician.pk == user.pk %}
 <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
 {% endif %}
@@ -19,8 +20,19 @@
             <div class="name-location pl4 w-50">
 
                 <h1>{{musician.name}}</h1>
+                {% if user.pk is not musician.pk %}
+                    <a id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
+                        {% if user_favorite %}
+                            &#9733;
+                            {% else %}
+                            &#9734;
+                        {% endif %}
+                    </a>
+                {% endif %}
                 <p class="">{{musician.bio}}</p>
-                <!-- <a class="black-90" style="text-decoration:none" href="{% url 'edit-musician' %}">Edit Profile</a> -->
+                <div>
+                    <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
+                </div>
 
             </div>
         </div>
@@ -72,7 +84,7 @@
         {% endif %}
         {% endfor %}
     </div>
-    <h4>Past events</h4>
+    <h3>Past events:</h3>
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
         {% if event.is_finished %}
@@ -96,10 +108,14 @@
             </div>
         {% endif %}
         {% endfor %}
+
+        
+
         <div>
             <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br>
-            <a href="{% url 'donation_tutorial' %}">Donation Tutorial</a>
+            <a href="{% url 'donation-tutorial' %}">Donation Tutorial</a>
         </div>
+
     </div>
 </div>
 <!-- Donation Tags -->
@@ -122,6 +138,54 @@
 {% if musician.venmo_qr %}
     <img class="" src="{{ musician.venmo_qr.url }}">
 {% endif %}
+
+<!-- comments -->
+{% if user.is_authenticated %}
+<h2>{{ musician.musician_comments.count }} comments</h2>
+
+<h3>Leave a comment</h3>
+<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+    {% csrf_token %}
+    {{ comment_form | crispy }}
+  
+  <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+</form>
+
+{% for comment in musician.musician_comments.all %}
+
+<div class="comments" style="padding: 10px;">
+  <p class="font-weight-bold">
+    On {{ comment.date_created }}
+    <span class=" text-muted font-weight-normal">
+      {{ comment.author }} says:
+    </span>
+  </p>
+  {{ comment.message | linebreaks }}
+</div>
+
+{% endfor %}
+{% endif %}
+<script>
+    window.addEventListener("load", (e) => {
+        const toggleFavoriteLink = document.querySelector("#toggle-favorite")
+        toggleFavoriteLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        const musicianId = toggleFavoriteLink.dataset['musicianId']
+        fetch(`/musician/${musicianId}/favorite`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.favorite) {
+                toggleFavoriteLink.innerHTML = '&#9733;'
+        } else {
+        toggleFavoriteLink.innerHTML = '&#9734;'
+        }
+        })
+    })
+    })
+    
+</script>
 
 
 {% endblock content %}
