@@ -20,6 +20,7 @@ class Musician(models.Model):
     cashapp_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     paypal_qr = models.ImageField(upload_to="images/", null=True, blank=True)
     venmo_qr = models.ImageField(upload_to="images/", null=True, blank=True)
+    favorited_by = models.ManyToManyField(User, related_name="favorite_musician", blank=True)
     
     # fields having to do with images
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
