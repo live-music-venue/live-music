@@ -33,6 +33,7 @@
         const loginURL = "{% url 'account_login' %}"
         const signupURL = "{% url 'account_signup' %}"
         const logoutURL = "{% url 'account_logout' %}"
+        const favoritesURL = "{% url 'favorite-musicians' %}"
         {% if user.musician %}
         const isMusician = true
         const profileURL = "{% url 'show-musician' musician_pk=user.pk %}"

@@ -8,24 +8,20 @@
 </div> -->
 
 {% if user.is_authenticated %}
-<h5>Hello, {{user.username}}</h5>
-{% endif %}
-
-{% if user.is_authenticated %}
     <!-- Can move favorite's to sidebar -->
-    <div>
+    <!-- <div>
         <a href="{% url 'favorite-musicians' %}">See your favorite musicians.</a>
-    </div>
+    </div> -->
     {% if not user.musician %}
     <div>
         <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
     </div>
     {% endif %}
-    {% if user.musician %}
+    <!-- {% if user.musician %}
     <div>
         <a href="{% url 'show-musician' musician_pk=user.musician.pk %}">See your musician page.</a>
     </div>
-    {% endif %}
+    {% endif %} -->
 {% endif %}
 
 <h4>Upcoming concerts:</h4>

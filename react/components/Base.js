@@ -162,21 +162,23 @@ export default class Base extends React.Component {
                 </Menu.Item>
                 )}
 
+                { isAuthenticated && (
                 <Menu.Item
                   key='favorites'
                   icon={<StarOutlined />}
                   onClick={e => {
-                    //redirect(profileURL)
+                    redirect(favoritesURL)
                   }}
                 >
                   Favorites
                 </Menu.Item>
+                )}
 
                 <Menu.Item
                   key='about'
                   icon={<InfoCircleOutlined />}
                   onClick={e => {
-                    //redirect(profileURL)
+                    //redirect(aboutUsURL)
                   }}
                 >
                   About Rhappsody
@@ -191,6 +193,18 @@ export default class Base extends React.Component {
                   }}
                 >
                   Login
+                </Menu.Item>
+                )}
+
+                { !isAuthenticated && (
+                <Menu.Item
+                  key='signup-side'
+                  icon={<UserAddOutlined />}
+                  onClick={e => {
+                    redirect(signupURL)
+                  }}
+                >
+                  Register
                 </Menu.Item>
                 )}
                 
