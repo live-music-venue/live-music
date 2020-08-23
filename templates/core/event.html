@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>This will begin at {{event.date_time}}</p>
-<div class="ma4 flex flex-column event-picture">
-    <div class="flex">
-        <img src="{{ event.full_cover.url }}">
-    </div>
-    <div class="pl2">
-        <h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
-        <div class="">
-            <p>{{event.description}}</p>
+<div id="event-container">
+    <p>This will begin at {{event.date_time}}</p>
+    <div class="ma4 flex flex-column event-picture">
+        <div class="flex">
+            <img src="{{ event.full_cover.url }}">
+        </div>
+        <div class="pl2">
+            <h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
+            <div class="">
+                <p>{{event.description}}</p>
+            </div>
         </div>
     </div>
 </div>
-<div id="react-event">
+<div id="react-event" style="display: none;">
     <script>
         const data = '{{data}}'
     </script>
