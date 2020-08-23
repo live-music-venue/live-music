@@ -19,6 +19,8 @@ const container = document.querySelector('.main-block')
 const content = container.innerHTML
 console.log(content)
 
+console.log(isMusician)
+
 export default class Base extends React.Component {
   constructor () {
     super()
@@ -135,6 +137,8 @@ export default class Base extends React.Component {
                 >
                   Home
                 </Menu.Item>
+
+                { isMusician && (
                 <Menu.Item
                   key='profile'
                   icon={<ProfileOutlined />}
@@ -144,8 +148,11 @@ export default class Base extends React.Component {
                 >
                   Profile
                 </Menu.Item>
+                )}
+
+                { isMusician && (
                 <Menu.Item
-                  key='profile'
+                  key='add-event'
                   icon={<VideoCameraAddOutlined />}
                   onClick={e => {
                     redirect(addEventURL)
@@ -153,6 +160,8 @@ export default class Base extends React.Component {
                 >
                   Add Event
                 </Menu.Item>
+                )}
+
                 <Menu.Item
                   key='favorites'
                   icon={<StarOutlined />}
@@ -162,6 +171,7 @@ export default class Base extends React.Component {
                 >
                   Favorites
                 </Menu.Item>
+
                 <Menu.Item
                   key='about'
                   icon={<InfoCircleOutlined />}
@@ -171,6 +181,8 @@ export default class Base extends React.Component {
                 >
                   About Rhappsody
                 </Menu.Item>
+                
+                { !isAuthenticated && (
                 <Menu.Item
                   key='login-side'
                   icon={<LoginOutlined />}
@@ -180,6 +192,9 @@ export default class Base extends React.Component {
                 >
                   Login
                 </Menu.Item>
+                )}
+                
+                { isAuthenticated && (
                 <Menu.Item
                   key='logout-side'
                   icon={<LogoutOutlined />}
@@ -189,6 +204,8 @@ export default class Base extends React.Component {
                 >
                   Logout
                 </Menu.Item>
+                )}
+
               </Menu>
             </Sider>
             <Content style={{ margin: '0 16px 0', height: '100%', overflow: 'initial' }}>
