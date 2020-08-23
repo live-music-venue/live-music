@@ -4,7 +4,7 @@ import { PageHeader, Menu, Dropdown, Layout } from 'antd'
 import { MenuOutlined, HomeOutlined, LogoutOutlined,
          DownOutlined, LoginOutlined, UserAddOutlined,
           ProfileOutlined, StarOutlined, InfoCircleOutlined,
-          VideoCameraAddOutlined } from '@ant-design/icons'
+          VideoCameraAddOutlined, AudioOutlined } from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
 
 /* global location isAuthenticated loginURL signupURL logoutURL */
@@ -137,6 +137,21 @@ export default class Base extends React.Component {
                 >
                   Home
                 </Menu.Item>
+
+
+                { !isMusician && isAuthenticated &&(
+                <Menu.Item
+                  key='start-streaming'
+                  icon={<AudioOutlined />}
+                  onClick={e => {
+                    redirect(musicianSignupURL)
+                  }}
+                >
+                  Become a Streamer!
+                </Menu.Item>
+                )}
+
+
 
                 { isMusician && (
                 <Menu.Item
