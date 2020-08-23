@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
-from .forms import MusicianForm, EventForm, DonationForm
+from .forms import MusicianForm, EventForm, DonationForm, MusicianCommentForm
 from users.models import User
 from django.views import View
 from django.contrib.auth.decorators import login_required 
 import json
 import datetime
 import os
+from django import forms
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 class Homepage(View):
@@ -97,26 +99,31 @@ class AddMusicianInfo(View):
         return redirect(to="homepage")
 
 
+
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        musician_comments = musician.musician_comments.order_by('date_created')
-        new_comment = None
-        if request.method == 'POST':
-            comment_form = MusicianCommentForm(data=request.POST, files=request.FILES )
-            if comment_form.is_valid():
-                new_comment = comment_form.save(commit=False)
-                new_comment.musician = musican
-                new_comment.save()
-                return redirect(to='show_musician', pk=musician_pk)
+        comment_form = MusicianCommentForm()
+        return render(request, 'core/show_musician.html', {"musician": musician,
+                                                           'comment_form': comment_form})
+        
+    def post(self, request, musician_pk):  
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        comment_form = MusicianCommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.musician = musician
+            new_comment.author = request.user
+            new_comment.save()
+            return redirect(to='show-musician', musician_pk= musician_pk)
         else:
             comment_form = MusicianCommentForm()
     
         
-        return render(request, 'core/show_musician.html', {'musician': musician, 'pk': pk, 'musician_comments': musician_comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
-        #return render(request, 'core/show_musician.html', {"musician": musician})
+        return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form})
+                                                            
+                                                           
+                                                          
 
 
 class AddDonationInfo(View):
@@ -144,5 +151,6 @@ class AddDonationInfo(View):
 
 def donation_tutorial (request):
    return render(request, 'core/donation_tutorial.html')
+
 
 

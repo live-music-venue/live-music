@@ -59,8 +59,8 @@ class MusicianCommentForm(forms.ModelForm):
     class Meta:
         model = MusicianComment
         fields = [
-            'author',
-            'body', 
+            'message',
+             
             
         ]
     
