@@ -216,6 +216,14 @@ async_rq = ["django-rq (>=0.6.0)"]
 
 [[package]]
 category = "main"
+description = "Templatetags for 'tweet this' and 'share on facebook'"
+name = "django-social-share"
+optional = false
+python-versions = "*"
+version = "2.0.0"
+
+[[package]]
+category = "main"
 description = "Support for many storage backends in Django"
 name = "django-storages"
 optional = false
@@ -604,7 +612,7 @@ test = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
-content-hash = "1d73ae5ac25bab77e27527cdcfd74d820cfeb8392fa8ba2768739aceb2e8e13b"
+content-hash = "e54eb26e492380c76f47f60bc32d4368d86a593d3559ce3b9604023afadf9491"
 python-versions = "3.8.5"
 
 [metadata.files]
@@ -707,6 +715,10 @@ django-heroku = [
 django-imagekit = [
     {file = "django-imagekit-4.0.2.tar.gz", hash = "sha256:6ec0afb77cdf52cd453c9fc2c10ef350d111edfd6ce53c5977aa8a0e22cee00c"},
     {file = "django_imagekit-4.0.2-py2.py3-none-any.whl", hash = "sha256:304c3379f6a5cac387e47ace11195a603ad3cb01e3e951b45489824d25b00359"},
+]
+django-social-share = [
+    {file = "django-social-share-2.0.0.tar.gz", hash = "sha256:52331fd59e30a185448d02ee97afcde8b986120d4eb62512a76f5dbcac218907"},
+    {file = "django_social_share-2.0.0-py2.py3-none-any.whl", hash = "sha256:b5f2402338098bffeda31ac1afa20b80ef3609ce438b2b07c54fd1553dddd52b"},
 ]
 django-storages = [
     {file = "django-storages-1.9.1.tar.gz", hash = "sha256:a59e9923cbce7068792f75344ed7727021ee4ac20f227cf17297d0d03d141e91"},
