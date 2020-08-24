@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
-from .forms import MusicianForm, EventForm, DonationForm, MusicianCommentForm
+from .forms import MusicianForm, EventForm, DonationForm, MusicianCommentForm, EventCommentForm
 from users.models import User
 from django.views import View
 from django.contrib.auth.decorators import login_required 
@@ -24,6 +24,7 @@ class Homepage(View):
 class EventPage(View):
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
+        comment_form = EventCommentForm()
         # Passing data through to react via json. MUST USE DOUBLE QUOTES
         return render(request, 'core/event.html', {
             'data': json.dumps({
@@ -33,7 +34,24 @@ class EventPage(View):
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
+            'comment_form': comment_form
         })
+
+    def post(self, request, pk):  
+        event = get_object_or_404(Event, pk=pk)
+        events = Event.objects.all()
+        comment_form = EventCommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.event = event
+            new_comment.author = request.user
+            new_comment.save()
+            return redirect(to='event', pk=pk)
+        else:
+            comment_form = EventCommentForm()
+    
+        
+        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form})
 
 
 class AddEvent(View):

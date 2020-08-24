@@ -88,7 +88,7 @@ class Event(models.Model):
 class EventComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_comments")
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_comments")
-    body = models.TextField()
+    message = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

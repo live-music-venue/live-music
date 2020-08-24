@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load crispy_forms_tags %}
 <p>This will begin at {{event.date_time}}</p>
 <div class="ma4 flex flex-column event-picture">
     <div class="flex">
@@ -18,6 +19,36 @@
         const data = '{{data}}'
     </script>
 </div>
+
+<!-- comments -->
+{% if event.is_upcoming or event.is_finished  %}
+    {% if user.is_authenticated %}
+<h2>{{ event.event_comments.count }} comments</h2>
+
+<h3>Leave a comment</h3>
+<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+    {% csrf_token %}
+    {{ comment_form | crispy }}
+  
+  <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+</form>
+
+    {% for comment in event.event_comments.all %}
+
+<div class="comments" style="padding: 10px;">
+  <p class="font-weight-bold">
+    On {{ comment.date_created }}
+    <span class=" text-muted font-weight-normal">
+      {{ comment.author }} says:
+    </span>
+  </p>
+  {{ comment.message | linebreaks }}
+</div>
+
+ {% endfor %}
+ {% endif %}
+ {% endif %}
+
 
 
 
