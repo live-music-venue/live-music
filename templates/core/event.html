@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
+<h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
 <div class="ma4 flex flex-column event-picture">
     <div class="flex">
         <img src="{{ event.full_cover.url }}">
     </div>
     <div class="pl2">
-        <h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
-        <div class="">
+        <div class="pt3">
             <p>{{event.description}}</p>
             <p>This event will begin at {{event.date_time}}</p>
         </div>

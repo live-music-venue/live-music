@@ -17,29 +17,86 @@
                 </div>
             </div>
             <div class="name-location pl4 w-50">
-
-                <h1>{{musician.name}}</h1>
-                {% if user.pk is not musician.pk %}
-                    <a id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
-                        {% if user_favorite %}
-                            &#9733;
-                            {% else %}
-                            &#9734;
-                        {% endif %}
-                    </a>
-                {% endif %}
-                <p class="">{{musician.bio}}</p>
-                {% if musician.pk == user.pk %}
-                <div>
-                    <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
+                <div class="flex">
+                    <h1>
+                        {{musician.name}}
+                    </h1>
+                    {% if user.pk is not musician.pk %}
+                    <p>
+                        <a class="pl3 grow dib star" id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
+                            {% if user_favorite %}
+                                &#9733;
+                                {% else %}
+                                &#9734;
+                            {% endif %}
+                        </a>
+                    </p>
+                    {% else %}
+                    <p></p>
+                    {% endif %}
                 </div>
-                <div>
-                    <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
-                </div>  
-                <div>
-                    <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
-                </div>      
-                {% endif %}        
+                <div class="flex flex-column justify-between h-75">
+                    <div><p class="">{{musician.bio}}</p></div>
+                    <div>
+                        {% if musician.pk == user.pk %}
+                            <div>
+                                <a href="{% url 'add-donation' musician_pk=musician.pk %}">Edit Donation Info</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
+                            </div>  
+                            <div>
+                                <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+                            </div>     
+                        {% else %}
+                            {% if musician.cashapp_name %}
+                                <p>Cashapp name: {{musician.cashapp_name}}</p>
+                            {% endif %}
+                            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+                            <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                            {% endif %}
+
+                            <div class="flex">
+
+                            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+                                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                            {% endif %}
+
+
+                            {% if musician.cashapp_qr %}
+                                <div class="flex flex-column">
+                                    <p class="qr-label">Cashapp:</p>
+                                    <img class="qr" src="{{ musician.cashapp_qr.url }}"><br>
+                                </div>
+                            {% endif %}
+
+
+                            {% if musician.paypal_donation_url and musician.paypal_qr %}
+                            <div class="flex flex-column qr-box">
+                                <p class="qr-label">Paypal:</p>
+                                <a href="{{musician.paypal_donation_url}}"><img class="qr" src="{{ musician.paypal_qr.url }}" /></a><br>
+                            </div>
+                            {% endif %}
+
+
+                            {% if musician.paypal_qr and not musician.paypal_donation_url %}
+                            <div class="flex flex-column">
+                                <p class="qr-label">Paypal:</p>
+                                <img class="qr" src="{{ musician.paypal_qr.url }}"><br>
+                            </div>
+                            {% endif %}
+
+
+                            {% if musician.venmo_qr %}
+                            <div class="flex flex-column">
+                                <p class="qr-label">Venmo:</p>
+                                <img class="qr" src="{{ musician.venmo_qr.url }}">
+                            </div>
+                            {% endif %}
+                            </div>
+                        {% endif %}  
+                    </div> 
+                </div>     
             </div>
         </div>
 
@@ -54,7 +111,7 @@
 
 
     <div class="right flex justify-around calendar w-40">
-        <p>Right</p> 
+        <p>Calendar</p> 
     </div>
 
 </div>
@@ -74,9 +131,9 @@
                         <img class="br2" src="{{ event.thumbnail.url }}">
                     </div>
                     <div class="info-div flex flex-column tc">
-                        <h4 class="b">
-                            {{event.title}}
-                        </h4>
+                        <h5 class="b">
+                            {{event.title|truncatechars:20}}
+                        </h5>
                         <p>
                             <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
                         </p>
@@ -105,9 +162,9 @@
                     </div>
             </a>
                 <div class="info-div flex flex-column tc">
-                    <h4 class="b">
-                        {{event.title}}
-                    </h4>
+                    <h5 class="b">
+                        {{event.title|truncatechars:20}}
+                    </h5>
                     <p>
                         <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
                     </p>
@@ -130,24 +187,7 @@
 </div>
 <!-- Donation Tags -->
 <br>
-{% if musician.cashapp_name %}
-    <p>Cashapp name: {{musician.cashapp_name}}</p>
-{% endif %}
-{% if musician.paypal_donation_url and not musician.paypal_qr %} 
-    <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-{% endif %}
-{% if musician.cashapp_qr %}
-    <img class="" src="{{ musician.cashapp_qr.url }}"><br>
-{% endif %}
-{% if musician.paypal_donation_url and musician.paypal_qr %}
-    <a href="{{musician.paypal_donation_url}}"><img src="{{ musician.paypal_qr.url }}" /></a><br>
-{% endif %}
-{% if musician.paypal_qr and not musician.paypal_donation_url %}
-    <img class="" src="{{ musician.paypal_qr.url }}"><br>
-{% endif %}
-{% if musician.venmo_qr %}
-    <img class="" src="{{ musician.venmo_qr.url }}">
-{% endif %}
+
 
 <!-- comments -->
 {% if user.is_authenticated %}
@@ -155,14 +195,11 @@
 
 {% for comment in musician.musician_comments.all %}
 
-<div class="comments" style="padding: 10px;">
-  <p class="font-weight-bold">
-    On {{ comment.date_created }}
-    <span class=" text-muted font-weight-normal">
-      {{ comment.author }} says:
-    </span>
+<div class="comments pl2 pt1">
+    <p>{{ comment.message | linebreaks }}</p>
+  <p class="pl2">
+    by {{ comment.author }}, {{ comment.date_created }}
   </p>
-  {{ comment.message | linebreaks }}
 </div>
 {% endfor %}
 {% endif %}
