@@ -26,7 +26,7 @@
             <div class="name-location pl4 w-50">
 
                 <h1>{{musician.name}}</h1>
-                {% if user.pk is not musician.pk %}
+                <!-- {% if user.pk is not musician.pk %} -->
                     <a id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
                         {% if user_favorite %}
                             &#9733;
@@ -34,7 +34,7 @@
                             &#9734;
                         {% endif %}
                     </a>
-                {% endif %}
+                <!-- {% endif %} -->
                 <p class="">{{musician.bio}}</p>
                 <div>
                     <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
@@ -53,8 +53,8 @@
 
 
 
-    <div class="right flex justify-around calendar w-40">
-        <p>Right</p> 
+    <div class="right flex justify-around w-50">
+        <div id='calendar' class="w-60 pt2"></div>
     </div>
 
 </div>
