@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% load crispy_forms_tags %}
-
-
 
 <div class="musician-info-area flex justify-between">
     <div class="left pa4">
@@ -96,24 +93,10 @@
                 </div>     
             </div>
         </div>
-
-<!-- 
-        <div class="left-bottom">
-            <p>{{musician.bio}}</p>
-        </div> -->
     </div>
 
-
-
-
-
-<<<<<<< HEAD
-    <div class="right flex justify-around calendar w-40">
-        <p>Calendar</p> 
-=======
-    <div class="right flex justify-around w-50">
-        <div id='calendar' class="w-60 pt2"></div>
->>>>>>> master
+    <div class="right flex justify-around mt-3 w-70">
+        <div id='calendar' class="w-70 pt2"></div>
     </div>
 
 </div>
@@ -177,19 +160,8 @@
             </div>
         {% endif %}
         {% endfor %}
-
-        
-<!-- 
-        <div>
-            <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br>
-            <a href="{% url 'donation-tutorial' %}">Donation Tutorial</a>
-        </div> -->
-
     </div>
 </div>
-<!-- Donation Tags -->
-<br>
-
 
 <!-- comments -->
 {% if user.is_authenticated %}
@@ -234,6 +206,4 @@
     })
     
 </script>
-
-
 {% endblock content %}
