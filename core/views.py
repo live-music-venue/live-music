@@ -124,12 +124,13 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
+        user_favorite = request.user.is_favorite_musician(musician)
         comment_form = MusicianCommentForm()
-        return render(request, 'core/show_musician.html', {"musician": musician,
-                                                           'comment_form': comment_form})
+        return render(request, 'core/show_musician.html', {"musician": musician,'comment_form': comment_form, 'user_favorite': user_favorite})
         
     def post(self, request, musician_pk):  
         musician = get_object_or_404(Musician, pk=musician_pk)
+        user_favorite = request.user.is_favorite_musician(musician)
         comment_form = MusicianCommentForm(data=request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
@@ -141,11 +142,8 @@ class ShowMusician(View):
             comment_form = MusicianCommentForm()
     
         
-        return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form})
+        return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form, 'user_favorite': user_favorite})
                                                             
-                                                           
-                                                          
-
 
 class AddDonationInfo(View):
     def get(self, request, musician_pk):
