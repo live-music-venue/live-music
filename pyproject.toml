@@ -24,6 +24,7 @@ asgiref = "^3.2.10"
 pytz = "^2020.1"
 gevent = "^20.6.2"
 django-crispy-forms = "^1.9.2"
+django-social-share = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"

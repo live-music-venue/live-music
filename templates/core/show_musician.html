@@ -21,7 +21,6 @@
                     <h1>
                         {{musician.name}}
                     </h1>
-                    {% if user.pk is not musician.pk %}
                     <p>
                         <a class="pl3 grow dib star" id="toggle-favorite" data-musician-id = "{{ musician.pk }}" class="no-underline pointer dib grow f3" id='parent-favorite'>
                             {% if user_favorite %}
@@ -31,9 +30,7 @@
                             {% endif %}
                         </a>
                     </p>
-                    {% else %}
-                    <p></p>
-                    {% endif %}
+                   
                 </div>
                 <div class="flex flex-column justify-between h-75">
                     <div><p class="">{{musician.bio}}</p></div>
@@ -110,8 +107,13 @@
 
 
 
+<<<<<<< HEAD
     <div class="right flex justify-around calendar w-40">
         <p>Calendar</p> 
+=======
+    <div class="right flex justify-around w-50">
+        <div id='calendar' class="w-60 pt2"></div>
+>>>>>>> master
     </div>
 
 </div>

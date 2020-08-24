@@ -126,7 +126,10 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        user_favorite = request.user.is_favorite_musician(musician)
+        if request.user.is_authenticated:
+            user_favorite = request.user.is_favorite_musician(musician)
+        else: 
+            user_favorite = None
         comment_form = MusicianCommentForm()
         return render(request, 'core/show_musician.html', {"musician": musician,'comment_form': comment_form, 'user_favorite': user_favorite})
         
