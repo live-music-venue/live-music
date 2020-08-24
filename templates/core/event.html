@@ -20,8 +20,9 @@
     <script>
         const data = '{{data}}'
     </script>
-{% post_to_facebook {{event.title}} "Post to Facebook!" %}
+
 </div>
+{% post_to_facebook {{event.title}} "Post to Facebook!" %}
 
 <!-- comments -->
 {% if event.is_upcoming or event.is_finished  %}
