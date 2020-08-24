@@ -139,3 +139,11 @@ input {
   font-size: 12px;
   padding: 0;
 }
+
+#calendar {
+  z-index: 0;
+}
+
+header { 
+  z-index: 1;
+}

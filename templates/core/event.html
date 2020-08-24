@@ -1,14 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<<<<<<< HEAD
 <h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
-=======
-{% load crispy_forms_tags %}
-{% load social_share %}
-
-<p>This will begin at {{event.date_time}}</p>
->>>>>>> master
 <div class="ma4 flex flex-column event-picture">
     <div class="flex">
         <img src="{{ event.full_cover.url }}">
@@ -29,12 +22,6 @@
     </script>
 
 </div>
-
-<!-- <div>
-    {% post_to_facebook object_or_url "Post to Facebook!" %}
-    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
-    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
-</div> -->
 
 <!-- comments -->
 {% if event.is_upcoming or event.is_finished  %}
