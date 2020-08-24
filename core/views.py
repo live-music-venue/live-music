@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 class Homepage(View):
     def get(self, request):
-        events = Event.objects.all()
+        events = Event.objects.all().order_by("date_time")
         return render(request, 'core/homepage.html', {'events': events})
 
 

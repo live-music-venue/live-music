@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
 
 <div class="musician-info-area flex justify-between">
     <div class="left pa4">
@@ -95,7 +97,7 @@
         </div>
     </div>
 
-    <div class="right flex justify-around mt-3 w-70">
+    <div class="right flex justify-around w-60 mt-3">
         <div id='calendar' class="w-70 pt2"></div>
     </div>
 
@@ -178,12 +180,14 @@
 {% endfor %}
 {% endif %}
 
+{% if user.is_authenticated %}
 <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
     {% csrf_token %}
     {{ comment_form}}
   
   <button type="submit" class="btn btn-primary btn-sm">Submit</button>
 </form>
+{% endif %}
 
 <script>
     window.addEventListener("load", (e) => {
@@ -206,4 +210,19 @@
     })
     
 </script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+    });
+    calendar.render();
+  });
+
+</script>
+
 {% endblock content %}

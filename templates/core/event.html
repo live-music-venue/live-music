@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load social_share %}
 <h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
 <div class="ma4 flex flex-column event-picture">
     <div class="flex">
@@ -21,6 +22,12 @@
         const data = '{{data}}'
     </script>
 
+</div>
+
+<div>
+    {% post_to_facebook object_or_url "Post to Facebook!" %}
+    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
+    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
 </div>
 
 <!-- comments -->

@@ -142,6 +142,7 @@ input {
 
 #calendar {
   z-index: 0;
+  min-width: 400px;
 }
 
 header { 
