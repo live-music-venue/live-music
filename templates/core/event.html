@@ -23,6 +23,8 @@
 
 </div>
 {% post_to_facebook object_or_url "Post to Facebook!" %}
+{% post_to_twitter "New Song: {{object.title}}. Check it out!" object_or_url "Post to Twitter" %}
+{% post_to_twitter "New Song: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
 
 <!-- comments -->
 {% if event.is_upcoming or event.is_finished  %}
