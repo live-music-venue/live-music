@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Musician, MusicianComment, Event, EventComment
-from .forms import MusicianForm, EventForm, DonationForm, MusicianCommentForm
+from .forms import MusicianForm, EventForm, DonationForm, MusicianCommentForm, EventCommentForm
 from users.models import User
 from django.views import View
 from django.contrib.auth.decorators import login_required 
@@ -24,6 +24,7 @@ class Homepage(View):
 class EventPage(View):
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
+        comment_form = EventCommentForm()
         # Passing data through to react via json. MUST USE DOUBLE QUOTES
         return render(request, 'core/event.html', {
             'data': json.dumps({
@@ -34,7 +35,24 @@ class EventPage(View):
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
+            'comment_form': comment_form
         })
+
+    def post(self, request, pk):  
+        event = get_object_or_404(Event, pk=pk)
+        events = Event.objects.all()
+        comment_form = EventCommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.event = event
+            new_comment.author = request.user
+            new_comment.save()
+            return redirect(to='event', pk=pk)
+        else:
+            comment_form = EventCommentForm()
+    
+        
+        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form})
 
 
 class AddEvent(View):
@@ -107,12 +125,13 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
+        user_favorite = request.user.is_favorite_musician(musician)
         comment_form = MusicianCommentForm()
-        return render(request, 'core/show_musician.html', {"musician": musician,
-                                                           'comment_form': comment_form})
+        return render(request, 'core/show_musician.html', {"musician": musician,'comment_form': comment_form, 'user_favorite': user_favorite})
         
     def post(self, request, musician_pk):  
         musician = get_object_or_404(Musician, pk=musician_pk)
+        user_favorite = request.user.is_favorite_musician(musician)
         comment_form = MusicianCommentForm(data=request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
@@ -124,11 +143,8 @@ class ShowMusician(View):
             comment_form = MusicianCommentForm()
     
         
-        return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form})
+        return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form, 'user_favorite': user_favorite})
                                                             
-                                                           
-                                                          
-
 
 class AddDonationInfo(View):
     def get(self, request, musician_pk):
@@ -154,7 +170,7 @@ class AddDonationInfo(View):
 
 
 def donation_tutorial (request):
-   return render(request, 'core/donation_tutorial.html')
+    return render(request, 'core/donation_tutorial.html')
 
 @method_decorator(csrf_exempt, name="dispatch")
 class FavoriteMusician(View):
@@ -176,8 +192,44 @@ class FavoriteMusician(View):
 
 
 
-<<<<<<< HEAD
+def edit_musician(request, musician_pk):
+    form_title = "Edit Profile:"
+    musician = get_object_or_404(Musician, pk=musician_pk)
+    if request.user == musician.user:
+        if request.method == "POST":
+            form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
+            if form.is_valid():
+                musician = form.save(commit=False)
+                musician.owner = musician
+                musician = form.save()
+                return redirect(to="show-musician", musician_pk=musician.user.pk)
+        else:
+            form = MusicianForm(instance=musician)
+        return render(
+            request,
+            "core/edit_musician.html",
+            {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
+        )
+    return redirect(to="show-musician", musician_pk=musician.user.pk)
 
-=======
->>>>>>> master
+
+# class EditMusician(View):
+#     def get(self, request, musician_pk):
+#         musician = get_object_or_404(Musician, pk=musician_pk)
+#         if musician == request.user:
+#             form = MusicianForm(instance=musician)
+#             return render(request, 'core/edit_musician.html', {"form": form, "musician": musician})
+#         return redirect(to="homepage")
+
+#     def post(self, request, musician_pk):
+#         musician = get_object_or_404(Musician, pk=musician_pk)
+#         if get_object_or_404(Musician, pk=musician_pk) == request.user:
+#             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
+#             if form.is_valid():
+#                 musician = form.save(commit=False)
+#                 musician.user = request.user
+#                 musician.save()
+#                 return redirect(to='show-musician', musician_pk=musician.pk)
+#             return redirect(to="homepage")
+#         return redirect(to="homepage")
 

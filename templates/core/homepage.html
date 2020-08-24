@@ -4,24 +4,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
 
 {% if user.is_authenticated %}
-<h5>Hello, {{user.username}}</h5>
-{% endif %}
-
-{% if user.is_authenticated %}
     <!-- Can move favorite's to sidebar -->
-    <div>
+    <!-- <div>
         <a href="{% url 'favorite-musicians' %}">See your favorite musicians.</a>
-    </div>
-    {% if not user.musician %}
+    </div> -->
+    <!-- {% if not user.musician %}
     <div>
         <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
     </div>
-    {% endif %}
-    {% if user.musician %}
+    {% endif %} -->
+    <!-- {% if user.musician %}
     <div>
         <a href="{% url 'show-musician' musician_pk=user.musician.pk %}">See your musician page.</a>
     </div>
-    {% endif %}
+    {% endif %} -->
 {% endif %}
 
 <h4>Upcoming concerts:</h4>
@@ -35,9 +31,9 @@
                 </div>
             </a>
             <div class="info-div flex flex-column tc">
-                <h3 class="b">
+                <h4 class="b">
                     {{event.title}}
-                </h3>
+                </h4>
                 <p>
                     <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
                 </p>

@@ -26,7 +26,7 @@ class Musician(models.Model):
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[Transpose(), ResizeToCover(400, 400), SmartCrop(400, 400)],
+        processors=[Transpose(), ResizeToCover(200, 200), SmartCrop(200, 200)],
         format="JPEG",
         options={"quality": 100},
     )
@@ -88,7 +88,7 @@ class Event(models.Model):
 class EventComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_comments")
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="event_comments")
-    body = models.TextField()
+    message = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
