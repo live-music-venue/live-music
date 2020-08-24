@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="event-add center flex justify-around mt5">
+    <div class="flex flex-column bgw tc shadow-c br3">
+        <h1 class="form-title">Donation Form:</h1>
+        <div class="pr3 pb3 pl3 pt1">
+            <form action="{% url 'add-donation' musician_pk=musician.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

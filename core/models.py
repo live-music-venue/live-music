@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, ResizeToFit, Transpose
+from imagekit.processors import ResizeToFill, ResizeToFit, Transpose, SmartCrop, SmartResize, ResizeToCover
 from datetime import datetime as datetime, timezone
 import pytz
 
@@ -14,18 +14,25 @@ class Musician(models.Model):
     bio = models.TextField()
     city = models.CharField(max_length=255)
 
+    # fields having to do with money
+    cashapp_name = models.CharField(max_length=255, blank=True, null=True)
+    paypal_donation_url = models.CharField(max_length=255, blank=True, null=True)
+    cashapp_qr = models.ImageField(upload_to="images/", null=True, blank=True)
+    paypal_qr = models.ImageField(upload_to="images/", null=True, blank=True)
+    venmo_qr = models.ImageField(upload_to="images/", null=True, blank=True)
+    favorited_by = models.ManyToManyField(User, related_name="favorite_musician", blank=True)
+    
+    # fields having to do with images
     headshot = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(200, 200),
-                    Transpose()],
+        processors=[Transpose(), ResizeToCover(400, 400), SmartCrop(400, 400)],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="headshot",
-        processors=[ResizeToFit(400, 400),
-                    Transpose()],
+        processors=[Transpose(), ResizeToFit(600, 600), SmartCrop(400, 400)],
         format="JPEG",
         options={"quality": 100},
     )
@@ -49,15 +56,13 @@ class Event(models.Model):
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(250, 250),
-                    Transpose()],
+        processors=[Transpose(), SmartResize(250, 188),],
         format="JPEG",
         options={"quality": 100},
     )
     full_cover = ImageSpecField(
         source="cover_photo",
-        processors=[ResizeToFit(600, 480),
-                    Transpose()],
+        processors=[Transpose(), SmartResize(600, 480),],
         format="JPEG",
         options={"quality": 100},
     )
@@ -93,8 +98,11 @@ class EventComment(models.Model):
 class MusicianComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="musician_comments")
     musician = models.ForeignKey(Musician, on_delete=models.CASCADE, related_name="musician_comments")
-    body = models.TextField()
+    message = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['date_created']
 
     def __str__(self):
         return f'{self.author.username} on {self.musician}'

@@ -10,6 +10,7 @@
   <script src="{% static 'main.js' %}" defer></script>
   {% block javascript %} {% endblock javascript %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/antd.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -18,13 +19,23 @@
     <div class="main-block" style="display: none;">
       <script>
         const isAuthenticated = JSON.parse('{{user.is_authenticated}}'.toLowerCase())
-        const userName = "{{user.username}}"
+        const username = "{{user.username}}"
         const loginURL = "{% url 'account_login' %}"
         const signupURL = "{% url 'account_signup' %}"
         const logoutURL = "{% url 'account_logout' %}"
+        {% if user.musician %}
+        const profileURL = "{% url 'show-musician' musician_pk=user.pk %}"
+        const addEventURL = "{% url 'add-event' musician_pk=user.pk %}"
+        {% else %}
+        const profileURL = "{% url 'homepage' %}"
+        const addEventURL = "{% url 'homepage' %}"
+        {%endif%}
       </script>
       {% block content %}
       {% endblock content %}
     </div>
   </div>
+  
+  
 </body>
+
