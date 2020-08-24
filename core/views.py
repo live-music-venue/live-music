@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 class Homepage(View):
     def get(self, request):
-        events = Event.objects.all()
+        events = Event.objects.all().order_by("date_time")
         return render(request, 'core/homepage.html', {'events': events})
 
 
@@ -90,7 +90,7 @@ def edit_event(request, event_pk):
                 event = form.save(commit=False)
                 event.owner = musician
                 event = form.save()
-                return redirect(to="show-musician", musician_pk=event.owner.pk)
+                return redirect(to="event", pk=event.pk)
         else:
             form = EventForm(instance=event)
         return render(
@@ -102,10 +102,12 @@ def edit_event(request, event_pk):
 
 
 class AddMusicianInfo(View):
+    title = "Add Musician Info:"
+
     def get(self, request, user_pk):
         if get_object_or_404(User, pk=user_pk) == request.user:
             form = MusicianForm()
-            return render(request, 'core/musician_form.html', {"form": form})
+            return render(request, 'core/musician_form.html', {"form": form, "form_title": self.title, "edit": False})
         return redirect(to="homepage")
 
     def post(self, request, user_pk):
@@ -209,7 +211,7 @@ def edit_musician(request, musician_pk):
             form = MusicianForm(instance=musician)
         return render(
             request,
-            "core/edit_musician.html",
+            "core/musician_form.html",
             {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=musician.user.pk)

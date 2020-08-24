@@ -5,18 +5,12 @@
     <div class="flex flex-column bgw tc shadow-c br3">
         <h1 class="form-title">{{ form_title }}</h1>
         <div class="pr3 pb3 pl3 pt1">
+            {% if edit %}
+            <form class="flex flex-column" action="{% url 'edit-musician' musician_pk=musician.pk %}" method="POST" enctype="multipart/form-data">
+            {% else %}
             <form class="flex flex-column" action="{% url 'add-musician' user_pk=user.pk %}" method="POST" enctype="multipart/form-data">
+            {% endif %}
                 {% csrf_token %}
-                <!-- <div class="flex">
-                    <div class="labels pr3 pl3 pt1">
-                        <p>Title:    </p>
-                        <p>Date and time:    </p>
-                    </div>
-                    <div class="fields">
-                        <p>{{ form.title }}</p>
-                        <p>{{ form.date_time }}</p>
-                    </div>
-                </div> -->
                 <div class="vertical">
                     <p class="form-label">Name: </p>
                     <p class="naked-input">{{ form.name }}</p>
@@ -25,7 +19,7 @@
                 </div>
                 <p class="pt2">{{ form.bio }}<p>
                 <div>
-                    <p>Choose a headshot:</p>
+                    <p>Choose a {% if edit %}new {% endif %}headshot{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
                     <p class="pl1"> {{ form.headshot }}</p>
                 </div>
                 <div>
