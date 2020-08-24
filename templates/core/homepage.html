@@ -24,7 +24,7 @@
     {% endif %} -->
 {% endif %}
 
-<h4>Upcoming concerts:</h4>
+<h4 class="pt4 pl4">Upcoming concerts:</h4>
 <div class="test-flex">
 {% for event in events %}
     {% if event.is_upcoming %}
@@ -35,9 +35,9 @@
                 </div>
             </a>
             <div class="info-div flex flex-column tc">
-                <h4 class="b">
-                    {{event.title}}
-                </h4>
+                <h5 class="b">
+                    {{event.title|truncatechars:20}}
+                </h5>
                 <p>
                     <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
                 </p>
