@@ -23,15 +23,7 @@
 <!-- comments -->
 {% if event.is_upcoming or event.is_finished  %}
     {% if user.is_authenticated %}
-<h2>{{ event.event_comments.count }} comments</h2>
-
-<h3>Leave a comment</h3>
-<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-    {% csrf_token %}
-    {{ comment_form | crispy }}
-  
-  <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-</form>
+<p>{{ event.event_comments.count }} comments</p>
 
     {% for comment in event.event_comments.all %}
 
@@ -46,6 +38,15 @@
 </div>
 
  {% endfor %}
+
+ <h6>Leave a comment</h6>
+<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+    {% csrf_token %}
+    {{ comment_form}}
+  
+  <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
+</form>
+
  {% endif %}
  {% endif %}
 
