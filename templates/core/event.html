@@ -22,14 +22,12 @@
     </script>
 
 </div>
-<div class="dropdown">
-    <button class="dropbtn">Share</button>
-    <div class="dropdown-content">
-        <a href="{% post_to_facebook object_or_url %}">Post to Facebook</a>
-        <a href="{% post_to_twitter 'New Live Performance: {{event.title}}. Check it out!' object_or_url %}">Post to Twitter</a>
-        <a href=" {% send_email object.title 'Check Out This Live Performance: {{event.title}}. Check it out!' object_or_url %}">Share via email</a>
-    </div>
-</div>
+
+<!-- <div>
+    {% post_to_facebook object_or_url "Post to Facebook!" %}
+    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
+    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
+</div> -->
 
 <!-- comments -->
 {% if event.is_upcoming or event.is_finished  %}
