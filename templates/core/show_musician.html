@@ -2,14 +2,7 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-{% if musician.pk == user.pk %}
-<a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
 
-<div>
-    <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
-</div>
-
-{% endif %}
 
 
 <div class="musician-info-area flex justify-between">
@@ -36,10 +29,17 @@
                     </a>
                 {% endif %}
                 <p class="">{{musician.bio}}</p>
+                {% if musician.pk == user.pk %}
                 <div>
                     <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a>
                 </div>
-
+                <div>
+                    <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
+                </div>  
+                <div>
+                    <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+                </div>      
+                {% endif %}        
             </div>
         </div>
 
@@ -62,7 +62,9 @@
 
 
 <div class="event-list">
+    {%if musician.events.all.count %}
     <h3>{{musician.name}}'s events:</h3>
+    {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
         {% if event.is_upcoming %}
@@ -90,7 +92,9 @@
         {% endif %}
         {% endfor %}
     </div>
+    {%if musician.events.all.count %}
     <h3>Past events:</h3>
+    {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
         {% if event.is_finished %}
@@ -116,11 +120,11 @@
         {% endfor %}
 
         
-
+<!-- 
         <div>
-            <!-- <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br> -->
+            <a href="{% url 'add-donation' musician_pk=musician.pk %}">Setup Donations</a><br>
             <a href="{% url 'donation-tutorial' %}">Donation Tutorial</a>
-        </div>
+        </div> -->
 
     </div>
 </div>

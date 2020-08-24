@@ -102,10 +102,12 @@ def edit_event(request, event_pk):
 
 
 class AddMusicianInfo(View):
+    title = "Add Musician Info:"
+
     def get(self, request, user_pk):
         if get_object_or_404(User, pk=user_pk) == request.user:
             form = MusicianForm()
-            return render(request, 'core/musician_form.html', {"form": form})
+            return render(request, 'core/musician_form.html', {"form": form, "form_title": self.title, "edit": False})
         return redirect(to="homepage")
 
     def post(self, request, user_pk):
@@ -206,7 +208,7 @@ def edit_musician(request, musician_pk):
             form = MusicianForm(instance=musician)
         return render(
             request,
-            "core/edit_musician.html",
+            "core/musician_form.html",
             {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=musician.user.pk)
