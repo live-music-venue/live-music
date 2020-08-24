@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% load crispy_forms_tags %}
-<p>This will begin at {{event.date_time}}</p>
+<h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
 <div class="ma4 flex flex-column event-picture">
     <div class="flex">
         <img src="{{ event.full_cover.url }}">
@@ -11,9 +10,13 @@
         <h3 class="pt1">{{event.title}} by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a> </h3>
         <div class="">
             <p>{{event.description}}</p>
+            <p>This event will begin at {{event.date_time}}</p>
         </div>
     </div>
 </div>
+{% if user == event.owner.user %}
+<a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
+{% endif %}
 <div id="react-event">
     <script>
         const data = '{{data}}'

@@ -90,7 +90,7 @@ def edit_event(request, event_pk):
                 event = form.save(commit=False)
                 event.owner = musician
                 event = form.save()
-                return redirect(to="show-musician", musician_pk=event.owner.pk)
+                return redirect(to="event", pk=event.pk)
         else:
             form = EventForm(instance=event)
         return render(
