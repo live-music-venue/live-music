@@ -38,7 +38,7 @@ class HomepagePastEvents(View):
     def get(self, request):
         events = Event.objects.all().order_by("-date_time")
         return render(request, 'core/homepage_search.html',
-                         {'events': events, 'page_header': "Live Now:", "past_events" : True})
+                         {'events': events, 'page_header': "Past Events:", "past_events" : True})
 
 
 

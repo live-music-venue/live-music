@@ -4,7 +4,7 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" /> -->
 
 <div class="flex pt4 pl4 pr4 justify-between">
-    <div class="w-30">
+    <div class="pl3 w-30">
         {% if page_header %}
         <h4 class="">{{ page_header }}</h4>
         {% else %}
@@ -17,7 +17,7 @@
             <a href = "{% url 'live' %}">live now</a> |
             <a href = "{% url 'past' %}">past events</a> )
     </span>
-    <div class="w-30 tr">
+    <div class="w-30 pr3 tr">
         <form action="{% url 'search' %}" class="" method="get">
             <div>
             <input name="query" type="text" placeholder="Search here...">
