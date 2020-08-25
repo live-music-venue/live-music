@@ -19,28 +19,32 @@
 </div>
 
 <div class="test-flex">
-    {% for event in live_events %}
-        {% if event.in_progress %}
-            <div class="shadow-3 br3 ma3 event-pane">
-                <a href="{% url 'event' pk=event.pk %}">
-                    <div class="image-div flex pa2">
-                        <img class="br2" src="{{ event.thumbnail.url }}">
+    {% if live_events.count != 0 %}
+        {% for event in live_events %}
+            {% if event.in_progress %}
+                <div class="shadow-3 br3 ma3 event-pane">
+                    <a href="{% url 'event' pk=event.pk %}">
+                        <div class="image-div flex pa2">
+                            <img class="br2" src="{{ event.thumbnail.url }}">
+                        </div>
+                    </a>
+                    <div class="info-div flex flex-column tc">
+                        <h5 class="b">
+                            {{event.title|truncatechars:20}}
+                        </h5>
+                        <p>
+                            <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                        </p>
+                        <p>
+                            Live Now!!!
+                        </p>
                     </div>
-                </a>
-                <div class="info-div flex flex-column tc">
-                    <h5 class="b">
-                        {{event.title|truncatechars:20}}
-                    </h5>
-                    <p>
-                        <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-                    </p>
-                    <p>
-                        Live Now!!!
-                    </p>
                 </div>
-            </div>
-        {% endif %}
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <h5 class="pb4 pt3">There's nothing live right now.  Check out upcoming events below.</h5>
+    {% endif %}
 </div>
     
 
@@ -51,9 +55,9 @@
     <h4 class="pl4">Upcoming concerts:</h4>
     {% endif %}
     <span class="pt2 pl2">(
-        <a href = "{% url 'homepage' %}">upcoming by date</a> / 
-        <a href = "{% url 'random' %}">all random</a> / 
-        <a href = "{% url 'live' %}">live now</a> /
+        <a href = "{% url 'homepage' %}">live/upcoming by date</a> | 
+        <a href = "{% url 'random' %}">all random</a> | 
+        <a href = "{% url 'live' %}">live now</a> |
         <a href = "{% url 'past' %}">past events</a> )
     </span>
 </div>
