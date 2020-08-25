@@ -4,18 +4,26 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" /> -->
 
 <div class="flex pt4 pl4 pr4 justify-between">
-    <div class="flex">
+    <div class="flex w-30">
         <h4 class="">
             Live Now:
         </h4>
     </div>    
-
+    <span class="w-30">(
+        <a href = "{% url 'homepage' %}">live/upcoming by date</a> | 
+        <a href = "{% url 'random' %}">random</a> | 
+        <a href = "{% url 'live' %}">live now</a> |
+        <a href = "{% url 'past' %}">past events</a> )
+    </span>
+    <div class="w-30 tr">
     <form action="{% url 'search' %}" class="" method="get">
         <div>
         <input name="query" type="text" placeholder="Search here...">
         <button type="submit">Search now!</button>
         </div>
     </form>
+    </div>
+
 </div>
 
 <div class="test-flex">
@@ -54,12 +62,7 @@
     {% else %}
     <h4 class="pl4">Upcoming concerts:</h4>
     {% endif %}
-    <span class="pt2 pl2">(
-        <a href = "{% url 'homepage' %}">live/upcoming by date</a> | 
-        <a href = "{% url 'random' %}">random</a> | 
-        <a href = "{% url 'live' %}">live now</a> |
-        <a href = "{% url 'past' %}">past events</a> )
-    </span>
+
 </div>
 
 <div class="test-flex">
