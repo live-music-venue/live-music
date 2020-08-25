@@ -8,6 +8,8 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from django.contrib.postgres.search import SearchVector
+from random import shuffle
 import json
 import datetime
 import os
@@ -18,7 +20,26 @@ from django.views.decorators.csrf import csrf_exempt
 class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")
-        return render(request, 'core/homepage.html', {'events': events})
+        live_events = Event.objects.all().filter(in_progress=True)
+        return render(request, 'core/homepage.html', {'events': events, 'live_events': live_events})
+
+class HomepageRandom(View):
+    def get(self, request):
+        events = list(Event.objects.all())
+        shuffle(events)
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order:"})
+
+class HomepageInProgress(View):
+    def get(self, request):
+        events = Event.objects.all().filter(in_progress=True)
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now:"})
+
+class HomepagePastEvents(View):
+    def get(self, request):
+        events = Event.objects.all().order_by("-date_time")
+        return render(request, 'core/homepage_search.html',
+                         {'events': events, 'page_header': "Past Events:", "past_events" : True})
+
 
 
 class EventPage(View):
@@ -102,6 +123,16 @@ def edit_event(request, event_pk):
     return redirect(to="show-musician", musician_pk=event.owner.pk)
 
 
+class SearchEvents(View):
+    def get(self, request):
+        query = request.GET.get('query')
+        if query is not None:
+            events = Event.objects.annotate(search=SearchVector("title", "description", "owner__name",)).filter(search=query).distinct("id").order_by("-pk")
+        else:
+            events = None
+        return render(request, 'core/homepage.html', {"events": events, "query": query or ""})
+
+
 class AddMusicianInfo(View):
     title = "Add Musician Info:"
 
@@ -121,7 +152,6 @@ class AddMusicianInfo(View):
                 return redirect(to='show-musician', musician_pk=musician.pk)
             return redirect(to="homepage")
         return redirect(to="homepage")
-
 
 
 class ShowMusician(View):
@@ -149,7 +179,7 @@ class ShowMusician(View):
     
         
         return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form, 'user_favorite': user_favorite})
-                                                            
+
 
 class AddDonationInfo(View):
     def get(self, request, musician_pk):
@@ -177,6 +207,7 @@ class AddDonationInfo(View):
 def donation_tutorial (request):
     return render(request, 'core/donation_tutorial.html')
 
+
 @method_decorator(csrf_exempt, name="dispatch")
 class FavoriteMusician(View):
     def get(self,request):
@@ -194,7 +225,6 @@ class FavoriteMusician(View):
         else:
             user.favorite_musician.add(musician)
             return JsonResponse({"favorite": True})
-
 
 
 def edit_musician(request, musician_pk):
@@ -216,25 +246,3 @@ def edit_musician(request, musician_pk):
             {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=musician.user.pk)
-
-
-# class EditMusician(View):
-#     def get(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if musician == request.user:
-#             form = MusicianForm(instance=musician)
-#             return render(request, 'core/edit_musician.html', {"form": form, "musician": musician})
-#         return redirect(to="homepage")
-
-#     def post(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if get_object_or_404(Musician, pk=musician_pk) == request.user:
-#             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
-#             if form.is_valid():
-#                 musician = form.save(commit=False)
-#                 musician.user = request.user
-#                 musician.save()
-#                 return redirect(to='show-musician', musician_pk=musician.pk)
-#             return redirect(to="homepage")
-#         return redirect(to="homepage")
-
