@@ -28,9 +28,10 @@ class EventPage(View):
         # Passing data through to react via json. MUST USE DOUBLE QUOTES
         return render(request, 'core/event.html', {
             'data': json.dumps({
-                "pk": pk,
+                "eventId": pk,
                 "ownerId": event.owner.user.id,
                 "userId": request.user.id,
+                "in_progress": event.in_progress,
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
