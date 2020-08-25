@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" /> -->
+
+<div class="flex pt4 pl4 pr4 justify-between">
+    <div class="pl3 w-30">
+        {% if page_header %}
+        <h4 class="">{{ page_header }}</h4>
+        {% else %}
+        <h4 class="">Upcoming concerts:</h4>
+        {% endif %}
+    </div>
+    <span class="w-30">(
+            <a href = "{% url 'homepage' %}">live/upcoming by date</a> | 
+            <a href = "{% url 'random' %}">random</a> | 
+            <a href = "{% url 'live' %}">live now</a> |
+            <a href = "{% url 'past' %}">past events</a> )
+    </span>
+    <div class="w-30 pr3 tr">
+        <form action="{% url 'search' %}" class="" method="get">
+            <div>
+            <input name="query" type="text" placeholder="Search here...">
+            <button type="submit">Search now!</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if past_events %} 
+    <div class="test-flex">
+        {% for event in events %}
+            {% if event.is_finished %}
+                <div class="shadow-3 br3 ma3 event-pane">
+                    <a href="{% url 'event' pk=event.pk %}">
+                        <div class="image-div flex pa2">
+                            <img class="br2" src="{{ event.thumbnail.url }}">
+                        </div>
+                    </a>
+                    <div class="info-div flex flex-column tc">
+                        <h5 class="b">
+                            {{event.title|truncatechars:20}}
+                        </h5>
+                        <p>
+                            <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                        </p>
+                        <p>
+                            {{event.date_time}}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="test-flex">
+    {% for event in events %}
+        {% if event.is_upcoming or event.in_progress %}
+            <div class="shadow-3 br3 ma3 event-pane">
+                <a href="{% url 'event' pk=event.pk %}">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ event.thumbnail.url }}">
+                    </div>
+                </a>
+                <div class="info-div flex flex-column tc">
+                    <h5 class="b">
+                        {{event.title|truncatechars:20}}
+                    </h5>
+                    <p>
+                        <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                    </p>
+                    <p>
+                        {{event.date_time}}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock content %}
+
+    
+

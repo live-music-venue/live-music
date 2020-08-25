@@ -1,67 +1,74 @@
 {% extends "base.html" %}
 
+<!-- don't mess with div ids pls :] -->
+
 {% block content %}
 {% load social_share %}
-<h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
-<div class="ma4 flex flex-column event-picture">
-    <div class="flex">
-        <img src="{{ event.full_cover.url }}">
-    </div>
-    <div class="pl2">
-        <div class="pt3">
-            <p>{{event.description}}</p>
-            <p>This event will begin at {{event.date_time}}</p>
+<div class="ma4 content">
+    <div id="event-container">
+        <h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
+        <div class="flex flex-column event-picture">
+            <div class="flex">
+                <img src="{{ event.full_cover.url }}">
+            </div>
+            <div class="pl2">
+                <div class="pt3">
+                    <p>{{event.description}}</p>
+                    <p>This event will begin at {{event.date_time}}</p>
+                </div>
+            </div>
+            {% if user == event.owner.user %}
+            <a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
+            {% endif %}
         </div>
     </div>
+
+    <div id="react-event">
+        <script>
+            const data = '{{data}}'
+        </script>
+    </div>
+
+    <div id="social-container">
+        <!-- share -->
+        <div>
+            {% post_to_facebook object_or_url "Post to Facebook!" %}
+            {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
+            {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
+        </div>
+
+        <!-- comments -->
+        {% if event.is_upcoming or event.is_finished  %}
+        <p>{{ event.event_comments.count }} comments</p>
+
+        {% for comment in event.event_comments.all %}
+
+        <div class="comments" style="padding: 10px;">
+        <p class="font-weight-bold">
+            On {{ comment.date_created }}
+            <span class=" text-muted font-weight-normal">
+            {{ comment.author }} says:
+            </span>
+        </p>
+        {{ comment.message | linebreaks }}
+        </div>
+
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+
+        <h6>Leave a comment</h6>
+        <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+            {% csrf_token %}
+            {{ comment_form}}
+        
+        <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
+        </form>
+
+        {% endif %}
+
+        {% endif %}
+    </div>
 </div>
-
-{% if user == event.owner.user %}
-<a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
-{% endif %}
-<div id="react-event">
-    <script>
-        const data = '{{data}}'
-    </script>
-
-</div>
-
-<div>
-    {% post_to_facebook object_or_url "Post to Facebook!" %}
-    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
-    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
-</div>
-
-<!-- comments -->
-{% if event.is_upcoming or event.is_finished  %}
-    {% if user.is_authenticated %}
-<p>{{ event.event_comments.count }} comments</p>
-
-    {% for comment in event.event_comments.all %}
-
-<div class="comments" style="padding: 10px;">
-  <p class="font-weight-bold">
-    On {{ comment.date_created }}
-    <span class=" text-muted font-weight-normal">
-      {{ comment.author }} says:
-    </span>
-  </p>
-  {{ comment.message | linebreaks }}
-</div>
-
- {% endfor %}
-
- <h6>Leave a comment</h6>
-<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-    {% csrf_token %}
-    {{ comment_form}}
-  
-  <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
-</form>
-
- {% endif %}
- {% endif %}
-
-
-
 
 {% endblock content %}
