@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.contrib.postgres.search import SearchVector
+from random import shuffle
 import json
 import datetime
 import os
@@ -20,6 +21,17 @@ class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")
         return render(request, 'core/homepage.html', {'events': events})
+
+class HomepageRandom(View):
+    def get(self, request):
+        events = list(Event.objects.all())
+        shuffle(events)
+        return render(request, 'core/homepage.html', {'events': events, 'page_header': "Random Order:"})
+
+class HomepageInProgress(View):
+    def get(self, request):
+        events = Event.objects.all().filter(in_progress=True)
+        return render(request, 'core/homepage.html', {'events': events, 'page_header': "Live Now:"})
 
 
 class EventPage(View):
@@ -113,8 +125,6 @@ class SearchEvents(View):
         return render(request, 'core/homepage.html', {"events": events, "query": query or ""})
 
 
-
-
 class AddMusicianInfo(View):
     title = "Add Musician Info:"
 
@@ -134,7 +144,6 @@ class AddMusicianInfo(View):
                 return redirect(to='show-musician', musician_pk=musician.pk)
             return redirect(to="homepage")
         return redirect(to="homepage")
-
 
 
 class ShowMusician(View):
@@ -162,7 +171,7 @@ class ShowMusician(View):
     
         
         return render(request, 'core/show_musician.html', {'musician': musician, 'comment_form': comment_form, 'user_favorite': user_favorite})
-                                                            
+
 
 class AddDonationInfo(View):
     def get(self, request, musician_pk):
@@ -190,6 +199,7 @@ class AddDonationInfo(View):
 def donation_tutorial (request):
     return render(request, 'core/donation_tutorial.html')
 
+
 @method_decorator(csrf_exempt, name="dispatch")
 class FavoriteMusician(View):
     def get(self,request):
@@ -207,7 +217,6 @@ class FavoriteMusician(View):
         else:
             user.favorite_musician.add(musician)
             return JsonResponse({"favorite": True})
-
 
 
 def edit_musician(request, musician_pk):

@@ -1,38 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.11.1/tachyons.min.css" integrity="sha512-d0v474klOFSF7qD9WDvyRxAvXaWSxCHDZdnBSZQjo8BpVr6vpjwAgqetpqkKP38DzlOzdVPaLVnzzW1Ba8wB9w==" crossorigin="anonymous" /> -->
 
-<!-- 
-<div id="react-homepage">
-</div> -->
+<div class="flex pt4 pl4 pr4 justify-between">
+    <div class="flex">
+        {% if page_header %}
+        <h4 class="">{{ page_header }}</h4>
+        {% else %}
+        <h4 class="">Upcoming concerts:</h4>
+        {% endif %}
+        <span class="pt2 pl2">(
+            <a href = "{% url 'homepage' %}">upcoming by date</a> / 
+            <a href = "{% url 'random' %}">all random</a> / 
+            <a href = "{% url 'live' %}">live now</a>)</span>
+    </div>    
 
-<form action="{% url 'search' %}" class="" method="get">
-    <div>
-      <input name="query" type="text" placeholder="Search here...">
-      <button type="submit">Search now!</button>
-    </div>
-</form>
+    <form action="{% url 'search' %}" class="" method="get">
+        <div>
+        <input name="query" type="text" placeholder="Search here...">
+        <button type="submit">Search now!</button>
+        </div>
+    </form>
+</div>
 
-
-{% if user.is_authenticated %}
-    <!-- Can move favorite's to sidebar -->
-    <!-- <div>
-        <a href="{% url 'favorite-musicians' %}">See your favorite musicians.</a>
-    </div> -->
-    <!-- {% if not user.musician %}
-    <div>
-        <a href="{% url 'add-musician' user_pk=user.pk %}">Become a streamer!</a>
-    </div>
-    {% endif %} -->
-    <!-- {% if user.musician %}
-    <div>
-        <a href="{% url 'show-musician' musician_pk=user.musician.pk %}">See your musician page.</a>
-    </div>
-    {% endif %} -->
-{% endif %}
-
-<h4 class="pt4 pl4">Upcoming concerts:</h4>
 <div class="test-flex">
 {% for event in events %}
     {% if event.is_upcoming %}
@@ -57,7 +48,6 @@
     {% endif %}
 {% endfor %}
 </div>
-
 
 {% endblock content %}
 
