@@ -217,23 +217,4 @@ def edit_musician(request, musician_pk):
     return redirect(to="show-musician", musician_pk=musician.user.pk)
 
 
-# class EditMusician(View):
-#     def get(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if musician == request.user:
-#             form = MusicianForm(instance=musician)
-#             return render(request, 'core/edit_musician.html', {"form": form, "musician": musician})
-#         return redirect(to="homepage")
-
-#     def post(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if get_object_or_404(Musician, pk=musician_pk) == request.user:
-#             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
-#             if form.is_valid():
-#                 musician = form.save(commit=False)
-#                 musician.user = request.user
-#                 musician.save()
-#                 return redirect(to='show-musician', musician_pk=musician.pk)
-#             return redirect(to="homepage")
-#         return redirect(to="homepage")
 

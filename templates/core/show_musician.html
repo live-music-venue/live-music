@@ -214,13 +214,19 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
 <script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                {
+                    title: event.title,
+                    start: event.date_time
+                }
+            ]
+        });
+        calendar.render();
     });
-    calendar.render();
-  });
 
 </script>
 
