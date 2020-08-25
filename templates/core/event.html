@@ -32,9 +32,16 @@
     <div id="social-container">
         <!-- share -->
         <div>
-            {% post_to_facebook object_or_url "Post to Facebook!" %}
+            {% post_to_facebook object_or_url "" %}  
+            <i class="fab fa-facebook-square"> {% post_to_facebook object_or_url "" %}  </i>
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-facebook"></i>
             {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-twitter-square"></i>
             {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
+            <i class="fas fa-envelope"></i>
+            <i class="far fa-envelope"></i>
         </div>
 
         <!-- comments -->
