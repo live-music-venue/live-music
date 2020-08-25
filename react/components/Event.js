@@ -5,11 +5,13 @@ import Peer from 'peerjs'
 import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
+import { EyeOutlined } from '@ant-design/icons'
 
 /* global data isAuthenticated */
 
 let PORT = 3000
 let props = {}
+const container = document.querySelector('#react-event')
 
 export default class Event extends React.Component {
   constructor () {
@@ -21,13 +23,14 @@ export default class Event extends React.Component {
       isOwner: props.ownerId === props.userId,
       streaming: false,
       player: null,
-      in_progress: false,
+      inProgress: props.in_progress,
       socket: null,
       peer: null,
       viewers: 0,
       chat: [],
       message: ''
     }
+    this.startup = this.startup.bind(this)
   }
 
   componentWillUnmount () {
@@ -35,6 +38,16 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
+    if (this.state.inProgress) this.startup()
+    else container.removeAttribute('style')
+  }
+
+  async startup () {
+    this.setState({
+      inProgress: true
+    })
+    container.setAttribute('style', 'display: none;')
+    document.getElementById('event-container').setAttribute('style', 'display: none;')
     const secure = PORT !== 3000
     const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost'
     await this.setState({
@@ -47,8 +60,8 @@ export default class Event extends React.Component {
       })
     })
     const { socket, peer, isOwner } = this.state
-    peer.on('open', id => {
-      socket.emit('join_event', props.pk, props.userId, id)
+    peer.on('open', peerId => {
+      socket.emit('join_event', props.eventId, props.userId, peerId)
       socket.on('update-viewer-count', viewerCount => {
         this.setState({
           viewers: viewerCount
@@ -57,7 +70,7 @@ export default class Event extends React.Component {
       socket.on('recieve-chat-message', (data) => {
         const chat = document.querySelector('#chat')
         this.setState({
-          chat: this.state.chat.concat(<p>{`${data.username}: ${data.message}`}</p>)
+          chat: this.state.chat.concat(data)
         })
         chat.scrollTop = chat.scrollHeight
       })
@@ -69,8 +82,10 @@ export default class Event extends React.Component {
         }).then(stream => {
           this.setState({
             viewers: 0,
+            streaming: true,
             player: <Webcam audio='false' mirrored='true' />
           })
+          container.removeAttribute('style')
           socket.on('user-connected', peerId => {
             const call = peer.call(peerId, stream)
             peers[peerId] = call
@@ -81,12 +96,27 @@ export default class Event extends React.Component {
           })
         })
       } else {
+        socket.on('host-connected', () => {
+          document.getElementById('event-container').setAttribute('style', 'display: none;')
+          this.setState({
+            inProgress: true
+          })
+        })
+        socket.on('host-disconnected', () => {
+          this.setState({
+            inProgress: false,
+            player: null
+          })
+          document.getElementById('event-container').removeAttribute('style')
+        })
         peer.on('call', (call, id) => {
           call.answer()
           call.on('stream', stream => {
             this.setState({
-              player: <ReactPlayer url={stream} playing='true' controls='true' />
+              streaming: true,
+              player: <ReactPlayer url={stream} playing muted controls width={640} height={480} onStart={e => { e.target.muted = false }} />
             })
+            container.removeAttribute('style')
           })
           call.on('close', () => {
             socket.close()
@@ -100,43 +130,72 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { viewers, player, socket, chat, message } = this.state
-    return (
-      <>
-        <p>{viewers} Viewer{viewers !== 1 && 's'}</p>
-        <div className='flex'>
-          {player}
-          <div>
-            <div id='chat' className='pre' style={{ width: 300, height: 200 }}>
-              {chat.map(msg => {
-                return msg
-              })}
+    const { isOwner, inProgress, viewers, player, socket, chat, message } = this.state
+    let view = null
+    if (isOwner && !inProgress) {
+      view = (
+        <>
+          <button
+            onClick={e => {
+              this.startup()
+            }}
+          >
+            Start Streaming
+          </button>
+        </>
+      )
+    } else if (inProgress) {
+      view = (
+        <>
+          <div className='flex mt5 ml4'>
+            <div className='flex flex-column'>
+              {player}
+              <p><EyeOutlined /> {viewers}</p>
             </div>
-            <input
-              type='text'
-              value={message}
-              onChange={e => {
-                this.setState({
-                  message: e.target.value
-                })
-              }}
-            />
-            <button
-              onClick={e => {
-                if (isAuthenticated) socket.emit('send_message', message)
-                this.setState({
-                  message: ''
-                })
-              }}
-            >
-              Send
-            </button>
+            <div>
+              <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
+                {chat.map((data, idx) => {
+                  return (
+                    <div key={idx} className={idx % 2 !== 0 ? 'bg-near-white' : 'bg-white'}>
+                      <p style={{ overflowWrap: 'break-word' }}><span className={props.ownerId === data.userId ? 'blue' : 'black'}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
+                    </div>
+                  )
+                })}
+              </div>
+              <input
+                className='bl bb br0 bw1 outline-0'
+                style={{ width: 271 }}
+                type='text'
+                value={message}
+                onChange={e => {
+                  if (e.target.value.length <= 255) this.setState({ message: e.target.value })
+                }}
+                onKeyPress={e => {
+                  if (e.key === 'Enter') {
+                    document.querySelector('#send-button').click()
+                  }
+                }}
+              />
+              <button
+                id='send-button'
+                className='br bb br0 bw1 outline-0'
+                onClick={e => {
+                  if (isAuthenticated) socket.emit('send_message', message)
+                  else this.setState({ chat: this.state.chat.concat({ userId: 0, username: null, message: 'You must be signed in to chat' }) })
+                  this.setState({
+                    message: ''
+                  })
+                }}
+              >
+                Send
+              </button>
+            </div>
           </div>
-        </div>
-      </>
-    )
+        </>
+      )
+    }
+    return view
   }
 }
 
-const container = document.querySelector('#react-event')
 if (container) render(<Event />, container)
