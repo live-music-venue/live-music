@@ -20,18 +20,26 @@ from django.views.decorators.csrf import csrf_exempt
 class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")
-        return render(request, 'core/homepage.html', {'events': events})
+        live_events = Event.objects.all().filter(in_progress=True)
+        return render(request, 'core/homepage.html', {'events': events, 'live_events': live_events})
 
 class HomepageRandom(View):
     def get(self, request):
         events = list(Event.objects.all())
         shuffle(events)
-        return render(request, 'core/homepage.html', {'events': events, 'page_header': "Random Order:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order:"})
 
 class HomepageInProgress(View):
     def get(self, request):
         events = Event.objects.all().filter(in_progress=True)
-        return render(request, 'core/homepage.html', {'events': events, 'page_header': "Live Now:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now:"})
+
+class HomepagePastEvents(View):
+    def get(self, request):
+        events = Event.objects.all().order_by("-date_time")
+        return render(request, 'core/homepage_search.html',
+                         {'events': events, 'page_header': "Live Now:", "past_events" : True})
+
 
 
 class EventPage(View):
@@ -238,25 +246,3 @@ def edit_musician(request, musician_pk):
             {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=musician.user.pk)
-
-
-# class EditMusician(View):
-#     def get(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if musician == request.user:
-#             form = MusicianForm(instance=musician)
-#             return render(request, 'core/edit_musician.html', {"form": form, "musician": musician})
-#         return redirect(to="homepage")
-
-#     def post(self, request, musician_pk):
-#         musician = get_object_or_404(Musician, pk=musician_pk)
-#         if get_object_or_404(Musician, pk=musician_pk) == request.user:
-#             form = MusicianForm(instance=musician, data=request.POST, files=request.FILES)
-#             if form.is_valid():
-#                 musician = form.save(commit=False)
-#                 musician.user = request.user
-#                 musician.save()
-#                 return redirect(to='show-musician', musician_pk=musician.pk)
-#             return redirect(to="homepage")
-#         return redirect(to="homepage")
-

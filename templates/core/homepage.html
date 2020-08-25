@@ -5,15 +5,9 @@
 
 <div class="flex pt4 pl4 pr4 justify-between">
     <div class="flex">
-        {% if page_header %}
-        <h4 class="">{{ page_header }}</h4>
-        {% else %}
-        <h4 class="">Upcoming concerts:</h4>
-        {% endif %}
-        <span class="pt2 pl2">(
-            <a href = "{% url 'homepage' %}">upcoming by date</a> / 
-            <a href = "{% url 'random' %}">all random</a> / 
-            <a href = "{% url 'live' %}">live now</a>)</span>
+        <h4 class="">
+            Live Now:
+        </h4>
     </div>    
 
     <form action="{% url 'search' %}" class="" method="get">
@@ -22,6 +16,46 @@
         <button type="submit">Search now!</button>
         </div>
     </form>
+</div>
+
+<div class="test-flex">
+    {% for event in live_events %}
+        {% if event.in_progress %}
+            <div class="shadow-3 br3 ma3 event-pane">
+                <a href="{% url 'event' pk=event.pk %}">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ event.thumbnail.url }}">
+                    </div>
+                </a>
+                <div class="info-div flex flex-column tc">
+                    <h5 class="b">
+                        {{event.title|truncatechars:20}}
+                    </h5>
+                    <p>
+                        <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                    </p>
+                    <p>
+                        Live Now!!!
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+    
+
+<div class="flex">
+    {% if page_header %}
+    <h4 class="pl4">{{ page_header }}</h4>
+    {% else %}
+    <h4 class="pl4">Upcoming concerts:</h4>
+    {% endif %}
+    <span class="pt2 pl2">(
+        <a href = "{% url 'homepage' %}">upcoming by date</a> / 
+        <a href = "{% url 'random' %}">all random</a> / 
+        <a href = "{% url 'live' %}">live now</a> /
+        <a href = "{% url 'past' %}">past events</a> )
+    </span>
 </div>
 
 <div class="test-flex">
