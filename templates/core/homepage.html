@@ -7,6 +7,14 @@
 <div id="react-homepage">
 </div> -->
 
+<form action="{% url 'search' %}" class="" method="get">
+    <div>
+      <input name="query" type="text" placeholder="Search here...">
+      <button type="submit">Search now!</button>
+    </div>
+</form>
+
+
 {% if user.is_authenticated %}
     <!-- Can move favorite's to sidebar -->
     <!-- <div>

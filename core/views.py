@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from django.contrib.postgres.search import SearchVector
 import json
 import datetime
 import os
@@ -99,6 +100,18 @@ def edit_event(request, event_pk):
             {"form": form, "event": event, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=event.owner.pk)
+
+
+class SearchEvents(View):
+    def get(self, request):
+        query = request.GET.get('query')
+        if query is not None:
+            events = Event.objects.annotate(search=SearchVector("title", "description", "owner__name",)).filter(search=query).distinct("id").order_by("-pk")
+        else:
+            events = None
+        return render(request, 'core/homepage.html', {"events": events, "query": query or ""})
+
+
 
 
 class AddMusicianInfo(View):
