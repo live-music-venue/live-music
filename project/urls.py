@@ -18,7 +18,7 @@ from django.conf import settings
 from django.urls import include, path
 from core import views as core_views
 from django.conf.urls.static import static
-
+from django.conf.urls import include
 
 
 urlpatterns = [ 
@@ -39,6 +39,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('donation-tutorial/', core_views.donation_tutorial, name="donation-tutorial"),
     path('favorite-musicians/', core_views.FavoriteMusician.as_view(), name="favorite-musicians"),    
+    path('', include('maps.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

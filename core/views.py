@@ -246,3 +246,9 @@ def edit_musician(request, musician_pk):
             {"form": form, "musician": musician, "form_title": form_title, "edit": True}  
         )
     return redirect(to="show-musician", musician_pk=musician.user.pk)
+
+
+def default_map(request):
+    mapbox_access_token = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw'
+    return render(request, 'map.html', 
+            { 'mapbox_access_token': mapbox_access_token })
