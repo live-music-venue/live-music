@@ -60,16 +60,24 @@ class MusicianCommentForm(forms.ModelForm):
         model = MusicianComment
         fields = [
             'message',
-             
-            
         ]
+        widgets = {
+            'message': Textarea(attrs={'rows':4, 'cols':50},),
+        }
+        labels = {
+            'message': ""
+        }
     
 
 class EventCommentForm(forms.ModelForm):
     class Meta:
         model = EventComment
         fields = [
-            'message',
-             
-            
+            'message',      
         ]
+        widgets = {
+            'message': Textarea(attrs={'rows':4, 'cols':50},),
+        }
+        labels = {
+            'message': ""
+        }

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'imagekit',
     'storages',
     'crispy_forms',
+    'django_social_share',
+
 
     # Project-specific
     'users',
@@ -121,6 +123,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                
             ],
         },
     },
@@ -168,7 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
