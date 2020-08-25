@@ -39,7 +39,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('donation-tutorial/', core_views.donation_tutorial, name="donation-tutorial"),
     path('favorite-musicians/', core_views.FavoriteMusician.as_view(), name="favorite-musicians"),    
-    path('', include('maps.urls')),
+    path('map', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
