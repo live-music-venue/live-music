@@ -198,7 +198,7 @@ export default class Event extends React.Component {
                 {chat.map((data, idx) => {
                   return (
                     <div key={idx} className={idx % 2 !== 0 ? 'bg-near-white' : 'bg-white'}>
-                      <p style={{ overflowWrap: 'break-word' }}><span className={props.ownerId === data.userId ? 'blue' : 'black'}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
+                      <p style={{ overflowWrap: 'break-word' }}><span className={`b ${props.ownerId === data.userId ? 'blue' : 'black'}`}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
                     </div>
                   )
                 })}
