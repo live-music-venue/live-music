@@ -12,7 +12,6 @@ import { EyeOutlined } from '@ant-design/icons'
 let PORT = 3000
 const props = JSON.parse(_.unescape(data))
 const container = document.querySelector('#react-event')
-let firstBlob = true
 
 export default class Event extends React.Component {
   constructor () {
@@ -56,7 +55,6 @@ export default class Event extends React.Component {
     const { socket, peer, inProgress, isOwner } = this.state
     socket.emit('join_event', props.eventId, props.userId)
     socket.on('update-viewer-count', viewerCount => {
-      console.log('updating viewer count', viewerCount)
       this.setState({
         viewers: viewerCount
       })
@@ -85,7 +83,6 @@ export default class Event extends React.Component {
         })
       })
       peer.on('call', (call, id) => {
-        console.log('answering', call)
         call.answer()
         call.on('stream', stream => {
           this.setState({
@@ -125,9 +122,7 @@ export default class Event extends React.Component {
     }).then(stream => {
       const peers = {}
       socket.on('user-connected', peerId => {
-        console.log('calling', peerId)
         const call = peer.call(peerId, stream)
-        console.log(call)
         peers[peerId] = call
         socket.on('user-disconnected', peerId => {
           if (peers[peerId]) peers[peerId].close()

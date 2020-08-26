@@ -13,7 +13,6 @@ viewer_counts = {}
 # Join event room
 @sio.event
 def join_event(sid, eventId, userId):
-    print(userId, "joining", eventId, flush=True)
     sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': None })
     sio.enter_room(sid, eventId)
 
@@ -22,7 +21,6 @@ def join_stream(sid, peerId):
     session = sio.get_session(sid)
     userId = session['userId']
     eventId = session['eventId']
-    print(peerId, "joining stream", eventId, flush=True)
     filtered = Event.objects.filter(pk=eventId)
     if filtered.exists():
         event = filtered.first()
