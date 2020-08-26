@@ -85,8 +85,7 @@ class AddEvent(View):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/event_add_edit.html', 
-                            {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
+            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -159,12 +158,18 @@ class AddMusicianInfo(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
+        events = list(musician.events.all())
+        empty_list = []
+        for event in events:
+            empty_list.append({"title": event.title, "start": event.date_time.strftime('%Y-%m-%d')})
         if request.user.is_authenticated:
             user_favorite = request.user.is_favorite_musician(musician)
         else: 
             user_favorite = None
         comment_form = MusicianCommentForm()
-        return render(request, 'core/show_musician.html', {"musician": musician,'comment_form': comment_form, 'user_favorite': user_favorite})
+        return render(request, 'core/show_musician.html', {
+                            'events': json.dumps(empty_list), 
+            "musician": musician,'comment_form': comment_form, 'user_favorite': user_favorite})
         
     def post(self, request, musician_pk):  
         musician = get_object_or_404(Musician, pk=musician_pk)

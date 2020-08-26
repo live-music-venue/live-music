@@ -216,9 +216,12 @@
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
+    const data = JSON.parse(_.unescape('{{events}}'))
+    console.log('data works')
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+        initialView: 'dayGridMonth',
+        events: data
     });
     calendar.render();
   });
