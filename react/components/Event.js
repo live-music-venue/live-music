@@ -10,18 +10,20 @@ import { EyeOutlined } from '@ant-design/icons'
 /* global data isAuthenticated MediaRecorder */
 
 let PORT = 3000
-let props = {}
+const props = JSON.parse(_.unescape(data))
 const container = document.querySelector('#react-event')
+let firstBlob = true
 
 export default class Event extends React.Component {
   constructor () {
     super()
-    props = JSON.parse(_.unescape(data))
     const djangoPort = Number(props.port)
     if (djangoPort !== 8000) PORT = djangoPort
     this.state = {
       isOwner: props.ownerId === props.userId,
       streaming: false,
+      recorder: null,
+      recording: false,
       player: null,
       inProgress: props.in_progress,
       socket: null,
@@ -35,6 +37,7 @@ export default class Event extends React.Component {
   }
 
   componentWillUnmount () {
+    if (this.state.recorder) this.state.recorder.stop()
     this.state.socket.close()
   }
 
@@ -92,11 +95,13 @@ export default class Event extends React.Component {
           container.removeAttribute('style')
         })
         call.on('close', () => {
+          if (this.state.recorder) this.state.recorder.stop()
           socket.close()
         })
       })
     }
     window.addEventListener('beforeunload', e => {
+      if (this.state.recorder) this.state.recorder.stop()
       socket.close()
     })
   }
@@ -135,6 +140,10 @@ export default class Event extends React.Component {
           mimeType: 'video/webm; codecs=vp8'
         })
         mediaRecorder.start(1000)
+        mediaRecorder.onstart = e => {
+          this.setState({ recorder: mediaRecorder })
+          mediaRecorder.pause()
+        }
         mediaRecorder.ondataavailable = e => {
           socket.emit('save_blob', e.data)
         }
@@ -148,7 +157,7 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { isOwner, inProgress, viewers, player, socket, chat, message } = this.state
+    const { isOwner, inProgress, recording, viewers, player, socket, chat, message } = this.state
     let view = null
     if (isOwner && !inProgress) {
       view = (
@@ -168,8 +177,26 @@ export default class Event extends React.Component {
         <>
           <div className='flex center' style={{ marginTop: '10%', marginRight: '10%', marginLeft: '14%' }}>
             <div className='flex flex-column'>
-              {player}
-              <p><EyeOutlined /> {viewers}</p>
+              <div id='player-container'>
+                {recording && <i id='recording-indicator' className='ml2 mt2 red fas fa-circle' />}
+                {player}
+              </div>
+              <span><EyeOutlined /> {viewers}</span>
+              {isOwner && props.shouldArchive && (
+                <button
+                  className='w4'
+                  onClick={e => {
+                    if (this.state.recording) {
+                      this.state.recorder.pause()
+                    } else {
+                      this.state.recorder.resume()
+                    }
+                    this.setState({ recording: !recording })
+                  }}
+                >
+                  {`${recording ? 'Stop' : 'Start'}`} Recording
+                </button>
+              )}
             </div>
             <div>
               <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
@@ -217,4 +244,9 @@ export default class Event extends React.Component {
   }
 }
 
+if (props.isFinished && props.isArchived) {
+  const imageContainer = document.querySelector('#event-image')
+  imageContainer.firstChild.remove()
+  render(<ReactPlayer url={props.archiveURL} playing controls width={640} height={480} />, imageContainer)
+}
 if (container) render(<Event />, container)

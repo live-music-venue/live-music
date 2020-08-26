@@ -148,3 +148,15 @@ input {
 header { 
   z-index: 1;
 }
+
+#recording-indicator {
+  position: absolute;
+  z-index: 1;
+  animation: fade 2s infinite linear;
+}
+
+@keyframes fade {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}

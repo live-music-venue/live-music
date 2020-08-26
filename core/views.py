@@ -31,8 +31,11 @@ class EventPage(View):
                 "eventId": pk,
                 "ownerId": event.owner.user.id,
                 "userId": request.user.id,
-                "in_progress": event.in_progress,
+                "inProgress": event.in_progress,
+                "isFinished": event.is_finished,
                 "shouldArchive": event.archive,
+                "isArchived": not not event.video and event.video.size > 0,
+                "archiveURL": event.video.url if event.video else None,
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,

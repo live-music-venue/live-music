@@ -8,7 +8,7 @@
     <div id="event-container">
         <h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
         <div class="flex flex-column event-picture">
-            <div class="flex">
+            <div  id="event-image" class="flex">
                 <img src="{{ event.full_cover.url }}">
             </div>
             <div class="pl2">
