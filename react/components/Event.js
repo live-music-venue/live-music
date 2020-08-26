@@ -105,7 +105,7 @@ export default class Event extends React.Component {
     document.getElementById('event-container').setAttribute('style', 'display: none;')
     //document.getElementById('social-container').setAttribute('style', 'display: none;')
     document.getElementById('comments-container').setAttribute('style', 'display: none;')
-    document.getElementById('start-stream-link').setAttribute('style', 'display: none;')
+    //document.getElementById('start-stream-link').setAttribute('style', 'display: none;')
 
     this.setState({
       inProgress: true
