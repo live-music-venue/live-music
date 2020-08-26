@@ -65,26 +65,25 @@ def send_message(sid, message):
 @sio.event
 def disconnect(sid):
     session = sio.get_session(sid)
-    if session:
-        eventId = session['eventId']
-        peerId = session['peerId']
-        userId = session['userId']
-        filtered = Event.objects.filter(pk=eventId)
-        if filtered.exists():
-            event = filtered.first()
-            if event.owner.user.id == userId:
-                if event.archive:
-                    f = session['video']
-                    f.close()
-                sio.emit('host-disconnected', to=eventId)
-                del viewer_counts[eventId]
-                event.in_progress = False
-                event.save()
-            else:
-                viewer_counts[eventId] -= 1
-        else:
-            return
+    eventId = session['eventId']
+    peerId = session['peerId']
+    userId = session['userId']
+    filtered = Event.objects.filter(pk=eventId)
+    if filtered.exists():
+        event = filtered.first()
         if peerId:
             sio.emit('user-disconnected', peerId, to=eventId)
             sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
+        if event.owner.user.id == userId:
+            if event.archive:
+                f = session['video']
+                f.close()
+            sio.emit('host-disconnected', to=eventId)
+            del viewer_counts[eventId]
+            event.in_progress = False
+            event.save()
+        else:
+            viewer_counts[eventId] -= 1
         sio.leave_room(sid, eventId)
+    else:
+        return
