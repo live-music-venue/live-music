@@ -30,6 +30,7 @@ class EventForm(ModelForm):
             "date_time",
             "description",
             "cover_photo",
+            "archive",
         ]
         widgets = {
            # 'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
@@ -39,7 +40,8 @@ class EventForm(ModelForm):
         labels = {
             "date_time" : "Date and time:",
             "description": "",
-            "title": "Title"
+            "title": "Title",
+            "archive": "Save the stream as a video to watch later",
         }
 
 
