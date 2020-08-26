@@ -255,5 +255,5 @@ def edit_musician(request, musician_pk):
 
 def default_map(request):
     mapbox_access_token = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw'
-    return render(request, 'map.html', 
+    return render(request, 'core/map.html', 
             { 'mapbox_access_token': mapbox_access_token })
