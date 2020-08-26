@@ -73,8 +73,9 @@ def disconnect(sid):
         if filtered.exists():
             event = filtered.first()
             if event.owner.user.id == userId:
-                f = session['video']
-                f.close()
+                if event.archive:
+                    f = session['video']
+                    f.close()
                 sio.emit('host-disconnected', to=eventId)
                 del viewer_counts[eventId]
                 event.in_progress = False
