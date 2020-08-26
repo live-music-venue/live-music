@@ -225,16 +225,20 @@ style: 'mapbox://styles/mapbox/streets-v11'});}, 1000);
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
 <script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const data = JSON.parse(_.unescape('{{events}}'))
-    console.log('data works')
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: data
+    document.addEventListener('DOMContentLoaded', function() {
+        const data = JSON.parse(_.unescape('{{events}}'))
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            eventSources: [
+                {
+                    events: data,
+                    color: '157FE2',
+                    display: 'block'
+                }]
+        });
+        calendar.render();
     });
-    calendar.render();
-  });
 
 </script>
 
