@@ -8,6 +8,7 @@ const { ExpressPeerServer } = require('peer')
 
 app.use('/peer', ExpressPeerServer(server))
 app.use('/static/css', express.static('node_modules/antd/dist'))
+app.use('/media', express.static('media'))
 app.use('/', proxy('http://localhost:8000', {
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     // Modify headers if running on Heroku
