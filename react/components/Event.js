@@ -132,7 +132,7 @@ export default class Event extends React.Component {
       this.joinStream(peerId)
       if (props.shouldArchive) {
         const mediaRecorder = new MediaRecorder(stream, {
-          mimeType: 'video/webm; codecs=vp9'
+          mimeType: 'video/webm; codecs=vp8'
         })
         mediaRecorder.start(1000)
         mediaRecorder.ondataavailable = e => {
