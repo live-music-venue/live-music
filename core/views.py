@@ -46,6 +46,7 @@ class EventPage(View):
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
         comment_form = EventCommentForm()
+        musician = event.owner
         # Passing data through to react via json. MUST USE DOUBLE QUOTES
         return render(request, 'core/event.html', {
             'data': json.dumps({
@@ -56,7 +57,8 @@ class EventPage(View):
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,
-            'comment_form': comment_form
+            'comment_form': comment_form,
+            'musician': musician,
         })
 
     def post(self, request, pk):  

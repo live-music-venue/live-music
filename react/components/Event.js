@@ -103,7 +103,10 @@ export default class Event extends React.Component {
 
   joinStream (peerId) {
     document.getElementById('event-container').setAttribute('style', 'display: none;')
-    document.getElementById('social-container').setAttribute('style', 'display: none;')
+    //document.getElementById('social-container').setAttribute('style', 'display: none;')
+    document.getElementById('comments-container').setAttribute('style', 'display: none;')
+    document.getElementById('start-stream-link').setAttribute('style', 'display: none;')
+
     this.setState({
       inProgress: true
     })
@@ -157,7 +160,7 @@ export default class Event extends React.Component {
     } else if (inProgress) {
       view = (
         <>
-          <div className='flex center' style={{ marginTop: '10%', marginRight: '10%', marginLeft: '14%' }}>
+          <div className='flex center'>
             <div className='flex flex-column'>
               {player}
               <p><EyeOutlined /> {viewers}</p>
