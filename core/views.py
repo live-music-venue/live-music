@@ -32,6 +32,7 @@ class EventPage(View):
                 "ownerId": event.owner.user.id,
                 "userId": request.user.id,
                 "in_progress": event.in_progress,
+                "shouldArchive": event.archive,
                 "port": os.getenv('PORT') if os.getenv('PORT') else 3000
             }), 
             "event": event,

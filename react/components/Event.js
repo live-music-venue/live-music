@@ -130,14 +130,13 @@ export default class Event extends React.Component {
         })
       })
       this.joinStream(peerId)
-      const shouldArchive = true
-      if (shouldArchive) {
+      if (props.shouldArchive) {
         const mediaRecorder = new MediaRecorder(stream, {
           mimeType: 'video/webm; codecs=vp9'
         })
         mediaRecorder.start(1000)
         mediaRecorder.ondataavailable = e => {
-          socket.emit('save_blob', props.eventId, e.data)
+          socket.emit('save_blob', e.data)
         }
       }
       this.setState({

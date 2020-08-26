@@ -1,4 +1,5 @@
 import socketio
+from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .models import Event
@@ -26,8 +27,9 @@ def join_stream(sid, peerId):
     if filtered.exists():
         event = filtered.first()
         if event.owner.user.id == userId:
-            path = default_storage.save(f'videos/{eventId}.webm', ContentFile(b''))
-            sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'archiveFile': default_storage.open(path, 'rwb') })
+            if event.archive:
+                event.video.save(f'archive_{eventId}.webm', File(open('/dev/null')))
+                sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': event.video.open('ab') })
             viewer_counts[eventId] = 0
             event.in_progress = True
             event.save()
@@ -40,11 +42,16 @@ def join_stream(sid, peerId):
     sio.emit('user-connected', peerId, to=eventId, skip_sid=sid)
     sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
 
-# Append stream bytes to archive video file
+# Append stream bytes to archive video file.
 @sio.event
-def save_blob(sid, eventId, blob):
-    with open('/Users/tgrantham/video.webm', 'ab') as f:
-        f.write(blob)
+def save_blob(sid, blob):
+    session = sio.get_session(sid)
+    filtered = Event.objects.filter(pk=session['eventId'])
+    if filtered.exists():
+        event = filtered.first()
+        if event.archive:
+            f = session['video']
+            f.write(blob)
 
 # Send chat message. Possibly save as comment?
 @sio.event
@@ -66,6 +73,8 @@ def disconnect(sid):
         if filtered.exists():
             event = filtered.first()
             if event.owner.user.id == userId:
+                f = session['archiveFile']
+                f.close()
                 sio.emit('host-disconnected', to=eventId)
                 del viewer_counts[eventId]
                 event.in_progress = False

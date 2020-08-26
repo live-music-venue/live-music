@@ -50,9 +50,8 @@ class Event(models.Model):
     thumbs_up = models.ManyToManyField(User, related_name="thumbs_up", blank=True)
     favorited_by = models.ManyToManyField(User, related_name="favorite_event", blank=True)
     in_progress = models.BooleanField(default=False)
-
+    archive = models.BooleanField(default=False)
     video = models.FileField(upload_to="videos/", null=True, blank=True)
-    
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)
     thumbnail = ImageSpecField(
         source="cover_photo",
