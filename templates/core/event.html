@@ -4,69 +4,205 @@
 
 {% block content %}
 {% load social_share %}
-<div class="ma4 content">
-    <div id="event-container">
-        <h3 class="pt4 pl4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
+<div class="">
+    <h3 class="mt3 ml4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
+</div>
+<div class="mt2 mr4 mb4 ml5 content">
+    <div id="event-container" class="flex">
+        <!-- Picture starts here -->
         <div class="flex flex-column event-picture">
             <div class="flex">
                 <img src="{{ event.full_cover.url }}">
             </div>
-            <div class="pl2">
-                <div class="pt3">
+        </div>
+        <!-- Top right starts here -->
+        <div class="flex flex-column justify-between pt3 w-30">
+            <div class="">
+                <div class="">
+                    <h5>About this event:</h5>
                     <p>{{event.description}}</p>
                     <p>This event will begin at {{event.date_time}}</p>
                 </div>
             </div>
+                    
+            <div>
             {% if user == event.owner.user %}
-            <a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
+                <a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
             {% endif %}
-        </div>
-    </div>
+            <div id="social-div">
+                <span>Share on 
+                    {% post_to_facebook object_or_url "Facebook" %}  
+                    <i class="fab fa-facebook-square"></i>
+                    <!-- <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook"></i> -->
+                    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url ", Twitter" %}
+                    <i class="fab fa-twitter"></i>, or with
+                    <!-- <i class="fab fa-twitter-square"></i> -->
+                    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "email" %}
+                    <!-- <i class="fas fa-envelope"></i> -->
+                    <i class="far fa-envelope"></i>!
+                </span>
+            </div>
+            </div>
+            
+            <div id="qr-div" class="pt4">
+                {% if musician.cashapp_name or musician.paypal_donation_url or musiciain.paypal_qr or musician.cashapp_qr or musician.venmo_qr %}
+                <h5>Please consider donating to the artist!</h5>
+                {% endif %}
+                <div>
+                    {% if musician.cashapp_name %}
+                    <p>Cashapp name: {{musician.cashapp_name}}</p>
+                {% endif %}
+                {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                {% endif %}
 
-    <div id="react-event">
+                <div class="flex">
+
+                {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+                    <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                {% endif %}
+
+
+                {% if musician.cashapp_qr %}
+                    <div class="flex flex-column">
+                        <p class="qr-label">Cashapp:</p>
+                        <img class="qr" src="{{ musician.cashapp_qr.url }}"><br>
+                    </div>
+                {% endif %}
+
+
+                {% if musician.paypal_donation_url and musician.paypal_qr %}
+                <div class="flex flex-column qr-box">
+                    <p class="qr-label">Paypal:</p>
+                    <a href="{{musician.paypal_donation_url}}"><img class="qr" src="{{ musician.paypal_qr.url }}" /></a><br>
+                </div>
+                {% endif %}
+
+
+                {% if musician.paypal_qr and not musician.paypal_donation_url %}
+                <div class="flex flex-column">
+                    <p class="qr-label">Paypal:</p>
+                    <img class="qr" src="{{ musician.paypal_qr.url }}"><br>
+                </div>
+                {% endif %}
+
+
+                {% if musician.venmo_qr %}
+                <div class="flex flex-column">
+                    <p class="qr-label">Venmo:</p>
+                    <img class="qr" src="{{ musician.venmo_qr.url }}">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> 
+</div>
+</div>
+</div>
+
+    <div id="react-event" class="br3">
         <script>
             const data = '{{data}}'
         </script>
     </div>
+    {% if user == event.owner.user %}
+    <a class="pt2 mt4 stream-start" id="start-stream-link" href="#">Start Your Stream!</a>
+    {% endif %}
 
     <div id="social-container">
         <!-- share -->
-        <div>
-            {% post_to_facebook object_or_url "Post to Facebook!" %}
-            {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url "Post to Twitter" %}
-            {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "Share via email" %}
-        </div>
+
+        <div id="social-dontations" class="flex justify-between pt2 mr7" style="display: none">
+            <div>
+                <span>Share on 
+                    {% post_to_facebook object_or_url "Facebook" %}  
+                    <i class="fab fa-facebook-square"></i>
+                    <!-- <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook"></i> -->
+                    {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url ", Twitter" %}
+                    <i class="fab fa-twitter"></i>, or with
+                    <!-- <i class="fab fa-twitter-square"></i> -->
+                    {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "email" %}
+                    <!-- <i class="fas fa-envelope"></i> -->
+                    <i class="far fa-envelope"></i>!
+                </span>
+            </div>
+            <!-- <div>
+                {% if musician.cashapp_name %}
+                <p>Cashapp name: {{musician.cashapp_name}}</p>
+            {% endif %}
+            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+            <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+            {% endif %}
+
+            <div class="flex">
+
+            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
+                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+            {% endif %}
+
+
+            {% if musician.cashapp_qr %}
+                <div class="flex flex-column">
+                    <p class="qr-label">Cashapp:</p>
+                    <img class="qr" src="{{ musician.cashapp_qr.url }}"><br>
+                </div>
+            {% endif %}
+
+
+            {% if musician.paypal_donation_url and musician.paypal_qr %}
+            <div class="flex flex-column qr-box">
+                <p class="qr-label">Paypal:</p>
+                <a href="{{musician.paypal_donation_url}}"><img class="qr" src="{{ musician.paypal_qr.url }}" /></a><br>
+            </div>
+            {% endif %}
+
+
+            {% if musician.paypal_qr and not musician.paypal_donation_url %}
+            <div class="flex flex-column">
+                <p class="qr-label">Paypal:</p>
+                <img class="qr" src="{{ musician.paypal_qr.url }}"><br>
+            </div>
+            {% endif %}
+
+
+            {% if musician.venmo_qr %}
+            <div class="flex flex-column">
+                <p class="qr-label">Venmo:</p>
+                <img class="qr" src="{{ musician.venmo_qr.url }}">
+            </div>
+            {% endif %}
+            </div>
+    </div> 
+            </div>
+        </div> -->
+        </div> 
 
         <!-- comments -->
+        <div id="comments-container" class="pt4">
         {% if event.is_upcoming or event.is_finished  %}
-        <p>{{ event.event_comments.count }} comments</p>
-
-        {% for comment in event.event_comments.all %}
-
-        <div class="comments" style="padding: 10px;">
-        <p class="font-weight-bold">
-            On {{ comment.date_created }}
-            <span class=" text-muted font-weight-normal">
-            {{ comment.author }} says:
-            </span>
-        </p>
-        {{ comment.message | linebreaks }}
-        </div>
-
-        {% endfor %}
-
-        {% if user.is_authenticated %}
-
-        <h6>Leave a comment</h6>
-        <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-            {% csrf_token %}
-            {{ comment_form}}
-        
-        <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
-        </form>
-
-        {% endif %}
-
+            <p>{{ event.event_comments.count }} comments</p>
+            {% for comment in event.event_comments.all %}
+                <div class="comments" style="padding: 10px;">
+                <p class="font-weight-bold">
+                    On {{ comment.date_created }}
+                    <span class=" text-muted font-weight-normal">
+                    {{ comment.author }} says:
+                    </span>
+                </p>
+                {{ comment.message | linebreaks }}
+                </div>
+            {% endfor %}
+            {% if user.is_authenticated and not event.in_progress %}
+                <h6>Leave a comment</h6>
+                <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+                    {% csrf_token %}
+                    {{ comment_form}}
+                
+                <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
+                </form>
+            {% endif %}
         {% endif %}
     </div>
 </div>
