@@ -9,11 +9,20 @@ viewer_counts = {}
 
 # Join event room
 @sio.event
-def join_event(sid, eventId, userId, peerId):
-    sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId})
+def join_event(sid, eventId, userId):
+    print(userId, "joining", eventId, flush=True)
+    sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': None })
+    sio.enter_room(sid, eventId)
+
+@sio.event
+def join_stream(sid, peerId):
+    session = sio.get_session(sid)
+    userId = session['userId']
+    eventId = session['eventId']
+    sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId })
+    print(peerId, "joining stream", eventId, flush=True)
     filtered = Event.objects.filter(pk=eventId)
     if filtered.exists():
-        sio.enter_room(sid, eventId)
         event = filtered.first()
         if event.owner.user.id == userId:
             viewer_counts[eventId] = 0
@@ -55,6 +64,7 @@ def disconnect(sid):
                 viewer_counts[eventId] -= 1
         else:
             return
-        sio.emit('user-disconnected', peerId, to=eventId)
-        sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
+        if peerId:
+            sio.emit('user-disconnected', peerId, to=eventId)
+            sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
         sio.leave_room(sid, eventId)

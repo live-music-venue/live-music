@@ -30,7 +30,8 @@ export default class Event extends React.Component {
       chat: [],
       message: ''
     }
-    this.startup = this.startup.bind(this)
+    this.joinStream = this.joinStream.bind(this)
+    this.startStream = this.startStream.bind(this)
   }
 
   componentWillUnmount () {
@@ -38,16 +39,6 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
-    if (this.state.inProgress) this.startup()
-    else container.removeAttribute('style')
-  }
-
-  async startup () {
-    this.setState({
-      inProgress: true
-    })
-    container.setAttribute('style', 'display: none;')
-    document.getElementById('event-container').setAttribute('style', 'display: none;')
     const secure = PORT !== 3000
     const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost'
     await this.setState({
@@ -59,48 +50,27 @@ export default class Event extends React.Component {
         secure: secure
       })
     })
-    const { socket, peer, isOwner } = this.state
-    peer.on('open', peerId => {
-      socket.emit('join_event', props.eventId, props.userId, peerId)
-      socket.on('update-viewer-count', viewerCount => {
-        this.setState({
-          viewers: viewerCount
-        })
+    const { socket, peer, inProgress, isOwner } = this.state
+    socket.emit('join_event', props.eventId, props.userId)
+    socket.on('update-viewer-count', viewerCount => {
+      console.log('updating viewer count', viewerCount)
+      this.setState({
+        viewers: viewerCount
       })
-      socket.on('recieve-chat-message', (data) => {
-        const chat = document.querySelector('#chat')
-        this.setState({
-          chat: this.state.chat.concat(data)
-        })
-        chat.scrollTop = chat.scrollHeight
+    })
+    socket.on('recieve-chat-message', (data) => {
+      const chat = document.querySelector('#chat')
+      this.setState({
+        chat: this.state.chat.concat(data)
       })
-      if (isOwner) {
-        const peers = {}
-        navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true
-        }).then(stream => {
-          this.setState({
-            viewers: 0,
-            streaming: true,
-            player: <Webcam audio='false' mirrored='true' />
-          })
-          container.removeAttribute('style')
-          socket.on('user-connected', peerId => {
-            const call = peer.call(peerId, stream)
-            peers[peerId] = call
-            socket.on('user-disconnected', peerId => {
-              if (peers[peerId]) peers[peerId].close()
-              delete peers[peerId]
-            })
-          })
-        })
-      } else {
+      chat.scrollTop = chat.scrollHeight
+    })
+    if (!isOwner) {
+      container.setAttribute('style', 'display: none;')
+      peer.on('open', peerId => {
+        if (inProgress) this.joinStream(peerId)
         socket.on('host-connected', () => {
-          document.getElementById('event-container').setAttribute('style', 'display: none;')
-          this.setState({
-            inProgress: true
-          })
+          this.joinStream(peerId)
         })
         socket.on('host-disconnected', () => {
           this.setState({
@@ -108,24 +78,66 @@ export default class Event extends React.Component {
             player: null
           })
           document.getElementById('event-container').removeAttribute('style')
+          document.getElementById('social-container').removeAttribute('style')
         })
-        peer.on('call', (call, id) => {
-          call.answer()
-          call.on('stream', stream => {
-            this.setState({
-              streaming: true,
-              player: <ReactPlayer url={stream} playing muted controls width={640} height={480} onStart={e => { e.target.muted = false }} />
-            })
-            container.removeAttribute('style')
+      })
+      peer.on('call', (call, id) => {
+        console.log('answering', call)
+        call.answer()
+        call.on('stream', stream => {
+          this.setState({
+            streaming: true,
+            player: <ReactPlayer url={stream} playing muted controls width={640} height={480} onStart={e => { e.target.muted = false }} />
           })
-          call.on('close', () => {
-            socket.close()
-          })
+          container.removeAttribute('style')
         })
-      }
-    })
+        call.on('close', () => {
+          socket.close()
+        })
+      })
+    }
     window.addEventListener('beforeunload', e => {
       socket.close()
+    })
+  }
+
+  joinStream (peerId) {
+    document.getElementById('event-container').setAttribute('style', 'display: none;')
+    //document.getElementById('social-container').setAttribute('style', 'display: none;')
+    document.getElementById('comments-container').setAttribute('style', 'display: none;')
+    document.getElementById('start-stream-link').setAttribute('style', 'display: none;')
+
+    this.setState({
+      inProgress: true
+    })
+    const { socket } = this.state
+    socket.emit('join_stream', peerId)
+  }
+
+  startStream () {
+    const { socket, peer } = this.state
+    const peerId = peer.id
+    navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    }).then(stream => {
+      const peers = {}
+      socket.on('user-connected', peerId => {
+        console.log('calling', peerId)
+        const call = peer.call(peerId, stream)
+        console.log(call)
+        peers[peerId] = call
+        socket.on('user-disconnected', peerId => {
+          if (peers[peerId]) peers[peerId].close()
+          delete peers[peerId]
+        })
+      })
+      this.joinStream(peerId)
+      this.setState({
+        streaming: true,
+        player: <Webcam audio='false' mirrored='true' />
+      })
+      container.removeAttribute('style')
     })
   }
 
@@ -135,19 +147,20 @@ export default class Event extends React.Component {
     if (isOwner && !inProgress) {
       view = (
         <>
-          <button
+          <a
+            href='#'
             onClick={e => {
-              this.startup()
+              this.startStream()
             }}
           >
-            Start Streaming
-          </button>
+            Start Stream
+          </a>
         </>
       )
     } else if (inProgress) {
       view = (
         <>
-          <div className='flex mt5 ml4'>
+          <div className='flex center'>
             <div className='flex flex-column'>
               {player}
               <p><EyeOutlined /> {viewers}</p>

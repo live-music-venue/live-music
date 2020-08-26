@@ -94,7 +94,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 }
 
-
+CSRF_TRUSTED_ORIGINS = ['rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com']
+CORS_ORIGIN_WHITELIST = ('rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com')
 
 
 
