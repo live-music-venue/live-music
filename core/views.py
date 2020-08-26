@@ -129,7 +129,7 @@ class ShowMusician(View):
         events = list(musician.events.all())
         empty_list = []
         for event in events:
-            empty_list.append({"title": event.title, "start": event.date_time.strftime('%Y-%m-%d')})
+            empty_list.append({"title": event.date_time.strftime('%H:%M'), "start": event.date_time.strftime('%Y-%m-%d'), "url": f'/event/{event.pk}'})
         if request.user.is_authenticated:
             user_favorite = request.user.is_favorite_musician(musician)
         else: 
