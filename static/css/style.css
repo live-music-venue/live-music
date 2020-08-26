@@ -132,7 +132,7 @@ input {
 
 .qr {
   height: 80px;
-  margin: 0px 6px 0px 6px;
+  margin: 0px 15px 0px 15px;
 }
 
 .qr-label {
@@ -147,4 +147,8 @@ input {
 
 header { 
   z-index: 1;
+}
+
+.facebook-this, .tweet-this, .mail-this {
+  display: inline;
 }
