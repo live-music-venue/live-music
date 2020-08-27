@@ -49,7 +49,7 @@ class Event(models.Model):
     date_time = models.DateTimeField()
     description = models.TextField()
     public = models.BooleanField(default=True)
-    thumbs_up = models.ManyToManyField(User, related_name="thumbs_up", blank=True)
+    save_event = models.ManyToManyField(User, related_name="save_event", blank=True)
     favorited_by = models.ManyToManyField(User, related_name="favorite_event", blank=True)
     in_progress = models.BooleanField(default=False)
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>{{user.username}}'s Favorite Musicians</h3>
+<h3>{{user.username}}'s Favorite Musicians:</h3>
 <div class="test-flex">
     {% for musician in favorites %}
     <div class="shadow-3 br3 ma3 event-pane">
@@ -15,4 +15,29 @@
     
     {% endfor %}
 </div>
+
+<h3>Saved Events:</h3>
+<div class="test-flex">
+    {% for event in saved_events %}
+    <div class="shadow-3 br3 ma3 event-pane">
+        <a href="{% url 'event' pk=event.pk %}">
+            <div class="image-div flex pa2">
+                <img class="br2" src="{{ event.thumbnail.url }}">
+            </div>
+        </a>
+        <div class="info-div flex flex-column tc">
+            <h5 class="b">
+                {{event.title|truncatechars:20}}
+            </h5>
+            <p>
+                <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+            </p>
+            <p>
+                {{event.date_time}}
+            </p>
+        </div>
+    </div>
+
+    
+    {% endfor %}
 {% endblock %}

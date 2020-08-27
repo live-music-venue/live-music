@@ -40,14 +40,17 @@ class HomepageInProgress(View):
 class HomepagePastEvents(View):
     def get(self, request):
         events = Event.objects.all().order_by("-date_time")
-        return render(request, 'core/homepage_search.html',
-                         {'events': events, 'page_header': "Past Events:", "past_events" : True})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Past Events:", "past_events" : True})
 
 
 
 class EventPage(View):
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
+        if request.user.is_authenticated:
+            user_saved = request.user.is_save_event(event)
+        else: 
+            user_saved = None
         comment_form = EventCommentForm()
         musician = event.owner
         # Passing data through to react via json. MUST USE DOUBLE QUOTES
@@ -62,10 +65,12 @@ class EventPage(View):
             "event": event,
             'comment_form': comment_form,
             'musician': musician,
+            'user_saved': user_saved,
         })
 
     def post(self, request, pk):  
         event = get_object_or_404(Event, pk=pk)
+        user_saved = request.user.is_save_event(event)
         events = Event.objects.all()
         comment_form = EventCommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -78,7 +83,7 @@ class EventPage(View):
             comment_form = EventCommentForm()
     
         
-        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form})
+        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form, 'user_saved': user_saved})
 
 
 class AddEvent(View):
@@ -88,7 +93,7 @@ class AddEvent(View):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
+            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False, "user_saved": user_saved})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
@@ -229,7 +234,8 @@ class FavoriteMusician(View):
     def get(self,request):
         user = request.user
         favorites = user.favorite_musician.all()
-        return render(request, "core/favorite_musicians.html", {"user":user, "favorites":favorites})
+        saved_events = user.save_event.all()
+        return render(request, "core/favorite_musicians.html", {"user":user, "favorites":favorites, "saved_events":saved_events})
     
     def post(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
@@ -268,3 +274,17 @@ def default_map(request):
     mapbox_access_token = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw'
     return render(request, 'core/map.html', 
             { 'mapbox_access_token': mapbox_access_token })
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SaveEvent(View):
+    def post(self, request, event_pk):
+        event = get_object_or_404(Event, pk=event_pk)
+        user = request.user
+        if event in user.save_event.all():
+            user.save_event.remove(event)
+            return JsonResponse({"saved": False})
+
+        else:
+            user.save_event.add(event)
+            return JsonResponse({"saved": True})

@@ -5,7 +5,21 @@
 {% block content %}
 {% load social_share %}
 <div class="">
-    <h3 class="mt3 ml4">{{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> </h3>
+    <h3 class="mt3 ml4">
+        <a class="pl3 grow dib star" id="toggle-saved" data-event-id = "{{ event.pk }}" class="no-underline pointer dib grow f3">
+            {% if user_saved %}
+                &hearts;
+                {% else %}
+                <div class="container">
+                    &#9825;
+                    <div class="overlay">
+                        <div class="text">Save to upcoming events</div>
+                    </div>
+                </div>
+            {% endif %}
+        </a>
+        {{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> 
+    </h3>
 </div>
 <div class="mt2 mr4 mb4 ml5 content">
     <div id="event-container" class="flex">
@@ -180,7 +194,7 @@
         </div> 
 
         <!-- comments -->
-        <div id="comments-container" class="pt4">
+    <div id="comments-container" class="pt4">
         {% if event.is_upcoming or event.is_finished  %}
             <p>{{ event.event_comments.count }} comments</p>
             {% for comment in event.event_comments.all %}
@@ -206,5 +220,27 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+    window.addEventListener("load", (e) => {
+        const toggleFavoriteLink = document.querySelector("#toggle-saved")
+        toggleFavoriteLink.addEventListener('click', function (e) {
+        e.preventDefault()
+        const eventId = toggleFavoriteLink.dataset['eventId']
+        fetch(`/event/${eventId}/saved`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.saved) {
+                toggleFavoriteLink.innerHTML = '&hearts;'
+        } else {
+        toggleFavoriteLink.innerHTML = '&#9825;'
+        }
+        })
+    })
+    })
+    
+</script>
 
 {% endblock content %}
