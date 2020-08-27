@@ -5,7 +5,6 @@ import Peer from 'peerjs'
 import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
-import { EyeOutlined } from '@ant-design/icons'
 
 /* global data isAuthenticated MediaRecorder */
 
@@ -24,7 +23,7 @@ export default class Event extends React.Component {
       recorder: null,
       recording: false,
       player: null,
-      inProgress: props.in_progress,
+      inProgress: props.inProgress,
       socket: null,
       peer: null,
       viewers: 0,

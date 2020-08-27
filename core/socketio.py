@@ -13,6 +13,7 @@ viewer_counts = {}
 # Join event room
 @sio.event
 def join_event(sid, eventId, userId):
+    print(userId, "joining", eventId, flush=True)
     sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': None })
     sio.enter_room(sid, eventId)
 
@@ -21,6 +22,7 @@ def join_stream(sid, peerId):
     session = sio.get_session(sid)
     userId = session['userId']
     eventId = session['eventId']
+    print(peerId, 'joining stream', eventId, flush=True)
     filtered = Event.objects.filter(pk=eventId)
     if filtered.exists():
         event = filtered.first()
@@ -68,22 +70,23 @@ def disconnect(sid):
     eventId = session['eventId']
     peerId = session['peerId']
     userId = session['userId']
+    print(userId, "leaving", eventId)
     filtered = Event.objects.filter(pk=eventId)
     if filtered.exists():
         event = filtered.first()
         if peerId:
+            if event.owner.user.id == userId:
+                if event.archive:
+                    f = session['video']
+                    f.close()
+                sio.emit('host-disconnected', to=eventId)
+                del viewer_counts[eventId]
+                event.in_progress = False
+                event.save()
+            else:
+                viewer_counts[eventId] -= 1
             sio.emit('user-disconnected', peerId, to=eventId)
             sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
-        if event.owner.user.id == userId:
-            if event.archive:
-                f = session['video']
-                f.close()
-            sio.emit('host-disconnected', to=eventId)
-            del viewer_counts[eventId]
-            event.in_progress = False
-            event.save()
-        else:
-            viewer_counts[eventId] -= 1
         sio.leave_room(sid, eventId)
     else:
         return
