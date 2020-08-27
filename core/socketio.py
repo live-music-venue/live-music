@@ -18,7 +18,7 @@ def join_event(sid, eventId, userId):
     sio.enter_room(sid, eventId)
 
 @sio.event
-def join_stream(sid, peerId):
+def join_stream(sid, peerId, temp):
     session = sio.get_session(sid)
     userId = session['userId']
     eventId = session['eventId']

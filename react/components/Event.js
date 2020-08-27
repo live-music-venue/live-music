@@ -109,7 +109,7 @@ export default class Event extends React.Component {
       inProgress: true
     })
     const { socket } = this.state
-    socket.emit('join_stream', peerId)
+    socket.emit('join_stream', peerId, null)
   }
 
   startStream () {
