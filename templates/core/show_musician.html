@@ -193,10 +193,14 @@
 <div id='map' style='z-index: 7; width: 400px; height: 300px;'></div>
 <script>
 setTimeout(function(){
-mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11'});}, 1000);
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [{{musician.longitude}}, {{musician.latitude}}],
+        zoom: 9 
+    });
+}, 1000);
 </script>
 
 <script>

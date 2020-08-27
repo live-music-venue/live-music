@@ -15,6 +15,9 @@ import datetime
 import os
 from django import forms
 from django.views.decorators.csrf import csrf_exempt
+from geopy.geocoders import MapBox
+from django.conf import settings
+
 
 # Create your views here.
 class Homepage(View):
@@ -147,7 +150,13 @@ class AddMusicianInfo(View):
         if get_object_or_404(User, pk=user_pk) == request.user:
             form = MusicianForm(data=request.POST, files=request.FILES)
             if form.is_valid():
+                mapbox_client = MapBox(settings.MAPBOX_API_KEY)
                 musician = form.save(commit=False)
+                result = mapbox_client.geocode(musician.city)
+                result.latitude
+                result.longitude                
+                musician.latitude = result.latitude
+                musician.longitude = result.longitude
                 musician.user = request.user
                 musician.save()
                 return redirect(to='show-musician', musician_pk=musician.pk)
