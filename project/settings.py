@@ -91,8 +91,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': ''
         }
     }
-
 }
+
+MAPBOX_API_KEY = env("MAPBOX_API_KEY")
+
+
 
 CSRF_TRUSTED_ORIGINS = ['rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com']
 CORS_ORIGIN_WHITELIST = ('rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com')

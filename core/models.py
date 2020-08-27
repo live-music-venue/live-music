@@ -13,6 +13,8 @@ class Musician(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.TextField()
     city = models.CharField(max_length=255)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
 
     # fields having to do with money
     cashapp_name = models.CharField(max_length=255, blank=True, null=True)
