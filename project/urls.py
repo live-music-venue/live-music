@@ -26,6 +26,7 @@ urlpatterns = [
     path('', core_views.Homepage.as_view(), name="homepage"),
     path('event/<int:pk>', core_views.EventPage.as_view(), name="event"),
     path('event/<int:event_pk>/edit', core_views.edit_event, name="edit-event"),
+    path('event/<int:event_pk>/saved', core_views.SaveEvent.as_view(), name="saved-event"),
     path('event/search_results', core_views.SearchEvents.as_view(), name="search"),
     path('events/random', core_views.HomepageRandom.as_view(), name="random"),
     path('events/live', core_views.HomepageInProgress.as_view(), name="live"),
@@ -38,7 +39,7 @@ urlpatterns = [
     path('musician/<int:musician_pk>/donation/add', core_views.AddDonationInfo.as_view(), name="add-donation"),
     path('accounts/', include('allauth.urls')),
     path('donation-tutorial/', core_views.donation_tutorial, name="donation-tutorial"),
-    path('favorite-musicians/', core_views.FavoriteMusician.as_view(), name="favorite-musicians"),    
+    path('favorite-musicians/', core_views.FavoriteMusician.as_view(), name="favorite-musicians"),  
     path('map', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

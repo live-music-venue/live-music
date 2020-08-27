@@ -8,3 +8,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     def is_favorite_musician(self, musician):
         return self.favorite_musician.filter(pk=musician.pk).count() == 1
+
+
+    def is_save_event(self, event):
+        return self.save_event.filter(pk=event.pk).count() == 1
