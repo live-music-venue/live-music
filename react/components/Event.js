@@ -176,22 +176,24 @@ export default class Event extends React.Component {
                 {recording && <i id='recording-indicator' className='ml2 mt2 red fas fa-circle' />}
                 {player}
               </div>
-              <span><EyeOutlined /> {viewers}</span>
-              {isOwner && props.shouldArchive && (
-                <button
-                  className='w4'
-                  onClick={e => {
-                    if (this.state.recording) {
-                      this.state.recorder.pause()
-                    } else {
-                      this.state.recorder.resume()
-                    }
-                    this.setState({ recording: !recording })
-                  }}
-                >
-                  {`${recording ? 'Stop' : 'Start'}`} Recording
-                </button>
-              )}
+              <div>
+                <span><i className='fas fa-eye' /> {viewers} </span>
+                {isOwner && props.shouldArchive && (
+                  <button
+                    className='w4'
+                    onClick={e => {
+                      if (this.state.recording) {
+                        this.state.recorder.pause()
+                      } else {
+                        this.state.recorder.resume()
+                      }
+                      this.setState({ recording: !recording })
+                    }}
+                  >
+                    {`${recording ? 'Stop' : 'Start'}`} Recording
+                  </button>
+                )}
+              </div>
             </div>
             <div>
               <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
