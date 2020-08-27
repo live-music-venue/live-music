@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h3>{{user.username}}'s Calendar:</h3>
+<div class="flex flex-wrap w-70">
+    <div id='calendar' class="w-80 pt2 pb4"></div>
+</div>
+
 <h3>{{user.username}}'s Favorite Musicians:</h3>
 <div class="test-flex">
     {% for musician in favorites %}
@@ -40,4 +45,26 @@
 
     
     {% endfor %}
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const data = JSON.parse(_.unescape('{{events}}'))
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            eventSources: [
+                {
+                    events: data,
+                    color: '157FE2',
+                    display: 'block'
+                }]
+        });
+        calendar.render();
+    });
+
+</script>
 {% endblock %}
