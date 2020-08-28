@@ -31,6 +31,7 @@ urlpatterns = [
     path('events/random', core_views.HomepageRandom.as_view(), name="random"),
     path('events/live', core_views.HomepageInProgress.as_view(), name="live"),
     path('events/past', core_views.HomepagePastEvents.as_view(), name="past"),
+    path('event/<int:event_pk>/add-comment', core_views.SaveEventComment.as_view(), name="add-event-comment"),
     path('musician/<int:musician_pk>/favorite', core_views.FavoriteMusician.as_view(), name='favorite-musician'),
     path('musician/<int:musician_pk>/event/add', core_views.AddEvent.as_view(), name="add-event"),
     path('musician/add/<int:user_pk>', core_views.AddMusicianInfo.as_view(), name="add-musician"),
