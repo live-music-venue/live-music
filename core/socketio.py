@@ -21,7 +21,6 @@ def join_event(sid, eventId, userId):
 
 @sio.event
 def join_stream(sid, peerId):
-    peerId = array.array('B', peerId.values()).tostring()
     session = sio.get_session(sid)
     userId = session['userId']
     eventId = session['eventId']
@@ -59,7 +58,6 @@ def save_blob(sid, blob):
 # Send chat message. Possibly save as comment?
 @sio.event
 def send_message(sid, message):
-    message = array.array('B', message.values()).tostring()
     session = sio.get_session(sid)
     user = User.objects.filter(id=session['userId']).first()
     if len(message) <= 255:
@@ -90,5 +88,3 @@ def disconnect(sid):
             sio.emit('user-disconnected', peerId, to=eventId)
             sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
         sio.leave_room(sid, eventId)
-    else:
-        return
