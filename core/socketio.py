@@ -1,11 +1,8 @@
-import io
 import socketio
-from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .models import Event
 from users.models import User
-import array
 
 sio = socketio.Server(async_mode=None, cors_allowed_origins='*')
 
@@ -32,7 +29,7 @@ def join_stream(sid, peerId):
             if event.archive:
                 if event.video:
                     event.video.delete()
-                event.video.save(f'archive_{eventId}.webm', File(io.BytesIO(b'')))
+                event.video.save(f'archive_{eventId}.webm', ContentFile(b''))
                 sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': event.video.open('ab') })
             viewer_counts[eventId] = 0
             event.in_progress = True
