@@ -32,7 +32,7 @@ def join_stream(sid, peerId):
             if event.archive:
                 if event.video:
                     event.video.delete()
-                event.video.save(f'archive_{eventId}.webm', File(io.StringIO('')))
+                event.video.save(f'archive_{eventId}.webm', File(io.BytesIO(b'')))
                 sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': event.video.open('ab') })
             viewer_counts[eventId] = 0
             event.in_progress = True
