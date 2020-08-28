@@ -1,4 +1,6 @@
+import os
 import socketio
+from smart_open import open
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .models import Event
@@ -30,7 +32,7 @@ def join_stream(sid, peerId):
                 if event.video:
                     event.video.delete()
                 event.video.save(f'archive_{eventId}.webm', ContentFile(b''))
-                sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': event.video.open('ab') })
+                sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': open(event.video.url.replace('https://rhappsody.s3.amazonaws.com', 's3://rhappsody'), 'ab') if os.getenv('USE_S3') else event.video.open('ab') })
             viewer_counts[eventId] = 0
             event.in_progress = True
             event.save()
