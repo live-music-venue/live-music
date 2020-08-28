@@ -5,6 +5,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from .models import Event
 from users.models import User
+import array
 
 sio = socketio.Server(async_mode=None, cors_allowed_origins='*')
 
@@ -20,6 +21,7 @@ def join_event(sid, eventId, userId):
 
 @sio.event
 def join_stream(sid, peerId):
+    peerId = array.array('B', peerId.values()).tostring()
     session = sio.get_session(sid)
     userId = session['userId']
     eventId = session['eventId']
@@ -57,6 +59,7 @@ def save_blob(sid, blob):
 # Send chat message. Possibly save as comment?
 @sio.event
 def send_message(sid, message):
+    message = array.array('B', message.values()).tostring()
     session = sio.get_session(sid)
     user = User.objects.filter(id=session['userId']).first()
     if len(message) <= 255:

@@ -6,11 +6,14 @@ import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
 
-/* global data isAuthenticated MediaRecorder */
+/* global data isAuthenticated MediaRecorder TextEncoder TextDecoder */
 
 let PORT = 3000
 const props = JSON.parse(_.unescape(data))
 const container = document.querySelector('#react-event')
+
+const encoder = new TextEncoder()
+const decoder = new TextDecoder()
 
 export default class Event extends React.Component {
   constructor () {
@@ -109,7 +112,7 @@ export default class Event extends React.Component {
       inProgress: true
     })
     const { socket } = this.state
-    socket.emit('join_stream', peerId)
+    socket.emit('join_stream', encoder.encode(peerId))
   }
 
   startStream () {
@@ -199,7 +202,7 @@ export default class Event extends React.Component {
                 {chat.map((data, idx) => {
                   return (
                     <div key={idx} className={idx % 2 !== 0 ? 'bg-near-white' : 'bg-white'}>
-                      <p style={{ overflowWrap: 'break-word' }}><span className={`b ${props.ownerId === data.userId ? 'blue' : 'black'}`}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
+                      <p style={{ overflowWrap: 'break-word' }}><span className={`b ${props.ownerId === data.userId ? 'blue' : 'black'}`}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{decoder.decode(data.message)}</span></p>
                     </div>
                   )
                 })}
@@ -222,7 +225,7 @@ export default class Event extends React.Component {
                 id='send-button'
                 className='br bb br0 bw1 outline-0'
                 onClick={e => {
-                  if (isAuthenticated) socket.emit('send_message', message)
+                  if (isAuthenticated) socket.emit('send_message', encoder.encode(message))
                   else this.setState({ chat: this.state.chat.concat({ userId: 0, username: null, message: 'You must be signed in to chat' }) })
                   this.setState({
                     message: ''
