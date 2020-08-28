@@ -1,4 +1,4 @@
-import io
+import os
 import socketio
 from django.core.files import File
 from django.core.files.base import ContentFile
@@ -32,7 +32,7 @@ def join_stream(sid, peerId):
             if event.archive:
                 if event.video:
                     event.video.delete()
-                event.video.save(f'archive_{eventId}.webm', io.BytesIO())
+                event.video.save(f'archive_{eventId}.webm', File(open(os.devnull)))
                 sio.save_session(sid, { 'userId': userId, 'eventId': eventId, 'peerId': peerId, 'video': event.video.open('ab') })
             viewer_counts[eventId] = 0
             event.in_progress = True
@@ -75,6 +75,8 @@ def disconnect(sid):
     if filtered.exists():
         event = filtered.first()
         if peerId:
+            sio.emit('user-disconnected', peerId, to=eventId)
+            sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
             if event.owner.user.id == userId:
                 if event.archive:
                     f = session['video']
@@ -85,6 +87,4 @@ def disconnect(sid):
                 event.save()
             else:
                 viewer_counts[eventId] -= 1
-            sio.emit('user-disconnected', peerId, to=eventId)
-            sio.emit('update-viewer-count', viewer_counts[eventId], to=eventId)
         sio.leave_room(sid, eventId)
