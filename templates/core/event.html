@@ -197,8 +197,9 @@
     <div id="comments-container" class="pt4">
         {% if event.is_upcoming or event.is_finished  %}
             <p>{{ event.event_comments.count }} comments</p>
-            {% for comment in event.event_comments.all %}
+            <div id="comments-div">
                 <div class="comments" style="padding: 10px;">
+            {% for comment in event.event_comments.all %}
                 <p class="font-weight-bold">
                     On {{ comment.date_created }}
                     <span class=" text-muted font-weight-normal">
@@ -206,39 +207,71 @@
                     </span>
                 </p>
                 {{ comment.message | linebreaks }}
-                </div>
+               
             {% endfor %}
+                </div>
+            </div>
             {% if user.is_authenticated and not event.in_progress %}
-                <h6>Leave a comment</h6>
+                <!-- <h6>Leave a comment</h6>
                 <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
                     {% csrf_token %}
                     {{ comment_form}}
                 
                 <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
                 </form>
-            {% endif %}
+            {% endif %} -->
+                <textarea id="comment-box" cols="50" rows="4"></textarea>
+                <button id="comment-button">Click to comment!</button>
         {% endif %}
     </div>
 </div>
 
 <script>
-    window.addEventListener("load", (e) => {
+    window.addEventListener("DOMContentLoaded", (e) => {
         const toggleFavoriteLink = document.querySelector("#toggle-saved")
         toggleFavoriteLink.addEventListener('click', function (e) {
-        e.preventDefault()
-        const eventId = toggleFavoriteLink.dataset['eventId']
-        fetch(`/event/${eventId}/saved`, {
-            method: 'POST'
+            e.preventDefault()
+            const eventId = toggleFavoriteLink.dataset['eventId']
+            fetch(`/event/${eventId}/saved`, {
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.saved) {
+                    toggleFavoriteLink.innerHTML = '&hearts;'
+            } else {
+            toggleFavoriteLink.innerHTML = '&#9825;'
+            }
+            })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.saved) {
-                toggleFavoriteLink.innerHTML = '&hearts;'
-        } else {
-        toggleFavoriteLink.innerHTML = '&#9825;'
-        }
+
+        //This for AJAX comments
+        const commentBox = document.getElementById("comment-box")
+        const commentButton = document.getElementById("comment-button")
+        const commentContainer = document.getElementById("comments-div")
+        commentButton.addEventListener("click", (e) => {
+            e.preventDefault()
+            const eventId = toggleFavoriteLink.dataset['eventId']
+            let message = commentBox.value
+            commentBox.value = ""
+            var p = document.createElement("div")  
+            let data = { "message" : message }
+
+            if (message.length > 0) {
+                fetch(`/event/${eventId}/add-comment`, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    p.innerHTML = data.html
+                    commentContainer.appendChild(p)
+                })
+            } 
         })
-    })
     })
     
 </script>
