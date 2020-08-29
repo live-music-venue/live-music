@@ -294,3 +294,16 @@ class SaveEvent(View):
         else:
             user.save_event.add(event)
             return JsonResponse({"saved": True})
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SaveEventComment(View):
+    def post(self, request, event_pk):
+        event = get_object_or_404(Event, pk=event_pk)
+        user = request.user
+        message_json = json.loads(request.body)
+        message = message_json["message"]
+        new_comment = EventComment(message=message, author=user, event=event)
+        new_comment.save()
+        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        return JsonResponse({"html": html})
