@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 12:12-0400\n"
+"POT-Creation-Date: 2020-08-30 13:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/views.py:92
+msgid "Add an Event:"
+msgstr "Añadir Evento:"
 
 #: templates/account/login.html:6 templates/account/login.html:44
 msgid "Sign In"
@@ -69,6 +73,104 @@ msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
+#: templates/core/donation_form.html:7
+msgid "Donation Form:"
+msgstr "Formulario de Donación:"
+
+#: templates/core/donation_form.html:13 templates/core/event_add_edit.html:40
+#: templates/core/musician_form.html:27
+msgid "Save"
+msgstr "Salvar"
+
+#: templates/core/donation_form.html:20
+msgid "If you're not sure how to set up some of these accounts, click"
+msgstr ""
+"Si no está seguro de cómo configurar algunas de estas cuentas, haga clic en"
+
+#: templates/core/donation_form.html:21
+msgid "Here"
+msgstr "Aquí"
+
+#: templates/core/donation_tutorial.html:6
+msgid "How to get your Paypal QR code and URL"
+msgstr "Cómo obtener su código QR y URL de Paypal"
+
+#: templates/core/donation_tutorial.html:30
+msgid "How to get your Venmo QR code"
+msgstr "Cómo obtener su código QR de Venmo"
+
+#: templates/core/event.html:22
+msgid "by"
+msgstr "por"
+
+#: templates/core/event.html:37
+msgid "About this event:"
+msgstr "Sobre el evento:"
+
+#: templates/core/event.html:39
+msgid "This event will begin at"
+msgstr "Este evento comenzará a las"
+
+#: templates/core/event.html:45 templates/core/show_musician.html:132
+msgid "Edit this event"
+msgstr "Editar este evento"
+
+#: templates/core/event.html:48 templates/core/event.html:133
+msgid "Share on"
+msgstr "Compartir en"
+
+#: templates/core/event.html:54
+msgid "or with"
+msgstr "o con"
+
+#: templates/core/event.html:65
+msgid "Please consider donating to the artist!"
+msgstr "Por favor considere donar a la artista!"
+
+#: templates/core/event.html:125
+msgid "Start Your Stream!"
+msgstr "Inicie su transmisión!"
+
+#: templates/core/event.html:200 templates/core/show_musician.html:185
+msgid "comments"
+msgstr "comentarios"
+
+#: templates/core/event.html:225
+msgid "Click to comment!"
+msgstr "Click para comentar!"
+
+#: templates/core/event_add_edit.html:29
+msgid "Title:"
+msgstr "Título:"
+
+#: templates/core/event_add_edit.html:31
+msgid "Date and time:"
+msgstr "Fecha y hora:"
+
+#: templates/core/event_add_edit.html:36 templates/core/musician_form.html:23
+msgid "Choose a"
+msgstr "Escoge un"
+
+#: templates/core/event_add_edit.html:36 templates/core/musician_form.html:23
+msgid "new"
+msgstr "nueva"
+
+#: templates/core/event_add_edit.html:36
+msgid "cover photo"
+msgstr "foto de cubierta"
+
+#: templates/core/favorite_musicians.html:5
+msgid "Calendar:"
+msgstr "Calendario"
+
+#: templates/core/favorite_musicians.html:10
+msgid "Favorite Musicians:"
+msgstr "Músicas Favoritas:"
+
+#: templates/core/favorite_musicians.html:25
+msgid "Saved Events:"
+msgstr "Eventos Guardados:"
+
 #: templates/core/homepage.html:10
 msgid "Live Now:"
 msgstr "En Vivo Ahora:"
@@ -105,6 +207,18 @@ msgstr "No hay nada vivo ahora mismo. Vea los próximos eventos a continuación.
 msgid "Upcoming concerts:"
 msgstr "Próximos conciertos:"
 
+#: templates/core/musician_form.html:16
+msgid "Name:"
+msgstr "Nombre"
+
+#: templates/core/musician_form.html:18
+msgid "Location:"
+msgstr "Ubicación:"
+
+#: templates/core/musician_form.html:23
+msgid "headshot"
+msgstr "disparo a la cabeza"
+
 #: templates/core/show_musician.html:40
 msgid "Edit Donation Info"
 msgstr "Editar información de donación"
@@ -121,13 +235,9 @@ msgstr "Añadir evento"
 msgid "events:"
 msgstr "eventos"
 
-#: templates/core/show_musician.html:132
-msgid "Edit this event"
-msgstr "Editar este evento"
-
-#: templates/core/show_musician.html:185
-msgid "comments"
-msgstr "comentarios"
+#: templates/core/show_musician.html:141
+msgid "Past events:"
+msgstr "Eventos Pasados:"
 
 #: templates/core/show_musician.html:203
 msgid "Submit"

@@ -17,6 +17,8 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import MapBox
 from django.conf import settings
+from django.utils.translation import gettext
+
 
 
 # Create your views here.
@@ -87,7 +89,7 @@ class EventPage(View):
 
 
 class AddEvent(View):
-    form_title = "Add an Event:"
+    form_title = gettext("Add an Event:")
 
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
