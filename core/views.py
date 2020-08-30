@@ -83,7 +83,7 @@ class EventPage(View):
             comment_form = EventCommentForm()
     
         
-        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form, 'user_saved': user_saved})
+        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form})
 
 
 class AddEvent(View):
