@@ -194,7 +194,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
-LOCALE_PATHS = [ os.path.join(PROJECT_ROOT, 'locale') ]
+LOCALE_PATHS = [ BASE_DIR / "locale" ]
 
 # Custom user model
 

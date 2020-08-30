@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-29 22:51-0400\n"
+"POT-Creation-Date: 2020-08-30 00:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,15 +71,15 @@ msgstr ""
 
 #: templates/core/homepage.html:10
 msgid "Live Now:"
-msgstr ""
+msgstr "En Vivo Ahora:"
 
 #: templates/core/homepage.html:14
 msgid "live/upcoming by date"
-msgstr ""
+msgstr "en vivo/próximamente"
 
 #: templates/core/homepage.html:15
 msgid "random"
-msgstr ""
+msgstr "azar"
 
 #: templates/core/homepage.html:16
 msgid "live now"
@@ -87,6 +87,10 @@ msgstr ""
 
 #: templates/core/homepage.html:17
 msgid "past events"
+msgstr ""
+
+#: templates/core/homepage.html:23
+msgid "Search now!"
 msgstr ""
 
 #: templates/core/homepage.html:61
