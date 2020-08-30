@@ -278,8 +278,13 @@ def edit_musician(request, musician_pk):
 
 def default_map(request):
     mapbox_access_token = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw'
+    musician_info = []
+    musicians = Musician.objects.all()
+    for musician in musicians:
+        if musician.latitude:
+            musician_info.append({"name": musician.name, "latitude": musician.latitude, "longitude": musician.longitude, "pk": musician.pk })
     return render(request, 'core/map.html', 
-            { 'mapbox_access_token': mapbox_access_token })
+            { 'mapbox_access_token': mapbox_access_token, "musician_info": musician_info })
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -307,3 +312,12 @@ class SaveEventComment(View):
         new_comment.save()
         html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
         return JsonResponse({"html": html})
+
+
+def musician_has_upcoming(musician_pk):
+    musician = get_object_or_404(Musician, musician_pk)
+    events = musician.events.all()
+    for event in events:
+        if event.is_upcoming:
+            return True
+    return False

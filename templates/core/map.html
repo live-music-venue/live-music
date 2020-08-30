@@ -1,16 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div id="test-div"></div>
 <div id='map' style='z-index: 7; width: 400px; height: 300px;'></div>
+{{ musician_info|json_script:"info" }}
+
 
 <script>
-setTimeout(function(){
-    mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11'
+    document.addEventListener("DOMContentLoaded", (e) => {
+        const testDiv = document.getElementById("test-div")
+        const info = JSON.parse(document.getElementById('info').textContent)
+        var map = null
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [12.550343, 55.665957],
+            zoom: 5
+        })
+        // var marker = new mapboxgl.Marker()
+        // .setLngLat([12.550343, 55.665957])
+        // .addTo(map);
+
+        for (let i = 0; i < info.length; i++) {
+            let musician = info[i]
+            var html = `<p>Name: ${musician.name}</p>
+            
+                        <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
+                            <p>Test?</p>`
+
+            var customPopUp = new mapboxgl.Popup(
+                {
+                anchor: 'bottom',   // To show popup on top
+                offset: { 'bottom': [0, -10] },  // To prevent popup from over shadowing the marker.
+                closeOnClick: false   // To prevent close on mapClick.
+                }
+            ).setHTML(html); // You can set any valid HTML.
+
+
+            console.log(info[i].name)
+            // var popup = new mapboxgl.Popup({offset: 25})
+            //     .setText(`Name: ${info[i].name}/nTest.`);
+            var marker = new mapboxgl.Marker(
+                { color: "red"}
+            )
+                .setLngLat([musician.latitude, musician.longitude])
+                .setPopup(customPopUp)
+                .addTo(map);
+        }
+
+
+
+
     })
-}, 1000);
 </script>
 {% endblock content %}

@@ -43,6 +43,7 @@ class Musician(models.Model):
         return f'{self.name}'
 
 
+
 class Event(models.Model):
     owner = models.ForeignKey(Musician, on_delete=models.CASCADE, related_name="events")
     title = models.CharField(max_length=255)
