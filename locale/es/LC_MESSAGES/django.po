@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 00:07-0400\n"
+"POT-Creation-Date: 2020-08-30 12:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,16 +83,52 @@ msgstr "azar"
 
 #: templates/core/homepage.html:16
 msgid "live now"
-msgstr ""
+msgstr "en vivo ahora"
 
 #: templates/core/homepage.html:17
 msgid "past events"
-msgstr ""
+msgstr "eventos pasados"
+
+#: templates/core/homepage.html:22
+msgid "Search here..."
+msgstr "Busca aquí..."
 
 #: templates/core/homepage.html:23
 msgid "Search now!"
-msgstr ""
+msgstr "Buscar ahora!"
+
+#: templates/core/homepage.html:55
+msgid "There's nothing live right now.  Check out upcoming events below."
+msgstr "No hay nada vivo ahora mismo. Vea los próximos eventos a continuación."
 
 #: templates/core/homepage.html:61
 msgid "Upcoming concerts:"
-msgstr ""
+msgstr "Próximos conciertos:"
+
+#: templates/core/show_musician.html:40
+msgid "Edit Donation Info"
+msgstr "Editar información de donación"
+
+#: templates/core/show_musician.html:43
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+#: templates/core/show_musician.html:46
+msgid "Add an event"
+msgstr "Añadir evento"
+
+#: templates/core/show_musician.html:111
+msgid "events:"
+msgstr "eventos"
+
+#: templates/core/show_musician.html:132
+msgid "Edit this event"
+msgstr "Editar este evento"
+
+#: templates/core/show_musician.html:185
+msgid "comments"
+msgstr "comentarios"
+
+#: templates/core/show_musician.html:203
+msgid "Submit"
+msgstr "Enviar"

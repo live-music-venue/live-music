@@ -19,7 +19,7 @@
     <div class="w-30 pr3 tr">
     <form action="{% url 'search' %}" class="" method="get">
         <div>
-        <input name="query" type="text" placeholder="Search here...">
+        <input name="query" type="text" placeholder="{% translate 'Search here...' %}">
         <button type="submit">{% translate "Search now!" %}</button>
         </div>
     </form>
@@ -52,7 +52,7 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        <h5 class="pb4 pt3">There's nothing live right now.  Check out upcoming events below.</h5>
+        <h5 class="pb4 pt3">{% translate "There's nothing live right now.  Check out upcoming events below." %}</h5>
     {% endif %}
 </div>
     

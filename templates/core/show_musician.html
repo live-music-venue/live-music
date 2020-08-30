@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
@@ -36,13 +37,13 @@
                     <div>
                         {% if musician.pk == user.pk %}
                             <div>
-                                <a href="{% url 'add-donation' musician_pk=musician.pk %}">Edit Donation Info</a>
+                                <a href="{% url 'add-donation' musician_pk=musician.pk %}">{% translate "Edit Donation Info" %}</a>
                             </div>
                             <div>
-                                <a href="{% url 'edit-musician' musician_pk=musician.pk %}">Edit profile</a>
+                                <a href="{% url 'edit-musician' musician_pk=musician.pk %}">{% translate "Edit profile" %}</a>
                             </div>  
                             <div>
-                                <a href="{% url 'add-event' musician_pk=musician.pk %}">Add an event</a>
+                                <a href="{% url 'add-event' musician_pk=musician.pk %}">{% translate "Add an event" %}</a>
                             </div>     
                         {% else %}
                             {% if musician.cashapp_name %}
@@ -107,7 +108,7 @@
 
 <div class="event-list">
     {%if musician.events.all.count %}
-    <h3>{{musician.name}}'s events:</h3>
+    <h3>{{musician.name}}'s {% translate "events:" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -128,7 +129,7 @@
                             {{event.date_time}}
                         </p>
                         {% if user == musician.user %}
-                        <a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
+                        <a href="{% url 'edit-event' event_pk=event.pk %}">{% translate "Edit this event" %}</a>
                         {% endif %}
                     </div>
             </div>
@@ -137,7 +138,7 @@
         {% endfor %}
     </div>
     {%if musician.events.all.count %}
-    <h3>Past events:</h3>
+    <h3>{% translate "Past events:" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -181,7 +182,7 @@ setTimeout(function(){
 
 <!-- comments -->
 {% if user.is_authenticated %}
-<h6>{{ musician.musician_comments.count }} comments</h6>
+<h6>{{ musician.musician_comments.count }} {% translate "comments" %}</h6>
 
 {% for comment in musician.musician_comments.all %}
 
@@ -199,7 +200,7 @@ setTimeout(function(){
     {% csrf_token %}
     {{ comment_form}}
   
-  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+  <button type="submit" class="btn btn-primary btn-sm">{% translate "Submit" %}</button>
 </form>
 {% endif %}
 
