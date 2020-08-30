@@ -83,7 +83,7 @@ class EventPage(View):
             comment_form = EventCommentForm()
     
         
-        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form, 'user_saved': user_saved})
+        return render(request, 'core/event.html', {'event': event, 'comment_form': comment_form})
 
 
 class AddEvent(View):
@@ -93,7 +93,7 @@ class AddEvent(View):
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False, "user_saved": user_saved})
+            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):
