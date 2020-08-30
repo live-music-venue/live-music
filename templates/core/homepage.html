@@ -44,7 +44,7 @@
                             <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
                         </p>
                         <p>
-                            Live Now!!!
+                            Live Now with {{ event.viewers }} viewer{% if event.viewers != 1 %}s{% endif %}
                         </p>
                     </div>
                 </div>

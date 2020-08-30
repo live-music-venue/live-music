@@ -5,13 +5,13 @@ import Peer from 'peerjs'
 import _ from 'lodash'
 import Webcam from 'react-webcam'
 import ReactPlayer from 'react-player'
-import { EyeOutlined } from '@ant-design/icons'
 
 /* global data isAuthenticated */
 
 let PORT = 3000
 let props = {}
 const container = document.querySelector('#react-event')
+const startLink = document.getElementById('start-stream-link')
 
 export default class Event extends React.Component {
   constructor () {
@@ -39,6 +39,7 @@ export default class Event extends React.Component {
   }
 
   async componentDidMount () {
+    if (startLink) startLink.onclick = this.startStream
     const secure = PORT !== 3000
     const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost'
     await this.setState({
@@ -79,6 +80,7 @@ export default class Event extends React.Component {
           })
           document.getElementById('event-container').removeAttribute('style')
           document.getElementById('social-container').removeAttribute('style')
+          if (startLink) startLink.removeAttribute('style')
         })
       })
       peer.on('call', (call, id) => {
@@ -103,9 +105,9 @@ export default class Event extends React.Component {
 
   joinStream (peerId) {
     document.getElementById('event-container').setAttribute('style', 'display: none;')
-    //document.getElementById('social-container').setAttribute('style', 'display: none;')
+    // document.getElementById('social-container').setAttribute('style', 'display: none;')
     document.getElementById('comments-container').setAttribute('style', 'display: none;')
-    //document.getElementById('start-stream-link').setAttribute('style', 'display: none;')
+    if (startLink) startLink.setAttribute('style', 'display: none;')
 
     this.setState({
       inProgress: true
@@ -142,28 +144,15 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const { isOwner, inProgress, viewers, player, socket, chat, message } = this.state
+    const { inProgress, viewers, player, socket, chat, message } = this.state
     let view = null
-    if (isOwner && !inProgress) {
-      view = (
-        <>
-          <a
-            href='#'
-            onClick={e => {
-              this.startStream()
-            }}
-          >
-            Start Stream
-          </a>
-        </>
-      )
-    } else if (inProgress) {
+    if (inProgress) {
       view = (
         <>
           <div className='flex center'>
             <div className='flex flex-column'>
               {player}
-              <p><EyeOutlined /> {viewers}</p>
+              <p><i className='fas fa-eye' /> {viewers}</p>
             </div>
             <div>
               <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
