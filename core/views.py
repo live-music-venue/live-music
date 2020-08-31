@@ -211,6 +211,13 @@ class ShowMusician(View):
             new_comment.musician = musician
             new_comment.author = request.user
             new_comment.save()
+            send_mail(
+                f'''{MusicianComment.author.username} has commented with the following:\n\n{MusicianComment.message}
+                    \n\nYou can view all of your comments here:  http://127.0.0.1:3000/musician/{answer.question.pk}''',
+                EMAIL_HOST_USER,
+                [MusicianComment.message.author.email],
+                fail_silently=False,
+            )
             return redirect(to='show-musician', musician_pk= musician_pk)
         else:
             comment_form = MusicianCommentForm()
