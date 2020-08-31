@@ -1,14 +1,91 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h2>Find our musicians!</h2>
+<div id="test-div"></div>
+<div id='map'></div>
+<button id="fly">Fly</button>
+<input id="fly-form" type="text">
+{{ musician_info|json_script:"info" }}
 
-<div id='map' style='z-index: 7; width: 400px; height: 300px;'></div>
 
 <script>
-setTimeout(function(){
-mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11'});}, 1000);
+    document.addEventListener("DOMContentLoaded", (e) => {
+        const testDiv = document.getElementById("test-div")
+        const info = JSON.parse(document.getElementById('info').textContent)
+        var map = null
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-78.904722, 35.995278],
+            zoom: 9
+        })
+        for (let i = 0; i < info.length; i++) {
+            let musician = info[i]
+            var html = `<div style="border-radius: 3px; width: 200px;">
+                            <h6>Name: ${musician.name}</h6>
+                            <img src=${musician.thumb}></img>
+                            <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
+                            <p>Test?</p>
+                        </div>`
+
+            var customPopUp = new mapboxgl.Popup(
+                {
+                anchor: 'bottom',   // To show popup on top
+                offset: { 'bottom': [0, -10] },  // To prevent popup from over shadowing the marker.
+                closeOnClick: false   // To prevent close on mapClick.
+                }
+            ).setHTML(html); // You can set any valid HTML.
+            
+            let color = "blue"
+            if (musician.hasUpcoming) {
+                color = "lightblue"
+            }
+            console.log(info[i].name)
+            // var popup = new mapboxgl.Popup({offset: 25})
+            //     .setText(`Name: ${info[i].name}/nTest.`);
+            var marker = new mapboxgl.Marker(
+                { color: color}
+            )
+                .setLngLat([musician.longitude, musician.latitude])
+                .setPopup(customPopUp)
+                .addTo(map);
+        }
+
+        const addressBox = document.getElementById("fly-form")
+        document.getElementById('fly').addEventListener('click', function() {
+            let address = addressBox.value
+            addressBox.value = ""
+            if (address.length > 0) {
+                addressJSON = { "address": address}
+                fetch(`/get-code`, {
+                    method: 'POST',
+                    body: JSON.stringify(addressJSON),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.valid) {
+                        map.flyTo({
+                            center: [
+                                data.longitude,
+                                data.latitude
+                                ],
+                            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                        });
+                    } else {
+                        addressBox.value = "Invalid address."
+                    }
+                })
+            }
+            
+        });
+
+
+
+    })
 </script>
 {% endblock content %}

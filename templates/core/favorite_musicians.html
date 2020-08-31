@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h3>{{user.username}}'s Calendar:</h3>
+<h3>{{user.username}}'s {% translate "Calendar:" %}</h3>
 <div class="flex flex-wrap w-70">
     <div id='calendar' class="w-80 pt2 pb4"></div>
 </div>
 
-<h3>{{user.username}}'s Favorite Musicians:</h3>
+<h3>{{user.username}}'s {% translate "Favorite Musicians:" %}</h3>
 <div class="test-flex">
     {% for musician in favorites %}
     <div class="shadow-3 br3 ma3 event-pane">
@@ -21,7 +22,7 @@
     {% endfor %}
 </div>
 
-<h3>Saved Events:</h3>
+<h3>{% translate "Saved Events:" %}</h3>
 <div class="test-flex">
     {% for event in saved_events %}
     <div class="shadow-3 br3 ma3 event-pane">

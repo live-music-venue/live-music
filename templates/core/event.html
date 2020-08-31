@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 <!-- don't mess with div ids pls :] -->
 
@@ -27,7 +28,7 @@
                 </div>
             {% endif %}
         </a>
-        {{event.title}} <span class="header-name-link">by <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> 
+        {{event.title}} <span class="header-name-link">{% translate "by" %} <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> 
     </h3>
 </div>
 <div class="mt2 mr4 mb4 ml5 content">
@@ -42,24 +43,24 @@
         <div class="flex flex-column justify-between pt3 w-30">
             <div class="">
                 <div class="">
-                    <h5>About this event:</h5>
+                    <h5>{% translate "About this event:" %}</h5>
                     <p>{{event.description}}</p>
-                    <p>This event will begin at {{event.date_time}}</p>
+                    <p>{% translate "This event will begin at" %} {{event.date_time}}</p>
                 </div>
             </div>
                     
             <div>
             {% if user == event.owner.user %}
-                <a href="{% url 'edit-event' event_pk=event.pk %}">Edit this event</a>
+                <a href="{% url 'edit-event' event_pk=event.pk %}">{% translate "Edit this event" %}</a>
             {% endif %}
             <div id="social-div">
-                <span>Share on 
+                <span>{% translate "Share on" %} 
                     {% post_to_facebook object_or_url "Facebook" %}  
                     <i class="fab fa-facebook-square"></i>
                     <!-- <i class="fab fa-facebook-f"></i>
                     <i class="fab fa-facebook"></i> -->
                     {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url ", Twitter" %}
-                    <i class="fab fa-twitter"></i>, or with
+                    <i class="fab fa-twitter"></i>, {% translate "or with" %}
                     <!-- <i class="fab fa-twitter-square"></i> -->
                     {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "email" %}
                     <!-- <i class="fas fa-envelope"></i> -->
@@ -70,7 +71,7 @@
             
             <div id="qr-div" class="pt4">
                 {% if musician.cashapp_name or musician.paypal_donation_url or musiciain.paypal_qr or musician.cashapp_qr or musician.venmo_qr %}
-                <h5>Please consider donating to the artist!</h5>
+                <h5>{% translate "Please consider donating to the artist!" %}</h5>
                 {% endif %}
                 <div>
                     {% if musician.cashapp_name %}
@@ -130,7 +131,7 @@
         </script>
     </div>
     {% if user == event.owner.user %}
-    <a class="pt2 mt4 stream-start" id="start-stream-link" href="#">Start Your Stream!</a>
+    <a class="pt2 mt4 stream-start" id="start-stream-link" href="#">{% translate "Start Your Stream!" %}</a>
     {% endif %}
 
     <div id="social-container">
@@ -138,13 +139,13 @@
 
         <div id="social-dontations" class="flex justify-between pt2 mr7" style="display: none">
             <div>
-                <span>Share on 
+                <span>{% translate "Share on" %} 
                     {% post_to_facebook object_or_url "Facebook" %}  
                     <i class="fab fa-facebook-square"></i>
                     <!-- <i class="fab fa-facebook-f"></i>
                     <i class="fab fa-facebook"></i> -->
                     {% post_to_twitter "New Live Performance: {{event.title}}. Check it out!" object_or_url ", Twitter" %}
-                    <i class="fab fa-twitter"></i>, or with
+                    <i class="fab fa-twitter"></i>, {% translate "or wi
                     <!-- <i class="fab fa-twitter-square"></i> -->
                     {% send_email object.title "Check Out This Live Performance: {{event.title}}. Check it out!" object_or_url "email" %}
                     <!-- <i class="fas fa-envelope"></i> -->
@@ -205,7 +206,7 @@
         <!-- comments -->
     <div id="comments-container" class="pt4">
         {% if event.is_upcoming or event.is_finished  %}
-            <p>{{ event.event_comments.count }} comments</p>
+            <p>{{ event.event_comments.count }} {% translate "comments" %}</p>
             <div id="comments-div">
                 <div class="comments" style="padding: 10px;">
             {% for comment in event.event_comments.all %}
@@ -230,7 +231,7 @@
                 </form>
             {% endif %} -->
                 <textarea id="comment-box" cols="50" rows="4"></textarea>
-                <button id="comment-button">Click to comment!</button>
+                <button id="comment-button">{% translate "Click to comment!" %}</button>
         {% endif %}
     </div>
 </div>

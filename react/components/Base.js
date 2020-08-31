@@ -5,7 +5,7 @@ import {
   MenuOutlined, HomeOutlined, LogoutOutlined,
   DownOutlined, LoginOutlined, UserAddOutlined,
   ProfileOutlined, StarOutlined, InfoCircleOutlined,
-  VideoCameraAddOutlined, AudioOutlined
+  VideoCameraAddOutlined, AudioOutlined, GlobalOutlined
 } from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
 import axios from 'axios'
@@ -187,6 +187,17 @@ export default class Base extends React.Component {
                     Favorites
                   </Menu.Item>
                 )}
+
+                  <Menu.Item
+                    key='map'
+                    icon={<GlobalOutlined />}
+                    onClick={e => {
+                      redirect(mapURL)
+                    }}
+                  >
+                    Map
+                  </Menu.Item>
+
 
                 <Menu.Item
                   key='about'
