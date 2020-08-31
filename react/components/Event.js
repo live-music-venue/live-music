@@ -80,6 +80,7 @@ export default class Event extends React.Component {
           })
           document.getElementById('event-container').removeAttribute('style')
           document.getElementById('social-container').removeAttribute('style')
+          document.getElementById('comments-container').removeAttribute('style')
           if (startLink) startLink.removeAttribute('style')
         })
       })
