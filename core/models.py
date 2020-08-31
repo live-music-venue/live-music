@@ -38,9 +38,16 @@ class Musician(models.Model):
         format="JPEG",
         options={"quality": 100},
     )
+    very_small_thumb = ImageSpecField(
+        source="headshot",
+        processors=[Transpose(), ResizeToCover(100, 100), SmartCrop(100, 100)],
+        format="JPEG",
+        options={"quality": 100},
+    )
 
     def __str__(self):
         return f'{self.name}'
+
 
 
 class Event(models.Model):
@@ -54,6 +61,7 @@ class Event(models.Model):
     in_progress = models.BooleanField(default=False)
     genre = models.CharField(max_length=255, null=True, blank=True)
 
+    viewers = models.IntegerField(default=0)
     video = models.FileField(upload_to="videos/", null=True, blank=True)
     
     cover_photo = models.ImageField(upload_to="images/", null=True, blank=False)

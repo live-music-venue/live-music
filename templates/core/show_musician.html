@@ -167,17 +167,7 @@
 
 <!-- Map -->
 <div id='map' style='z-index: 7; width: 400px; height: 300px;'></div>
-<script>
-setTimeout(function(){
-    mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [{{musician.longitude}}, {{musician.latitude}}],
-        zoom: 10 
-    });
-}, 1000);
-</script>
+
 
 <!-- comments -->
 <div id="comments-container" class="pt4">
@@ -216,11 +206,21 @@ setTimeout(function(){
     window.addEventListener("load", (e) => {
         const toggleFavoriteLink = document.querySelector("#toggle-favorite")
         toggleFavoriteLink.addEventListener('click', function (e) {
-        e.preventDefault()
-        const musicianId = toggleFavoriteLink.dataset['musicianId']
-        fetch(`/musician/${musicianId}/favorite`, {
-            method: 'POST'
+            e.preventDefault()
+            const musicianId = toggleFavoriteLink.dataset['musicianId']
+            fetch(`/musician/${musicianId}/favorite`, {
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.favorite) {
+                    toggleFavoriteLink.innerHTML = '&#9733;'
+                } else {
+                    toggleFavoriteLink.innerHTML = '&#9734;'
+                }
+            })
         })
+<<<<<<< HEAD
         .then(res => res.json())
         .then(data => {
             if (data.favorite) {
@@ -259,12 +259,16 @@ setTimeout(function(){
     })
 })
     
+=======
+    }) 
+>>>>>>> master
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.js" defer></script>
 <script>
 
+//calendar starts here
     document.addEventListener('DOMContentLoaded', function() {
         const data = JSON.parse(_.unescape('{{events}}'))
         var calendarEl = document.getElementById('calendar');
@@ -279,6 +283,15 @@ setTimeout(function(){
                 
         });
         calendar.render();
+
+//maps start here
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-83.0, 37.0],
+            zoom: 10 
+        });
     });
 
 </script>
