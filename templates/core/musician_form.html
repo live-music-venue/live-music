@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div class="event-add center flex justify-around mt5">
@@ -12,18 +13,18 @@
             {% endif %}
                 {% csrf_token %}
                 <div class="vertical">
-                    <p class="form-label">Name: </p>
+                    <p class="form-label">{% translate "Name:" %} </p>
                     <p class="naked-input">{{ form.name }}</p>
-                    <p class="form-label">Location:</p>
+                    <p class="form-label">{% translate "Location:" %}</p>
                     <p class="naked-input">{{ form.city }}</p>
                 </div>
                 <p class="pt2">{{ form.bio }}<p>
                 <div>
-                    <p>Choose a {% if edit %}new {% endif %}headshot{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
+                    <p>{% translate "Choose a" %} {% if edit %}{% translate "new" %} {% endif %}{% translate "headshot" %}{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
                     <p class="pl1"> {{ form.headshot }}</p>
                 </div>
                 <div>
-                    <button type="submit">Save</button>
+                    <button type="submit">{% translate "Save" %}</button>
                 </div>
             </form>
         </div>

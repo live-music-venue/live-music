@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block javascript %}
 
@@ -25,20 +26,20 @@
             {% endif %}
                 {% csrf_token %}
                 <div class="vertical">
-                    <p class="form-label">Title: </p>
+                    <p class="form-label">{% translate "Title:" %}</p>
                     <p class="naked-input">{{ form.title }}</p>
-                    <p class="form-label">Genre: </p>
+                    <p class="form-label">{% translate "Genre:" %} </p>
                     <p class="naked-input">{{ form.genre }}</p>
-                    <p class="form-label">Date and time:</p>
+                    <p class="form-label">{% translate "Date and time:" %}</p>
                     <p class="naked-input">{{ form.date_time }}</p>
                 </div>
                 <p class="pt1">{{ form.description }}<p>
                 <div>
-                    <p>Choose a {% if edit %}new {% endif %}cover photo{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
+                    <p>{% translate "Choose a" %} {% if edit %}{% translate "new" %} {% endif %}{% translate "cover photo" %}{%if edit%}?{% endif %}{% if not edit%}:{% endif %}</p>
                     <p class="pl1"> {{ form.cover_photo }}</p>
                 </div>
                 <div>
-                    <button type="submit">Save</button>
+                    <button type="submit">{% translate "Save" %}</button>
                 </div>
             </form>
         </div>

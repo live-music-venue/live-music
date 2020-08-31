@@ -17,8 +17,13 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import MapBox
 from django.conf import settings
+<<<<<<< HEAD
 from django.core.mail import send_mail
 from project.settings import EMAIL_HOST_USER
+=======
+from django.utils.translation import gettext
+
+>>>>>>> master
 
 
 # Create your views here.
@@ -89,7 +94,7 @@ class EventPage(View):
 
 
 class AddEvent(View):
-    form_title = "Add an Event:"
+    form_title = gettext("Add an Event:")
 
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
@@ -329,6 +334,19 @@ class SaveEventComment(View):
         message_json = json.loads(request.body)
         message = message_json["message"]
         new_comment = EventComment(message=message, author=user, event=event)
+        new_comment.save()
+        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        return JsonResponse({"html": html})
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SaveMusicianComment(View):
+    def post(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        user = request.user
+        message_json = json.loads(request.body)
+        message = message_json["message"]
+        new_comment = MusicianComment(message=message, author=user, musician=musician)
         new_comment.save()
         html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
         return JsonResponse({"html": html})
