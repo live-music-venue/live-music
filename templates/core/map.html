@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h2>Find our musicians!</h2>
 <div id="test-div"></div>
-<div id='map' style='z-index: 7; width: 800px; height: 600px; border: 1px solid black'></div>
+<div id='map'></div>
+<button id="fly">Fly</button>
 {{ musician_info|json_script:"info" }}
 
 
@@ -18,14 +20,14 @@
             center: [-78.904722, 35.995278],
             zoom: 9
         })
-        // var marker = new mapboxgl.Marker()
-        // .setLngLat([12.550343, 55.665957])
-        // .addTo(map);
         for (let i = 0; i < info.length; i++) {
             let musician = info[i]
-            var html = `<p>Name: ${musician.name}</p>
-                        <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
-                            <p>Test?</p>`
+            var html = `<div style="border-radius: 3px; width: 200px;">
+                            <h6>Name: ${musician.name}</h6>
+                            <img src=${musician.thumb}></img>
+                            <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
+                            <p>Test?</p>
+                        </div>`
 
             var customPopUp = new mapboxgl.Popup(
                 {
@@ -50,6 +52,18 @@
                 .addTo(map);
         }
 
+                
+        document.getElementById('fly').addEventListener('click', function() {
+        // Fly to a random location by offsetting the point -74.50, 40
+        // by up to 5 degrees.
+            map.flyTo({
+                center: [
+                    -74.5 + (Math.random() - 0.5) * 10,
+                    40 + (Math.random() - 0.5) * 10
+                    ],
+                essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            });
+        });
 
 
 
