@@ -17,6 +17,8 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import MapBox
 from django.conf import settings
+from django.core.mail import send_mail
+from project.settings import EMAIL_HOST_USER
 
 
 # Create your views here.
