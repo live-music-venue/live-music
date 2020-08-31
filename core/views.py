@@ -307,3 +307,16 @@ class SaveEventComment(View):
         new_comment.save()
         html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
         return JsonResponse({"html": html})
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SaveMusicianComment(View):
+    def post(self, request, musician_pk):
+        musician = get_object_or_404(Musician, pk=musician_pk)
+        user = request.user
+        message_json = json.loads(request.body)
+        message = message_json["message"]
+        new_comment = MusicianComment(message=message, author=user, musician=musician)
+        new_comment.save()
+        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        return JsonResponse({"html": html})
