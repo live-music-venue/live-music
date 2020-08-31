@@ -193,6 +193,35 @@
   <button type="submit" class="btn btn-primary btn-sm">{% translate "Submit" %}</button>
 </form>
 {% endif %}
+<div id="comments-container" class="pt4">
+    {% if user.is_authenticated  %}
+        <p>{{ musician.musician_comments.count }} comments</p>
+        <div id="comments-div">
+            <div class="comments" style="padding: 10px;">
+        {% for comment in musician.musician_comments.all %}
+            <p class="font-weight-bold">
+                On {{ comment.date_created }}
+                <span class=" text-muted font-weight-normal">
+                {{ comment.author }} says:
+                </span>
+            </p>
+            {{ comment.message | linebreaks }}
+           
+        {% endfor %}
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+            <!-- <h6>Leave a comment</h6>
+            <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
+                {% csrf_token %}
+                {{ comment_form}}
+            
+            <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
+            </form>
+        {% endif %} -->
+            <textarea id="comment-box" cols="50" rows="4"></textarea>
+            <button id="comment-button">Click to comment!</button>
+    {% endif %}
 
 
 
@@ -214,7 +243,44 @@
                 }
             })
         })
-    }) 
+        .then(res => res.json())
+        .then(data => {
+            if (data.favorite) {
+                toggleFavoriteLink.innerHTML = '&#9733;'
+        } else {
+        toggleFavoriteLink.innerHTML = '&#9734;'
+        }
+        })
+    })
+    //This for AJAX comments
+    const commentBox = document.getElementById("comment-box")
+    const commentButton = document.getElementById("comment-button")
+    const commentContainer = document.getElementById("comments-div")
+    commentButton.addEventListener("click", (e) => {
+        e.preventDefault()
+        const musicianId = toggleFavoriteLink.dataset['musicianId']
+        let message = commentBox.value
+        commentBox.value = ""
+        var p = document.createElement("div")  
+        let data = { "message" : message }
+
+        if (message.length > 0) {
+            fetch(`/musician/${musicianId}/add-comment`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                p.innerHTML = data.html
+                commentContainer.appendChild(p)
+            })
+        } 
+    })
+})
+    
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
