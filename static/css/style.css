@@ -134,6 +134,7 @@ input {
 
 .qr {
   height: 80px;
+  width: 80px;
   margin: 0px 15px 0px 15px;
 }
 
@@ -198,7 +199,7 @@ header {
 
 .thumbnail-div {
   position: relative;
-  width: 250px;
+  width: 266px;
   height: 188px;
   z-index: 1;
 }

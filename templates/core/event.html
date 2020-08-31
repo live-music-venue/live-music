@@ -35,6 +35,7 @@
             <div class="">
                 <div class="">
                     <h5>{% translate "About this event:" %}</h5>
+                    <p>Genre: {{event.genre}} </p>
                     <p>{{event.description}}</p>
                     <p>{% translate "This event will begin at" %} {{event.date_time}}</p>
                 </div>
@@ -69,15 +70,11 @@
                     <p>Cashapp name: {{musician.cashapp_name}}</p>
                 {% endif %}
                 {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                <p><a href="{{musician.paypal_donation_url}}" target="_blank">Give money through Paypal!
+                </a></p><br> 
                 {% endif %}
 
                 <div class="flex">
-
-                {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                    <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-                {% endif %}
-
 
                 {% if musician.cashapp_qr %}
                     <div class="flex flex-column">
@@ -143,58 +140,10 @@
                     <i class="far fa-envelope"></i>!
                 </span>
             </div>
-            <!-- <div>
-                {% if musician.cashapp_name %}
-                <p>Cashapp name: {{musician.cashapp_name}}</p>
-            {% endif %}
-            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-            <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-            {% endif %}
-
-            <div class="flex">
-
-            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-            {% endif %}
-
-
-            {% if musician.cashapp_qr %}
-                <div class="flex flex-column">
-                    <p class="qr-label">Cashapp:</p>
-                    <img class="qr" src="{{ musician.cashapp_qr.url }}"><br>
-                </div>
-            {% endif %}
-
-
-            {% if musician.paypal_donation_url and musician.paypal_qr %}
-            <div class="flex flex-column qr-box">
-                <p class="qr-label">Paypal:</p>
-                <a href="{{musician.paypal_donation_url}}"><img class="qr" src="{{ musician.paypal_qr.url }}" /></a><br>
-            </div>
-            {% endif %}
-
-
-            {% if musician.paypal_qr and not musician.paypal_donation_url %}
-            <div class="flex flex-column">
-                <p class="qr-label">Paypal:</p>
-                <img class="qr" src="{{ musician.paypal_qr.url }}"><br>
-            </div>
-            {% endif %}
-
-
-            {% if musician.venmo_qr %}
-            <div class="flex flex-column">
-                <p class="qr-label">Venmo:</p>
-                <img class="qr" src="{{ musician.venmo_qr.url }}">
-            </div>
-            {% endif %}
-            </div>
-    </div> 
-            </div>
-        </div> -->
         </div> 
-
+    </div>
         <!-- comments -->
+
     <div id="comments-container" class="pt4">
         {% if event.is_upcoming or event.is_finished  %}
             <p>{{ event.event_comments.count }} {% translate "comments" %}</p>
