@@ -282,7 +282,11 @@ def default_map(request):
     musicians = Musician.objects.all()
     for musician in musicians:
         if musician.latitude:
-            musician_info.append({"name": musician.name, "latitude": musician.latitude, "longitude": musician.longitude, "pk": musician.pk })
+            musician_info.append({"name": musician.name, 
+                                    "latitude": musician.latitude, 
+                                    "longitude": musician.longitude, 
+                                    "pk": musician.pk,
+                                    "hasUpcoming": musician_has_upcoming(musician)})
     return render(request, 'core/map.html', 
             { 'mapbox_access_token': mapbox_access_token, "musician_info": musician_info })
 
@@ -314,8 +318,7 @@ class SaveEventComment(View):
         return JsonResponse({"html": html})
 
 
-def musician_has_upcoming(musician_pk):
-    musician = get_object_or_404(Musician, musician_pk)
+def musician_has_upcoming(musician):
     events = musician.events.all()
     for event in events:
         if event.is_upcoming:

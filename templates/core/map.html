@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="test-div"></div>
-<div id='map' style='z-index: 7; width: 400px; height: 300px;'></div>
+<div id='map' style='z-index: 7; width: 800px; height: 600px; border: 1px solid black'></div>
 {{ musician_info|json_script:"info" }}
 
 
@@ -15,17 +15,15 @@
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [12.550343, 55.665957],
-            zoom: 5
+            center: [-78.904722, 35.995278],
+            zoom: 9
         })
         // var marker = new mapboxgl.Marker()
         // .setLngLat([12.550343, 55.665957])
         // .addTo(map);
-
         for (let i = 0; i < info.length; i++) {
             let musician = info[i]
             var html = `<p>Name: ${musician.name}</p>
-            
                         <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
                             <p>Test?</p>`
 
@@ -36,13 +34,16 @@
                 closeOnClick: false   // To prevent close on mapClick.
                 }
             ).setHTML(html); // You can set any valid HTML.
-
-
+            
+            let color = "blue"
+            if (musician.hasUpcoming) {
+                color = "red"
+            }
             console.log(info[i].name)
             // var popup = new mapboxgl.Popup({offset: 25})
             //     .setText(`Name: ${info[i].name}/nTest.`);
             var marker = new mapboxgl.Marker(
-                { color: "red"}
+                { color: color}
             )
                 .setLngLat([musician.latitude, musician.longitude])
                 .setPopup(customPopUp)
