@@ -159,9 +159,7 @@ class AddMusicianInfo(View):
             if form.is_valid():
                 mapbox_client = MapBox(settings.MAPBOX_API_KEY)
                 musician = form.save(commit=False)
-                result = mapbox_client.geocode(musician.city)
-                result.latitude
-                result.longitude                
+                result = mapbox_client.geocode(musician.city)               
                 musician.latitude = result.latitude
                 musician.longitude = result.longitude
                 musician.user = request.user
@@ -169,6 +167,21 @@ class AddMusicianInfo(View):
                 return redirect(to='show-musician', musician_pk=musician.pk)
             return redirect(to="homepage")
         return redirect(to="homepage")
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class getGeocode(View):
+    def post(self, request):
+        mapbox_client = MapBox(settings.MAPBOX_API_KEY)
+        location_json = json.loads(request.body)
+        location = location_json["address"]
+        result = mapbox_client.geocode(location)
+        if result is None:   
+            return JsonResponse({"valid": False})
+        else:         
+            latitude = result.latitude
+            longitude = result.longitude
+            return JsonResponse({"valid": True, "latitude": latitude, "longitude": longitude})
 
 
 class ShowMusician(View):
@@ -280,8 +293,18 @@ def edit_musician(request, musician_pk):
 
 def default_map(request):
     mapbox_access_token = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw'
+    musician_info = []
+    musicians = Musician.objects.all()
+    for musician in musicians:
+        if musician.latitude:
+            musician_info.append({"name": musician.name, 
+                                    "latitude": musician.latitude, 
+                                    "longitude": musician.longitude, 
+                                    "pk": musician.pk,
+                                    "hasUpcoming": musician_has_upcoming(musician),
+                                    "thumb": musician.thumbnail.url})
     return render(request, 'core/map.html', 
-            { 'mapbox_access_token': mapbox_access_token })
+            { 'mapbox_access_token': mapbox_access_token, "musician_info": musician_info })
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -309,3 +332,11 @@ class SaveEventComment(View):
         new_comment.save()
         html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
         return JsonResponse({"html": html})
+
+
+def musician_has_upcoming(musician):
+    events = musician.events.all()
+    for event in events:
+        if event.is_upcoming:
+            return True
+    return False

@@ -32,6 +32,7 @@
         const signupURL = "{% url 'account_signup' %}"
         const logoutURL = "{% url 'account_logout' %}"
         const favoritesURL = "{% url 'favorite-musicians' %}"
+        const mapURL = "{% url 'map' %}"
         {% if user.is_authenticated %}
         const musicianSignupURL = "{% url 'add-musician' user_pk=user.pk %}"
         {% else %}

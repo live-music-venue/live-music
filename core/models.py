@@ -38,9 +38,16 @@ class Musician(models.Model):
         format="JPEG",
         options={"quality": 100},
     )
+    very_small_thumb = ImageSpecField(
+        source="headshot",
+        processors=[Transpose(), ResizeToCover(100, 100), SmartCrop(100, 100)],
+        format="JPEG",
+        options={"quality": 100},
+    )
 
     def __str__(self):
         return f'{self.name}'
+
 
 
 class Event(models.Model):
