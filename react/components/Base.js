@@ -8,6 +8,7 @@ import {
   VideoCameraAddOutlined, AudioOutlined
 } from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
+import axios from 'axios'
 
 /* global location isAuthenticated loginURL signupURL logoutURL isMusician username musicianSignupURL profileURL addEventURL favoritesURL */
 

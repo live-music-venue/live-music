@@ -2,8 +2,17 @@
 
 <!-- don't mess with div ids pls :] -->
 
+{% block javascript %}
+<script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+{% endblock javascript %}
+
 {% block content %}
 {% load social_share %}
+
+
 <div class="">
     <h3 class="mt3 ml4">
         <a class="pl3 grow dib star" id="toggle-saved" data-event-id = "{{ event.pk }}" class="no-underline pointer dib grow f3">

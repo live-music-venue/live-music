@@ -49,7 +49,7 @@ p {
 .event-pane {
   background-color: white;
   width: 265px;
-  height: 265px;
+  height: 290px;
 }
 
 .calendar {
@@ -217,7 +217,7 @@ header {
   display: inline-block;
 }
 
-.info-div {
+.live-info-div {
   margin-top: 15px;
 }
 
