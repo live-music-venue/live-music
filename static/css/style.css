@@ -48,8 +48,8 @@ p {
 
 .event-pane {
   background-color: white;
-  width: 265px;
-  height: 265px;
+  /* width: 265px;
+  height: 265px; */
 }
 
 .calendar {
