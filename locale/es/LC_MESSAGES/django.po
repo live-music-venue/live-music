@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 13:51-0400\n"
+"POT-Creation-Date: 2020-08-30 22:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Donation Form:"
 msgstr "Formulario de Donación:"
 
-#: templates/core/donation_form.html:13 templates/core/event_add_edit.html:40
+#: templates/core/donation_form.html:13 templates/core/event_add_edit.html:42
 #: templates/core/musician_form.html:27
 msgid "Save"
 msgstr "Salvar"
@@ -144,18 +144,22 @@ msgid "Title:"
 msgstr "Título:"
 
 #: templates/core/event_add_edit.html:31
+msgid "Genre:"
+msgstr "Género:"
+
+#: templates/core/event_add_edit.html:33
 msgid "Date and time:"
 msgstr "Fecha y hora:"
 
-#: templates/core/event_add_edit.html:36 templates/core/musician_form.html:23
+#: templates/core/event_add_edit.html:38 templates/core/musician_form.html:23
 msgid "Choose a"
 msgstr "Escoge un"
 
-#: templates/core/event_add_edit.html:36 templates/core/musician_form.html:23
+#: templates/core/event_add_edit.html:38 templates/core/musician_form.html:23
 msgid "new"
 msgstr "nueva"
 
-#: templates/core/event_add_edit.html:36
+#: templates/core/event_add_edit.html:38
 msgid "cover photo"
 msgstr "foto de cubierta"
 
@@ -199,11 +203,11 @@ msgstr "Busca aquí..."
 msgid "Search now!"
 msgstr "Buscar ahora!"
 
-#: templates/core/homepage.html:55
+#: templates/core/homepage.html:62
 msgid "There's nothing live right now.  Check out upcoming events below."
 msgstr "No hay nada vivo ahora mismo. Vea los próximos eventos a continuación."
 
-#: templates/core/homepage.html:61
+#: templates/core/homepage.html:68
 msgid "Upcoming concerts:"
 msgstr "Próximos conciertos:"
 

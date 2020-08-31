@@ -138,7 +138,7 @@ class SearchEvents(View):
     def get(self, request):
         query = request.GET.get('query')
         if query is not None:
-            events = Event.objects.annotate(search=SearchVector("title", "description", "owner__name",)).filter(search=query).distinct("id").order_by("-pk")
+            events = Event.objects.annotate(search=SearchVector("title", "description", "owner__name", "genre")).filter(search=query).distinct("id").order_by("-pk")
         else:
             events = None
         return render(request, 'core/homepage.html', {"events": events, "query": query or ""})

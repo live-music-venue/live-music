@@ -33,19 +33,26 @@
             {% if event.in_progress %}
                 <div class="shadow-3 br3 ma3 event-pane">
                     <a href="{% url 'event' pk=event.pk %}">
-                        <div class="image-div flex pa2">
-                            <img class="br2" src="{{ event.thumbnail.url }}">
+                        <div class="thumbnail-div pa2">
+                            <img class="thumbnail-image br2" src="{{ event.thumbnail.url }}">
+                            <div class="thumbnail-overlay">
+                                <div class="live-badge white br2 ma2">
+                                    <p class="mb0 mh1">Live</p>
+                                </div>
+                                <div class="viewer-badge white br2 ma2">
+                                    <p class="mb0 mh1">{{ event.viewers }} viewer{% if event.viewers != 1 %}s{% endif %}</p>
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <div class="info-div flex flex-column tc">
-                        <h5 class="b">
-                            {{event.title|truncatechars:20}}
-                        </h5>
+                        <a href="{% url 'event' pk=event.pk %}">
+                            <p class="h4 h-100">
+                                {{event.title|truncatechars:20}}
+                            </p>
+                        </a>
                         <p>
                             <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-                        </p>
-                        <p>
-                            Live Now!!!
                         </p>
                     </div>
                 </div>
