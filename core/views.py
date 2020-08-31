@@ -173,10 +173,13 @@ class getGeocode(View):
         mapbox_client = MapBox(settings.MAPBOX_API_KEY)
         location_json = json.loads(request.body)
         location = location_json["address"]
-        result = mapbox_client.geocode(location)               
-        latitude = result.latitude
-        longitude = result.longitude
-        return JsonResponse({"latitude": latitude, "longitude": longitude})
+        result = mapbox_client.geocode(location)
+        if result is None:   
+            return JsonResponse({"valid": False})
+        else:         
+            latitude = result.latitude
+            longitude = result.longitude
+            return JsonResponse({"valid": True, "latitude": latitude, "longitude": longitude})
 
 
 class ShowMusician(View):
