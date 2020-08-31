@@ -48,6 +48,8 @@ p {
 
 .event-pane {
   background-color: white;
+  width: 265px;
+  height: 265px;
 }
 
 .calendar {
@@ -185,4 +187,46 @@ header {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-align: center;
+}
+
+.thumbnail-div {
+  position: relative;
+  width: 250px;
+  height: 188px;
+  z-index: 1;
+}
+
+.thumbnail-div > * {
+  position: absolute;
+}
+
+.thumbnail-image {
+  z-index: 2;
+  width: 250px;
+  height: 188px;
+}
+
+.thumbnail-overlay {
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnail-overlay > div {
+  position: absolute;
+  display: inline-block;
+}
+
+.info-div {
+  margin-top: 15px;
+}
+
+.live-badge {
+  background-color: rgba(231, 4, 15, 0.7);
+}
+
+.viewer-badge {
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
 }
