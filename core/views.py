@@ -32,7 +32,8 @@ class Homepage(View):
             code = request.GET['code']
             if code:
                 state = json.loads(request.GET['state'])
-                filtered = Event.objects.filter(pk=state['eventId'])
+                eventId = state['eventId']
+                filtered = Event.objects.filter(pk=eventId)
                 if filtered.exists():
                     event = filtered.first()
                     start = {
@@ -46,6 +47,7 @@ class Homepage(View):
                             "end": start
                         }
                     })
+                    return redirect(to='event', pk=eventId)
         except:
             pass
         return render(request, 'core/homepage.html', {'events': events, 'live_events': live_events})

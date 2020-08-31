@@ -7,6 +7,7 @@ const server = require('http').Server(app)
 const proxy = require('express-http-proxy')
 const PORT = process.env.PORT || 3000
 const { ExpressPeerServer } = require('peer')
+const { json } = require('body-parser')
 
 const clientId = '692425137307-37k9jj72s9n8k7nfml0m78q0kqg7jjok.apps.googleusercontent.com'
 const clientSecret = 'YWFKvGtQ05oTwqATTk22xdJn'
@@ -25,7 +26,7 @@ function requireHTTPS (req, res, next) {
   next()
 }
 
-function listEvents (auth, event) {
+function insertEvent (auth, event) {
   const calendar = google.calendar({ version: 'v3', auth })
   calendar.events.insert({
     calendarId: 'primary',
@@ -33,7 +34,7 @@ function listEvents (auth, event) {
   })
 }
 
-app.use(express.json())
+app.use('/calendar', express.json())
 app.post('/calendar', (req, res) => {
   const code = req.body.code
   const event = req.body.event
@@ -42,7 +43,7 @@ app.post('/calendar', (req, res) => {
   oAuth2Client.getToken(code, (err, credentials) => {
     if (!err) {
       oAuth2Client.setCredentials(credentials)
-      listEvents(oAuth2Client, event)
+      insertEvent(oAuth2Client, event)
     }
   })
   res.send(200).send('OK')
@@ -51,7 +52,6 @@ app.get('/calendar/oauth', (req, res) => {
   const eventId = req.query.eventId
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
-    prompt: 'consent',
     scope: SCOPES,
     state: JSON.stringify({ eventId: eventId })
   })
@@ -61,6 +61,7 @@ app.get('/calendar/oauth', (req, res) => {
 app.use(requireHTTPS)
 app.use('/peer', ExpressPeerServer(server))
 app.use('/static/css', express.static('node_modules/antd/dist'))
+app.use('/node_modules', express.static('node_modules'))
 app.use('/', proxy('http://localhost:8000', {
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     // Modify headers if running on Heroku

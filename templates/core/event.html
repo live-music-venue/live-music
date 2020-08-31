@@ -8,6 +8,7 @@
     onload="this.onload=function(){};handleClientLoad()"
     onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
+<script src="/node_modules/axios/dist/axios.min.js"></script>
 {% endblock javascript %}
 
 {% block content %}
@@ -249,9 +250,14 @@
             .then(data => {
                 if (data.saved) {
                     toggleFavoriteLink.innerHTML = '&hearts;'
-            } else {
-            toggleFavoriteLink.innerHTML = '&#9825;'
-            }
+                    if (confirm('Do you want to save this event to your Google calendar?')) {
+                        axios.get(`/calendar/oauth?eventId=${eventId}`).then(response => {
+                            location.href = response.data.url
+                        })
+                    }
+                } else {
+                    toggleFavoriteLink.innerHTML = '&#9825;'
+                }
             })
         })
 
