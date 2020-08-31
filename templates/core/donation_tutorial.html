@@ -1,8 +1,9 @@
 {% extends "base.html" %}
- 
+{% load i18n %}
+
 {% block content %}
 <div>
-   <h1 style="text-align:center"><strong> How to get your Paypal QR code and URL</strong></h1>
+   <h1 style="text-align:center"><strong> {% translate "How to get your Paypal QR code and URL" %}</strong></h1>
    <div class="flex flex-wrap">
       <img style="padding: 20px" src="/static/images/Slide 1.png" width="900" height="600">
       <img style="padding: 20px" src="/static/images/Slide 2.png" width="900" height="600">
@@ -26,7 +27,7 @@
 </div>
  
 <div>
-   <h1 style="text-align:center"><strong> How to get your Venmo QR code</strong></h1>
+   <h1 style="text-align:center"><strong> {% translate "How to get your Venmo QR code" %}</strong></h1>
    <div class="flex flex-wrap">
        <img style="padding: 20px" src="/static/images/Venmo QR Walk-Thru.png" width="900" height="600">
        <img style="padding: 20px" src="/static/images/Venmo QR Walk-Thru (1).png" width="900" height="600">
