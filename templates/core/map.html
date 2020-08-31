@@ -5,6 +5,7 @@
 <div id="test-div"></div>
 <div id='map'></div>
 <button id="fly">Fly</button>
+<input id="fly-form" type="text">
 {{ musician_info|json_script:"info" }}
 
 
@@ -47,22 +48,36 @@
             var marker = new mapboxgl.Marker(
                 { color: color}
             )
-                .setLngLat([musician.latitude, musician.longitude])
+                .setLngLat([musician.longitude, musician.latitude])
                 .setPopup(customPopUp)
                 .addTo(map);
         }
 
-                
+        const addressBox = document.getElementById("fly-form")
         document.getElementById('fly').addEventListener('click', function() {
-        // Fly to a random location by offsetting the point -74.50, 40
-        // by up to 5 degrees.
-            map.flyTo({
-                center: [
-                    -74.5 + (Math.random() - 0.5) * 10,
-                    40 + (Math.random() - 0.5) * 10
-                    ],
-                essential: true // this animation is considered essential with respect to prefers-reduced-motion
-            });
+            let address = addressBox.value
+            addressBox.value = ""
+            if (address.length > 0) {
+                addressJSON = { "address": address}
+                fetch(`/get-code`, {
+                    method: 'POST',
+                    body: JSON.stringify(addressJSON),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    map.flyTo({
+                        center: [
+                            data.longitude,
+                            data.latitude
+                            ],
+                        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                    });
+                })
+            }
+            
         });
 
 

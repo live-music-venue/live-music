@@ -157,9 +157,7 @@ class AddMusicianInfo(View):
             if form.is_valid():
                 mapbox_client = MapBox(settings.MAPBOX_API_KEY)
                 musician = form.save(commit=False)
-                result = mapbox_client.geocode(musician.city)
-                result.latitude
-                result.longitude                
+                result = mapbox_client.geocode(musician.city)               
                 musician.latitude = result.latitude
                 musician.longitude = result.longitude
                 musician.user = request.user
@@ -167,6 +165,18 @@ class AddMusicianInfo(View):
                 return redirect(to='show-musician', musician_pk=musician.pk)
             return redirect(to="homepage")
         return redirect(to="homepage")
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class getGeocode(View):
+    def post(self, request):
+        mapbox_client = MapBox(settings.MAPBOX_API_KEY)
+        location_json = json.loads(request.body)
+        location = location_json["address"]
+        result = mapbox_client.geocode(location)               
+        latitude = result.latitude
+        longitude = result.longitude
+        return JsonResponse({"latitude": latitude, "longitude": longitude})
 
 
 class ShowMusician(View):
