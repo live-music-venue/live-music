@@ -19,6 +19,8 @@ from django import forms
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import MapBox
 from django.conf import settings
+from django.core.mail import send_mail
+from project.settings import EMAIL_HOST_USER
 from django.utils.translation import gettext
 
 
@@ -238,6 +240,14 @@ class ShowMusician(View):
             new_comment.musician = musician
             new_comment.author = request.user
             new_comment.save()
+            send_mail(
+                'You have received a new comment!',
+                f'''{new_comment.author} has commented with the following:\n\n{new_comment.message}
+                \n\nYou can view all of your comments here:  http://127.0.0.1:3000/musician/{musician_pk}''',
+                'livemusiccomments@gmail.com',
+                [new_comment.musician.user.email],
+                fail_silently=False,
+            )
             return redirect(to='show-musician', musician_pk= musician_pk)
         else:
             comment_form = MusicianCommentForm()
