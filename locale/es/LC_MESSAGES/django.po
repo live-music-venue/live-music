@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 22:03-0400\n"
+"POT-Creation-Date: 2020-08-31 12:57-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/views.py:92
+#: core/views.py:94
 msgid "Add an Event:"
 msgstr "Añadir Evento:"
 
@@ -131,7 +131,7 @@ msgstr "Por favor considere donar a la artista!"
 msgid "Start Your Stream!"
 msgstr "Inicie su transmisión!"
 
-#: templates/core/event.html:200 templates/core/show_musician.html:185
+#: templates/core/event.html:200 templates/core/show_musician.html:175
 msgid "comments"
 msgstr "comentarios"
 
@@ -211,6 +211,14 @@ msgstr "No hay nada vivo ahora mismo. Vea los próximos eventos a continuación.
 msgid "Upcoming concerts:"
 msgstr "Próximos conciertos:"
 
+#: templates/core/map.html:5
+msgid "Find our musicians!"
+msgstr "Encuentra a nuestras músicas!"
+
+#: templates/core/map.html:8
+msgid "Fly"
+msgstr "Volar"
+
 #: templates/core/musician_form.html:16
 msgid "Name:"
 msgstr "Nombre"
@@ -243,6 +251,6 @@ msgstr "eventos"
 msgid "Past events:"
 msgstr "Eventos Pasados:"
 
-#: templates/core/show_musician.html:203
+#: templates/core/show_musician.html:193
 msgid "Submit"
 msgstr "Enviar"
