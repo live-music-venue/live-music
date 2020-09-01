@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-31 12:57-0400\n"
+"POT-Creation-Date: 2020-09-01 19:30-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/views.py:94
+#: core/forms.py:39
+msgid "Tell everyone about your concert!"
+msgstr "Cuéntales a todos sobre tu concierto!"
+
+#: core/views.py:124
 msgid "Add an Event:"
 msgstr "Añadir Evento:"
 
@@ -73,6 +77,26 @@ msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
 
+#: templates/core/about.html:7
+msgid "Who We Are"
+msgstr "Quienes Somos"
+
+#: templates/core/about.html:14
+msgid "The Problem"
+msgstr "El Problema"
+
+#: templates/core/about.html:22
+msgid "The Mission"
+msgstr ""
+
+#: templates/core/about.html:30
+msgid "The Solution"
+msgstr "La Misión"
+
+#: templates/core/about.html:40
+msgid "The Result"
+msgstr "El Resultado"
+
 #: templates/core/donation_form.html:7
 msgid "Donation Form:"
 msgstr "Formulario de Donación:"
@@ -99,45 +123,45 @@ msgstr "Cómo obtener su código QR y URL de Paypal"
 msgid "How to get your Venmo QR code"
 msgstr "Cómo obtener su código QR de Venmo"
 
-#: templates/core/event.html:22
+#: templates/core/event.html:34
 msgid "by"
 msgstr "por"
 
-#: templates/core/event.html:37
+#: templates/core/event.html:49
 msgid "About this event:"
 msgstr "Sobre el evento:"
 
-#: templates/core/event.html:39
+#: templates/core/event.html:54
 msgid "This event will begin at"
 msgstr "Este evento comenzará a las"
 
-#: templates/core/event.html:45 templates/core/show_musician.html:132
+#: templates/core/event.html:60 templates/core/show_musician.html:127
 msgid "Edit this event"
 msgstr "Editar este evento"
 
-#: templates/core/event.html:48 templates/core/event.html:133
+#: templates/core/event.html:63 templates/core/event.html:144
 msgid "Share on"
 msgstr "Compartir en"
 
-#: templates/core/event.html:54
+#: templates/core/event.html:69
 msgid "or with"
 msgstr "o con"
 
-#: templates/core/event.html:65
+#: templates/core/event.html:80
 msgid "Please consider donating to the artist!"
 msgstr "Por favor considere donar a la artista!"
 
-#: templates/core/event.html:125
+#: templates/core/event.html:136
 msgid "Start Your Stream!"
 msgstr "Inicie su transmisión!"
 
-#: templates/core/event.html:200 templates/core/show_musician.html:175
-msgid "comments"
-msgstr "comentarios"
+#: templates/core/event.html:163 templates/core/show_musician.html:165
+msgid "Comments"
+msgstr "Comentarios"
 
-#: templates/core/event.html:225
-msgid "Click to comment!"
-msgstr "Click para comentar!"
+#: templates/core/event.html:183 templates/core/show_musician.html:185
+msgid "Comment!"
+msgstr "Comentario!"
 
 #: templates/core/event_add_edit.html:29
 msgid "Title:"
@@ -163,20 +187,16 @@ msgstr "nueva"
 msgid "cover photo"
 msgstr "foto de cubierta"
 
-#: templates/core/favorite_musicians.html:5
-msgid "Calendar:"
-msgstr "Calendario"
+#: templates/core/favorite_musicians.html:13
+msgid "Your Favorite Musicians"
+msgstr "Tus músicas favoritas"
 
-#: templates/core/favorite_musicians.html:10
-msgid "Favorite Musicians:"
-msgstr "Músicas Favoritas:"
-
-#: templates/core/favorite_musicians.html:25
-msgid "Saved Events:"
-msgstr "Eventos Guardados:"
+#: templates/core/favorite_musicians.html:29
+msgid "Saved Events"
+msgstr "Eventos Guardados"
 
 #: templates/core/homepage.html:10
-msgid "Live Now:"
+msgid "Live Now"
 msgstr "En Vivo Ahora:"
 
 #: templates/core/homepage.html:14
@@ -208,16 +228,28 @@ msgid "There's nothing live right now.  Check out upcoming events below."
 msgstr "No hay nada vivo ahora mismo. Vea los próximos eventos a continuación."
 
 #: templates/core/homepage.html:68
-msgid "Upcoming concerts:"
-msgstr "Próximos conciertos:"
+msgid "Upcoming Concerts"
+msgstr "Próximos Conciertos"
 
-#: templates/core/map.html:5
-msgid "Find our musicians!"
-msgstr "Encuentra a nuestras músicas!"
+#: templates/core/map.html:6
+msgid "Find musicians!"
+msgstr "Encontrar músicas!"
 
-#: templates/core/map.html:8
+#: templates/core/map.html:9
 msgid "Fly"
 msgstr "Volar"
+
+#: templates/core/map.html:16
+msgid "Musician has..."
+msgstr "La musica tiene..."
+
+#: templates/core/map.html:19
+msgid "upcoming events"
+msgstr "próximos conciertos"
+
+#: templates/core/map.html:23
+msgid "no upcoming events"
+msgstr "no hay eventos próximos"
 
 #: templates/core/musician_form.html:16
 msgid "Name:"
@@ -243,14 +275,19 @@ msgstr "Editar perfil"
 msgid "Add an event"
 msgstr "Añadir evento"
 
-#: templates/core/show_musician.html:111
-msgid "events:"
-msgstr "eventos"
+#: templates/core/show_musician.html:106
+msgid "Events"
+msgstr "Eventos"
 
-#: templates/core/show_musician.html:141
-msgid "Past events:"
+#: templates/core/show_musician.html:136
+msgid "Past Events"
 msgstr "Eventos Pasados:"
 
-#: templates/core/show_musician.html:193
-msgid "Submit"
-msgstr "Enviar"
+#~ msgid "Click to comment!"
+#~ msgstr "Click para comentar!"
+
+#~ msgid "Calendar:"
+#~ msgstr "Calendario"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"
