@@ -11,6 +11,8 @@ from django.http import JsonResponse
 from django.contrib.postgres.search import SearchVector
 from random import shuffle
 import json
+import requests
+import time
 import datetime
 import os
 from django import forms
@@ -28,6 +30,28 @@ class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")
         live_events = Event.objects.all().filter(in_progress=True)
+        try:
+            code = request.GET['code']
+            if code:
+                state = json.loads(request.GET['state'])
+                eventId = state['eventId']
+                filtered = Event.objects.filter(pk=eventId)
+                if filtered.exists():
+                    event = filtered.first()
+                    start = {
+                        "dateTime": time.mktime(event.date_time.timetuple())
+                    }
+                    requests.post('http://localhost:3000/calendar', json={
+                        "code": code,
+                        "event": {
+                            "summary": event.title,
+                            "start": start,
+                            "end": start
+                        }
+                    })
+                    return redirect(to='event', pk=eventId)
+        except:
+            pass
         return render(request, 'core/homepage.html', {'events': events, 'live_events': live_events})
 
 class HomepageRandom(View):
