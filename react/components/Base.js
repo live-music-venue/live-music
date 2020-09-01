@@ -203,7 +203,7 @@ export default class Base extends React.Component {
                   key='about'
                   icon={<InfoCircleOutlined />}
                   onClick={e => {
-                    // redirect(aboutUsURL)
+                    redirect(aboutUsURL)
                   }}
                 >
                   About Rhappsody

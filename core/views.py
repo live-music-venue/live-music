@@ -24,6 +24,11 @@ from django.utils.translation import gettext
 
 
 # Create your views here.
+class About(View):
+    def get(self, request):
+        return render(request, "core/about.html")
+
+
 class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")

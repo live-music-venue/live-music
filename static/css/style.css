@@ -268,3 +268,7 @@ button {
 .fav-calendar {
     float: right;
   }
+
+.about-container {
+  max-width: 700px;
+}
