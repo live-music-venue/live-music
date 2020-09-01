@@ -17,6 +17,7 @@
 
 <div class="">
     <h3 class="mt3 ml4">
+        {% if not event.in_progress %}
         <a class="pl3 grow dib star" id="toggle-saved" data-event-id = "{{ event.pk }}" class="no-underline pointer dib grow f3">
             {% if user_saved %}
                 &hearts;
@@ -29,6 +30,7 @@
                 </div>
             {% endif %}
         </a>
+        {% endif %}
         {{event.title}} <span class="header-name-link">{% translate "by" %} <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> 
     </h3>
 </div>
@@ -48,7 +50,7 @@
                     {% if event.genre %}
                     <p>Genre: {{event.genre}} </p>
                     {% endif %}
-                    <p>{{event.description}}</p>
+                    <p>{{event.description | linebreaks}}</p>
                     <p>{% translate "This event will begin at" %} {{event.date_time}}</p>
                 </div>
             </div>

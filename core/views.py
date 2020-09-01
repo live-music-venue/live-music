@@ -277,7 +277,7 @@ class FavoriteMusician(View):
         events = list(saved_events)
         empty_list = []
         for event in events:
-            empty_list.append({"title": event.title, "start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         return render(request, "core/favorite_musicians.html", {
             'events': json.dumps(empty_list),
             "user":user, "favorites":favorites, "saved_events":saved_events,})
