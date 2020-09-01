@@ -90,7 +90,7 @@ export default class Base extends React.Component {
         <Layout>
           <Header className='site-layout-background' theme='light' style={{ position: 'fixed', width: '100%', paddingLeft: 7, paddingRight: 0 }}>
             <PageHeader
-              title='Rhappsody'
+              title='Band Together'
               subtitle='This is a sample'
               style={{
                 height: '100%'
@@ -206,7 +206,7 @@ export default class Base extends React.Component {
                     redirect(aboutUsURL)
                   }}
                 >
-                  About Rhappsody
+                  About Band Together
                 </Menu.Item>
 
                 {!isAuthenticated && (

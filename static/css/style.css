@@ -272,3 +272,31 @@ button {
 .about-container {
   max-width: 700px;
 }
+
+.color-key {
+  height: 70px;
+  padding: 3px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px 2px rgba( 0, 0, 0, 0.3 );
+  background-color: white;
+}
+
+.event-color {
+  background-color: lightblue;
+  height: 15px;
+  width: 15px;
+}
+
+.no-event-color {
+  background-color: blue;
+  height: 15px;
+  width: 15px;
+}
+
+
+.key-div {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  z-index: 1;
+}
