@@ -3,8 +3,18 @@
 
 <!-- don't mess with div ids pls :] -->
 
+{% block javascript %}
+<script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+<script src="/node_modules/axios/dist/axios.min.js"></script>
+{% endblock javascript %}
+
 {% block content %}
 {% load social_share %}
+
+
 <div class="">
     <h3 class="mt3 ml4">
         <a class="pl3 grow dib star" id="toggle-saved" data-event-id = "{{ event.pk }}" class="no-underline pointer dib grow f3">
@@ -184,9 +194,14 @@
             .then(data => {
                 if (data.saved) {
                     toggleFavoriteLink.innerHTML = '&hearts;'
-            } else {
-            toggleFavoriteLink.innerHTML = '&#9825;'
-            }
+                    if (confirm('Do you want to save this event to your Google calendar?')) {
+                        axios.get(`/calendar/oauth?eventId=${eventId}`).then(response => {
+                            location.href = response.data.url
+                        })
+                    }
+                } else {
+                    toggleFavoriteLink.innerHTML = '&#9825;'
+                }
             })
         })
 

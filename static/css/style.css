@@ -47,7 +47,7 @@ p {
 }
 
 .event-pane {
-  background-color: white;
+  background-color: white
   /* width: 265px;
   height: 265px; */
 }
@@ -225,7 +225,7 @@ header {
   display: inline-block;
 }
 
-.info-div {
+.live-info-div {
   margin-top: 15px;
 }
 
