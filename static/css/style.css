@@ -102,7 +102,7 @@ input {
 
 .test-flex {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   flex-wrap: wrap;
 }
 
@@ -241,7 +241,8 @@ header {
 }
 
 button {
-  background-color: rgb(24, 144, 255);
+  background-color: #4e6d8a;
+  color: white;
   border-radius: 4px;
 }
 

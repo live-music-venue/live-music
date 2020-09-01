@@ -101,9 +101,9 @@
 
 
 
-<div class="event-list">
+<div class="event-list ml3">
     {%if musician.events.all.count %}
-    <h3>{{musician.name}}'s {% translate "events:" %}</h3>
+    <h3>{{musician.name}}'s {% translate "Events" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -133,7 +133,7 @@
         {% endfor %}
     </div>
     {%if musician.events.all.count %}
-    <h3>{% translate "Past events:" %}</h3>
+    <h3 class="mt4">{% translate "Past Events" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -181,7 +181,9 @@
     {% if user.is_authenticated and not event.in_progress %}
     <div class="ml3">
         <textarea id="comment-box" cols="50" rows="4"></textarea>
-        <button id="comment-button">{% translate "Click to comment!" %}</button>
+        <div class="mb2">
+            <button id="comment-button">{% translate "Comment!" %}</button>
+        </div>
     </div>
     {% endif %}
 </div>

@@ -45,12 +45,14 @@
             <div class="">
                 <div class="">
                     <h5>{% translate "About this event:" %}</h5>
+                    {% if event.genre %}
                     <p>Genre: {{event.genre}} </p>
+                    {% endif %}
                     <p>{{event.description}}</p>
                     <p>{% translate "This event will begin at" %} {{event.date_time}}</p>
                 </div>
             </div>
-                    
+            
             <div>
             {% if user == event.owner.user %}
                 <a href="{% url 'edit-event' event_pk=event.pk %}">{% translate "Edit this event" %}</a>
@@ -175,7 +177,9 @@
             {% if user.is_authenticated and not event.in_progress %}
             <div class="ml3">
                 <textarea id="comment-box" cols="50" rows="4"></textarea>
-                <button id="comment-button">{% translate "Click to comment!" %}</button>
+                <div class="mb2">
+                    <button id="comment-button">{% translate "Comment!" %}</button>
+                </div>
             </div>
             {% endif %}
         {% endif %}
