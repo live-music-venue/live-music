@@ -150,7 +150,7 @@ input {
 
 
 header { 
-  z-index: 1;
+  z-index: 7;
 }
 
 .facebook-this, .tweet-this, .mail-this {
@@ -236,5 +236,24 @@ header {
 .viewer-badge {
   bottom: 0;
   right: 0;
+  margin-right: 25px;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+button {
+  background-color: rgb(24, 144, 255);
+  border-radius: 4px;
+}
+
+.comment-pane {
+  width: 50%;
+}
+/* 
+.comment-body {
+
+} */
+
+.comment-author {
+  text-align: right;
+  font-size: 12px;
 }

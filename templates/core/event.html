@@ -119,7 +119,7 @@
         </script>
     </div>
     {% if user == event.owner.user %}
-    <a class="pt2 mt4 stream-start" id="start-stream-link" href="#">{% translate "Start Your Stream!" %}</a>
+    <a class="pt2 mt4 stream-start ml5" id="start-stream-link" href="#">{% translate "Start Your Stream!" %}</a>
     {% endif %}
 
     <div id="social-container">
@@ -144,34 +144,30 @@
     </div>
         <!-- comments -->
 
-    <div id="comments-container" class="pt4">
+    <div id="comments-container" class="pt4 ml5 mb4">
         {% if event.is_upcoming or event.is_finished  %}
-            <p>{{ event.event_comments.count }} {% translate "comments" %}</p>
-            <div id="comments-div">
-                <div class="comments" style="padding: 10px;">
-            {% for comment in event.event_comments.all %}
-                <p class="font-weight-bold">
-                    On {{ comment.date_created }}
-                    <span class=" text-muted font-weight-normal">
-                    {{ comment.author }} says:
-                    </span>
-                </p>
-                {{ comment.message | linebreaks }}
-               
-            {% endfor %}
+            <h4>{% translate "Comments" %}</h4>
+            <div>
+                <div id="comments-div" class="comments" style="padding: 10px;">
+                {% for comment in event.event_comments.all %}
+                    <div class="comment-pane">
+                        <p class="comment-body">                    
+                            {{ comment.message | linebreaks }}
+                        </p>
+                        <p class="comment-author">
+                            by <span class="font-weight-bold">{{comment.author}}</span>
+                        </p>
+                        <hr>
+                    </div>              
+                {% endfor %}
                 </div>
             </div>
             {% if user.is_authenticated and not event.in_progress %}
-                <!-- <h6>Leave a comment</h6>
-                <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-                    {% csrf_token %}
-                    {{ comment_form}}
-                
-                <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
-                </form>
-            {% endif %} -->
+            <div class="ml3">
                 <textarea id="comment-box" cols="50" rows="4"></textarea>
                 <button id="comment-button">{% translate "Click to comment!" %}</button>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

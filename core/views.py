@@ -330,7 +330,9 @@ class SaveEventComment(View):
         message = message_json["message"]
         new_comment = EventComment(message=message, author=user, event=event)
         new_comment.save()
-        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        html = f'<div class="comment-pane"><p class="comment-body">{message}</p>'  \
+            f'<p class="comment-author">by <span class="font-weight-bold">{user.username}</span>' \
+            f'</p><hr></div>'
         return JsonResponse({"html": html})
 
 
@@ -343,7 +345,9 @@ class SaveMusicianComment(View):
         message = message_json["message"]
         new_comment = MusicianComment(message=message, author=user, musician=musician)
         new_comment.save()
-        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        html = f'<div class="comment-pane"><p class="comment-body">{message}</p>'  \
+            f'<p class="comment-author">by <span class="font-weight-bold">{user.username}</span>' \
+            f'</p><hr></div>'
         return JsonResponse({"html": html})
 
 
