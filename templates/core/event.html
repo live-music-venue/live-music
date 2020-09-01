@@ -17,6 +17,7 @@
 
 <div class="">
     <h3 class="mt3 ml4">
+        {% if not event.in_progress %}
         <a class="pl3 grow dib star" id="toggle-saved" data-event-id = "{{ event.pk }}" class="no-underline pointer dib grow f3">
             {% if user_saved %}
                 &hearts;
@@ -29,6 +30,7 @@
                 </div>
             {% endif %}
         </a>
+        {% endif %}
         {{event.title}} <span class="header-name-link">{% translate "by" %} <a href="{% url 'show-musician' musician_pk=event.owner.pk %}">{{event.owner.name}}</a></span> 
     </h3>
 </div>
@@ -45,11 +47,14 @@
             <div class="">
                 <div class="">
                     <h5>{% translate "About this event:" %}</h5>
-                    <p>{{event.description}}</p>
+                    {% if event.genre %}
+                    <p>Genre: {{event.genre}} </p>
+                    {% endif %}
+                    <p>{{event.description | linebreaks}}</p>
                     <p>{% translate "This event will begin at" %} {{event.date_time}}</p>
                 </div>
             </div>
-                    
+            
             <div>
             {% if user == event.owner.user %}
                 <a href="{% url 'edit-event' event_pk=event.pk %}">{% translate "Edit this event" %}</a>
@@ -79,15 +84,11 @@
                     <p>Cashapp name: {{musician.cashapp_name}}</p>
                 {% endif %}
                 {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
+                <p><a href="{{musician.paypal_donation_url}}" target="_blank">Give money through Paypal!
+                </a></p><br> 
                 {% endif %}
 
                 <div class="flex">
-
-                {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                    <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-                {% endif %}
-
 
                 {% if musician.cashapp_qr %}
                     <div class="flex flex-column">
@@ -132,7 +133,7 @@
         </script>
     </div>
     {% if user == event.owner.user %}
-    <a class="pt2 mt4 stream-start" id="start-stream-link" href="#">{% translate "Start Your Stream!" %}</a>
+    <a class="pt2 mt4 stream-start ml5" id="start-stream-link" href="#">{% translate "Start Your Stream!" %}</a>
     {% endif %}
 
     <div id="social-container">
@@ -153,89 +154,38 @@
                     <i class="far fa-envelope"></i>!
                 </span>
             </div>
-            <!-- <div>
-                {% if musician.cashapp_name %}
-                <p>Cashapp name: {{musician.cashapp_name}}</p>
-            {% endif %}
-            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-            <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-            {% endif %}
-
-            <div class="flex">
-
-            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-            {% endif %}
-
-
-            {% if musician.cashapp_qr %}
-                <div class="flex flex-column">
-                    <p class="qr-label">Cashapp:</p>
-                    <img class="qr" src="{{ musician.cashapp_qr.url }}"><br>
-                </div>
-            {% endif %}
-
-
-            {% if musician.paypal_donation_url and musician.paypal_qr %}
-            <div class="flex flex-column qr-box">
-                <p class="qr-label">Paypal:</p>
-                <a href="{{musician.paypal_donation_url}}"><img class="qr" src="{{ musician.paypal_qr.url }}" /></a><br>
-            </div>
-            {% endif %}
-
-
-            {% if musician.paypal_qr and not musician.paypal_donation_url %}
-            <div class="flex flex-column">
-                <p class="qr-label">Paypal:</p>
-                <img class="qr" src="{{ musician.paypal_qr.url }}"><br>
-            </div>
-            {% endif %}
-
-
-            {% if musician.venmo_qr %}
-            <div class="flex flex-column">
-                <p class="qr-label">Venmo:</p>
-                <img class="qr" src="{{ musician.venmo_qr.url }}">
-            </div>
-            {% endif %}
-            </div>
-    </div> 
-            </div>
-        </div> -->
         </div> 
-
+    </div>
         <!-- comments -->
-    <div id="comments-container" class="pt4">
+
+    <div id="comments-container" class="pt4 ml5 mb4">
         {% if event.is_upcoming or event.is_finished  %}
-            <p>{{ event.event_comments.count }} {% translate "comments" %}</p>
-            <div id="comments-div">
-                <div class="comments" style="padding: 10px;">
-            {% for comment in event.event_comments.all %}
-                <p class="font-weight-bold">
-                    On {{ comment.date_created }}
-                    <span class=" text-muted font-weight-normal">
-                    {{ comment.author }} says:
-                    </span>
-                </p>
-                {{ comment.message | linebreaks }}
-               
-            {% endfor %}
+            <h4>{% translate "Comments" %}</h4>
+            <div>
+                <div id="comments-div" class="comments" style="padding: 10px;">
+                {% for comment in event.event_comments.all %}
+                    <div class="comment-pane">
+                        <p class="comment-body">                    
+                            {{ comment.message | linebreaks }}
+                        </p>
+                        <p class="comment-author">
+                            by <span class="font-weight-bold">{{comment.author}}</span>
+                        </p>
+                        <hr>
+                    </div>              
+                {% endfor %}
                 </div>
             </div>
             {% if user.is_authenticated and not event.in_progress %}
-                <!-- <h6>Leave a comment</h6>
-                <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-                    {% csrf_token %}
-                    {{ comment_form}}
-                
-                <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
-                </form>
-            {% endif %} -->
+            <div class="ml3">
                 <textarea id="comment-box" cols="50" rows="4"></textarea>
-                <button id="comment-button">{% translate "Click to comment!" %}</button>
+                <div class="mb2">
+                    <button id="comment-button">{% translate "Comment!" %}</button>
+                </div>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
-</div>
 
 <script>
     window.addEventListener("DOMContentLoaded", (e) => {

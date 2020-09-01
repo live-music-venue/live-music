@@ -55,11 +55,6 @@
 
                             <div class="flex">
 
-                            {% if musician.paypal_donation_url and not musician.paypal_qr %} 
-                                <a href="{{musician.paypal_donation_url}}" target="_blank">Paypal link</a><br> 
-                            {% endif %}
-
-
                             {% if musician.cashapp_qr %}
                                 <div class="flex flex-column">
                                     <p class="qr-label">Cashapp:</p>
@@ -106,9 +101,9 @@
 
 
 
-<div class="event-list">
+<div class="event-list ml3">
     {%if musician.events.all.count %}
-    <h3>{{musician.name}}'s {% translate "events:" %}</h3>
+    <h3>{{musician.name}}'s {% translate "Events" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -138,7 +133,7 @@
         {% endfor %}
     </div>
     {%if musician.events.all.count %}
-    <h3>{% translate "Past events:" %}</h3>
+    <h3 class="mt4">{% translate "Past Events" %}</h3>
     {% endif %}
     <div class="flex flex-wrap">
         {% for event in musician.events.all %}
@@ -166,63 +161,32 @@
     </div>
 </div>
 
-<!-- Map -->
-<div id='map' style='width: 400px; height: 300px;'></div>
-
-
-<!-- comments -->
-{% if user.is_authenticated %}
-<h6>{{ musician.musician_comments.count }} {% translate "comments" %}</h6>
-
-{% for comment in musician.musician_comments.all %}
-
-<div class="comments pl2 pt1">
-    <p>{{ comment.message | linebreaks }}</p>
-  <p class="pl2">
-    by {{ comment.author }}, {{ comment.date_created }}
-  </p>
-</div>
-{% endfor %}
-{% endif %}
-
-{% if user.is_authenticated %}
-<form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-    {% csrf_token %}
-    {{ comment_form}}
-  
-  <button type="submit" class="btn btn-primary btn-sm">{% translate "Submit" %}</button>
-</form>
-{% endif %}
-<div id="comments-container" class="pt4">
-    {% if user.is_authenticated  %}
-        <p>{{ musician.musician_comments.count }} comments</p>
-        <div id="comments-div">
-            <div class="comments" style="padding: 10px;">
+<div id="comments-container" class="pt4 ml5 mb4">
+    <h4>{% translate "Comments" %}</h4>
+    <div>
+        <div id="comments-div" class="comments" style="padding: 10px;">
         {% for comment in musician.musician_comments.all %}
-            <p class="font-weight-bold">
-                On {{ comment.date_created }}
-                <span class=" text-muted font-weight-normal">
-                {{ comment.author }} says:
-                </span>
-            </p>
-            {{ comment.message | linebreaks }}
-           
+            <div class="comment-pane">
+                <p class="comment-body">                    
+                    {{ comment.message | linebreaks }}
+                </p>
+                <p class="comment-author">
+                    by <span class="font-weight-bold">{{comment.author}}</span>
+                </p>
+                <hr>
+            </div>              
         {% endfor %}
-            </div>
         </div>
-        {% if user.is_authenticated %}
-            <!-- <h6>Leave a comment</h6>
-            <form enctype="multipart/form-data" method="post" style="margin-top: 1.3em;">
-                {% csrf_token %}
-                {{ comment_form}}
-            
-            <button type="submit" class="btn btn-primary  btn-sm">Submit</button>
-            </form>
-        {% endif %} -->
-            <textarea id="comment-box" cols="50" rows="4"></textarea>
-            <button id="comment-button">Click to comment!</button>
+    </div>
+    {% if user.is_authenticated and not event.in_progress %}
+    <div class="ml3">
+        <textarea id="comment-box" cols="50" rows="4"></textarea>
+        <div class="mb2">
+            <button id="comment-button">{% translate "Comment!" %}</button>
+        </div>
+    </div>
     {% endif %}
-
+</div>
 
 
 <script>
@@ -243,44 +207,34 @@
                 }
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.favorite) {
-                toggleFavoriteLink.innerHTML = '&#9733;'
-        } else {
-        toggleFavoriteLink.innerHTML = '&#9734;'
-        }
+    //This for AJAX comments
+        const commentBox = document.getElementById("comment-box")
+        const commentButton = document.getElementById("comment-button")
+        const commentContainer = document.getElementById("comments-div")
+        commentButton.addEventListener("click", (e) => {
+            e.preventDefault()
+            const musicianId = toggleFavoriteLink.dataset['musicianId']
+            let message = commentBox.value
+            commentBox.value = ""
+            var p = document.createElement("div")  
+            let data = { "message" : message }
+
+            if (message.length > 0) {
+                fetch(`/musician/${musicianId}/add-comment`, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    p.innerHTML = data.html
+                    commentContainer.appendChild(p)
+                })
+            } 
         })
     })
-    //This for AJAX comments
-    const commentBox = document.getElementById("comment-box")
-    const commentButton = document.getElementById("comment-button")
-    const commentContainer = document.getElementById("comments-div")
-    commentButton.addEventListener("click", (e) => {
-        e.preventDefault()
-        const musicianId = toggleFavoriteLink.dataset['musicianId']
-        let message = commentBox.value
-        commentBox.value = ""
-        var p = document.createElement("div")  
-        let data = { "message" : message }
-
-        if (message.length > 0) {
-            fetch(`/musician/${musicianId}/add-comment`, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                p.innerHTML = data.html
-                commentContainer.appendChild(p)
-            })
-        } 
-    })
-})
-    
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
@@ -302,16 +256,8 @@
                 
         });
         calendar.render();
+    })
 
-//maps start here
-        mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-83.0, 37.0],
-            zoom: 10 
-        });
-    });
 
 </script>
 

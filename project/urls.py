@@ -40,6 +40,7 @@ urlpatterns = [
     path('musician/<int:musician_pk>/edit', core_views.edit_musician, name="edit-musician"),
     path('musician/<int:musician_pk>/donation/add', core_views.AddDonationInfo.as_view(), name="add-donation"),
     path('get-code', core_views.getGeocode.as_view(), name="get-code"),
+    path('about', core_views.About.as_view(), name="about"),
     path('accounts/', include('allauth.urls')),
     path('donation-tutorial/', core_views.donation_tutorial, name="donation-tutorial"),
     path('favorite-musicians/', core_views.FavoriteMusician.as_view(), name="favorite-musicians"),  

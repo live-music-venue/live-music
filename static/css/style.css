@@ -102,7 +102,7 @@ input {
 
 .test-flex {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   flex-wrap: wrap;
 }
 
@@ -134,6 +134,7 @@ input {
 
 .qr {
   height: 80px;
+  width: 80px;
   margin: 0px 15px 0px 15px;
 }
 
@@ -149,7 +150,7 @@ input {
 
 
 header { 
-  z-index: 1;
+  z-index: 7;
 }
 
 .facebook-this, .tweet-this, .mail-this {
@@ -192,13 +193,19 @@ header {
 #map {
   width: 800px; 
   height: 600px;
-  border: 1px solid black;
-  margin: 30px 0px 0px 30px;
+  /* border: 1px solid black; */
+  box-shadow: 2px 2px 4px 2px rgba( 0, 0, 0, 0.3 );
+  border-radius: 5px;
+  margin: 10px 0px 0px 30px;
+}
+
+.map-top {
+  width: 800px;
 }
 
 .thumbnail-div {
   position: relative;
-  width: 250px;
+  width: 266px;
   height: 188px;
   z-index: 1;
 }
@@ -235,5 +242,61 @@ header {
 .viewer-badge {
   bottom: 0;
   right: 0;
+  margin-right: 25px;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+button {
+  background-color: #4e6d8a;
+  color: white;
+  border-radius: 4px;
+}
+
+.comment-pane {
+  width: 50%;
+}
+/* 
+.comment-body {
+
+} */
+
+.comment-author {
+  text-align: right;
+  font-size: 12px;
+}
+
+.fav-calendar {
+    float: right;
+  }
+
+.about-container {
+  max-width: 700px;
+}
+
+.color-key {
+  height: 70px;
+  padding: 3px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px 2px rgba( 0, 0, 0, 0.3 );
+  background-color: white;
+}
+
+.event-color {
+  background-color: lightblue;
+  height: 15px;
+  width: 15px;
+}
+
+.no-event-color {
+  background-color: blue;
+  height: 15px;
+  width: 15px;
+}
+
+
+.key-div {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  z-index: 1;
 }

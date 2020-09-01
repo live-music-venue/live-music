@@ -1,51 +1,56 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+<!-- ZZzzzzzzzzzz -->
 {% block content %}
-<h3>{{user.username}}'s {% translate "Calendar:" %}</h3>
-<div class="flex flex-wrap w-70">
-    <div id='calendar' class="w-80 pt2 pb4"></div>
-</div>
 
-<h3>{{user.username}}'s {% translate "Favorite Musicians:" %}</h3>
-<div class="test-flex">
-    {% for musician in favorites %}
-    <div class="shadow-3 br3 ma3 event-pane">
-        <a href="{% url 'show-musician' musician_pk=musician.pk %}">
-            <div class="image-div flex pa2">
-                <img class="br2" src="{{ musician.thumbnail.url }}">
-            </div>
-        </a>  
-        <h4 class="tc b">{{musician.name}}</h4>      
-    </div>
-    
-    {% endfor %}
-</div>
-
-<h3>{% translate "Saved Events:" %}</h3>
-<div class="test-flex">
-    {% for event in saved_events %}
-    <div class="shadow-3 br3 ma3 event-pane">
-        <a href="{% url 'event' pk=event.pk %}">
-            <div class="image-div flex pa2">
-                <img class="br2" src="{{ event.thumbnail.url }}">
-            </div>
-        </a>
-        <div class="info-div flex flex-column tc">
-            <h5 class="b">
-                {{event.title|truncatechars:20}}
-            </h5>
-            <p>
-                <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
-            </p>
-            <p>
-                {{event.date_time}}
-            </p>
+<div class="ma4">
+    <div class="fav-calendar">
+        <div class="flex flex-wrap">
+            <div id='calendar' class="pt2 pb4"></div>
         </div>
     </div>
-
-    
-    {% endfor %}
+    <div class="pt2">
+        <h3>{% translate "Your Favorite Musicians" %}</h3>
+        <div class="flex flex-wrap">
+            {% for musician in favorites %}
+            <div class="shadow-3 br3 ml3 mb3 mr3 event-pane">
+                <a href="{% url 'show-musician' musician_pk=musician.pk %}">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ musician.thumbnail.url }}">
+                    </div>
+                </a>  
+                <h4 class="tc b">{{musician.name}}</h4>      
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h3 class="mt4">{% translate "Saved Events" %}</h3>
+        <div class="flex flex-wrap">
+            {% for event in saved_events %}
+            <div class="shadow-3 br3 ml3 mb3 mr3 event-pane">
+                <a href="{% url 'event' pk=event.pk %}">
+                    <div class="image-div flex pa2">
+                        <img class="br2" src="{{ event.thumbnail.url }}">
+                    </div>
+                </a>
+                <div class="info-div flex flex-column tc">
+                    <h5 class="b">
+                        {{event.title|truncatechars:20}}
+                    </h5>
+                    <p>
+                        <a href="{% url 'show-musician' musician_pk=event.owner.user.pk %}">{{event.owner.name}}</a>
+                    </p>
+                    <p>
+                        {{event.date_time}}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.css">
@@ -62,7 +67,8 @@
                     events: data,
                     color: '157FE2',
                     display: 'block'
-                }]
+                }],
+            height: 400
         });
         calendar.render();
     });

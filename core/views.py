@@ -26,6 +26,11 @@ from django.utils.translation import gettext
 
 
 # Create your views here.
+class About(View):
+    def get(self, request):
+        return render(request, "core/about.html")
+
+
 class Homepage(View):
     def get(self, request):
         events = Event.objects.all().order_by("date_time")
@@ -287,7 +292,7 @@ class FavoriteMusician(View):
         events = list(saved_events)
         empty_list = []
         for event in events:
-            empty_list.append({"title": event.title, "start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         return render(request, "core/favorite_musicians.html", {
             'events': json.dumps(empty_list),
             "user":user, "favorites":favorites, "saved_events":saved_events,})
@@ -336,7 +341,8 @@ def default_map(request):
                                     "longitude": musician.longitude, 
                                     "pk": musician.pk,
                                     "hasUpcoming": musician_has_upcoming(musician),
-                                    "thumb": musician.thumbnail.url})
+                                    "thumb": musician.thumbnail.url,
+                                    "bio": musician.bio })
     return render(request, 'core/map.html', 
             { 'mapbox_access_token': mapbox_access_token, "musician_info": musician_info })
 
@@ -364,7 +370,9 @@ class SaveEventComment(View):
         message = message_json["message"]
         new_comment = EventComment(message=message, author=user, event=event)
         new_comment.save()
-        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        html = f'<div class="comment-pane"><p class="comment-body">{message}</p>'  \
+            f'<p class="comment-author">by <span class="font-weight-bold">{user.username}</span>' \
+            f'</p><hr></div>'
         return JsonResponse({"html": html})
 
 
@@ -377,7 +385,9 @@ class SaveMusicianComment(View):
         message = message_json["message"]
         new_comment = MusicianComment(message=message, author=user, musician=musician)
         new_comment.save()
-        html = f'<p class="font-weight-bold"><span class=" text-muted font-weight-normal">{user.username} says: </span></p>{ message }'
+        html = f'<div class="comment-pane"><p class="comment-body">{message}</p>'  \
+            f'<p class="comment-author">by <span class="font-weight-bold">{user.username}</span>' \
+            f'</p><hr></div>'
         return JsonResponse({"html": html})
 
 

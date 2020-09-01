@@ -2,17 +2,35 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% translate "Find our musicians!" %}</h2>
-<div id="test-div"></div>
-<div id='map'></div>
-<button id="fly">{% translate "Fly" %}</button>
-<input id="fly-form" type="text">
+<div class="flex justify-between map-top mt4 ml4">
+    <h2>{% translate "Find musicians!" %}</h2>
+    <div>
+        <p class="flex pt2"><input id="fly-form" type="text">
+            <button class="ml2" id="fly">{% translate "Fly" %}</button>
+        </p>
+    </div>
+</div>
+<div class="flex">
+    <div class="" id='map'></div>
+    <div class="flex flex-column map-key ml3 color-key mt3">
+        <div>{% translate "Musician has..." %}</div>
+        <div class="flex mr1">
+            <div class="event-color"></div>
+            <div class="ml2">{% translate "upcoming events" %}</div>
+        </div>
+        <div class="flex mr1">
+            <div class="no-event-color"></div>
+            <div class="ml2">{% translate "no upcoming events" %}</div>
+        </div>
+    </div>
+</div>
+
 {{ musician_info|json_script:"info" }}
 
 
 <script>
     document.addEventListener("DOMContentLoaded", (e) => {
-        const testDiv = document.getElementById("test-div")
+        //const testDiv = document.getElementById("test-div")
         const info = JSON.parse(document.getElementById('info').textContent)
         var map = null
         mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
@@ -28,7 +46,7 @@
                             <h6>Name: ${musician.name}</h6>
                             <img src=${musician.thumb}></img>
                             <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
-                            <p>Test?</p>
+                            <p>${musician.bio}</p>
                         </div>`
 
             var customPopUp = new mapboxgl.Popup(
@@ -56,6 +74,7 @@
 
         const addressBox = document.getElementById("fly-form")
         document.getElementById('fly').addEventListener('click', function() {
+            e.preventDefault()
             let address = addressBox.value
             addressBox.value = ""
             if (address.length > 0) {
@@ -75,7 +94,8 @@
                                 data.longitude,
                                 data.latitude
                                 ],
-                            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                            essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+                            zoom: 10
                         });
                     } else {
                         addressBox.value = "Invalid address."
