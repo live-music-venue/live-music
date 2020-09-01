@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Find our musicians!</h2>
-<div id="test-div"></div>
+<div class="flex justify-between w-60 mt4 ml4">
+    <h2>Find musicians!</h2>
+    <div>
+       <p class="flex pt2"><input id="fly-form" type="text">
+        <button id="fly">Fly</button>
+        </p>
+    </div>
+</div>
 <div id='map'></div>
-<button id="fly">Fly</button>
-<input id="fly-form" type="text">
+
 {{ musician_info|json_script:"info" }}
 
 
 <script>
     document.addEventListener("DOMContentLoaded", (e) => {
-        const testDiv = document.getElementById("test-div")
+        //const testDiv = document.getElementById("test-div")
         const info = JSON.parse(document.getElementById('info').textContent)
         var map = null
         mapboxgl.accessToken = 'pk.eyJ1IjoicmthcnVuYXJhdG5lIiwiYSI6ImNrZWFib21lYTAzYnkyc283YnQxNXcwNncifQ.sAFQ90D6ZledgFX1gaoNxw';
@@ -27,7 +32,7 @@
                             <h6>Name: ${musician.name}</h6>
                             <img src=${musician.thumb}></img>
                             <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
-                            <p>Test?</p>
+                            <p>${musician.bio}</p>
                         </div>`
 
             var customPopUp = new mapboxgl.Popup(
@@ -55,6 +60,7 @@
 
         const addressBox = document.getElementById("fly-form")
         document.getElementById('fly').addEventListener('click', function() {
+            e.preventDefault()
             let address = addressBox.value
             addressBox.value = ""
             if (address.length > 0) {

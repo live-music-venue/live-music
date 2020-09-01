@@ -302,7 +302,8 @@ def default_map(request):
                                     "longitude": musician.longitude, 
                                     "pk": musician.pk,
                                     "hasUpcoming": musician_has_upcoming(musician),
-                                    "thumb": musician.thumbnail.url})
+                                    "thumb": musician.thumbnail.url,
+                                    "bio": musician.bio })
     return render(request, 'core/map.html', 
             { 'mapbox_access_token': mapbox_access_token, "musician_info": musician_info })
 
