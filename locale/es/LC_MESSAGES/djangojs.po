@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-01 20:34-0400\n"
+"POT-Creation-Date: 2020-09-01 21:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,6 +115,38 @@ msgstr ""
 msgid "Welcome"
 msgstr "Bienvenidos"
 
+#: react/components/Base.js:140
+msgid "Home"
+msgstr "Hogar"
+
 #: react/components/Base.js:163
 msgid "Profile"
 msgstr "Perfil"
+
+#: react/components/Base.js:175
+msgid "Add Event"
+msgstr "Añadir evento"
+
+#: react/components/Base.js:187
+msgid "Favorites"
+msgstr "Favoritas"
+
+#: react/components/Base.js:198
+msgid "Map"
+msgstr "Mapa"
+
+#: react/components/Base.js:209
+msgid "About Band Together"
+msgstr "Acerca de Band Together"
+
+#: react/components/Base.js:220
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: react/components/Base.js:232
+msgid "Register"
+msgstr "Registrarse"
+
+#: react/components/Base.js:244
+msgid "Logout"
+msgstr "Cerrar sesión"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-01 19:43-0400\n"
+"POT-Creation-Date: 2020-09-01 21:42-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,23 +88,111 @@ msgid ""
 "            We've used our extra time during the pandemic to hone our coding "
 "skills and turn ourselves toward \n"
 "            software development careers."
-msgstr "Somos un equipo de 5 desarrolladores de software en ciernes que formaron parte del segundo equipo posterior a COVID de Momentum Learning. Hemos utilizado nuestro tiempo extra durante la pandemia para perfeccionar nuestras habilidades de codificación y dirigirnos hacia carreras de desarrollo de software."
+msgstr ""
+"Somos un equipo de 5 desarrolladores de software en ciernes que formaron "
+"parte del segundo equipo posterior a COVID de Momentum Learning. Hemos "
+"utilizado nuestro tiempo extra durante la pandemia para perfeccionar "
+"nuestras habilidades de codificación y dirigirnos hacia carreras de "
+"desarrollo de software."
 
 #: templates/core/about.html:14
 msgid "The Problem"
 msgstr "El Problema"
 
+#: templates/core/about.html:15
+msgid ""
+"In the wake of COVID-19, nearly all performing musicians lost most, if not "
+"all, of their income.  \n"
+"            Live music requires people to be gathered in the same location "
+"on a regular basis.  In this time,\n"
+"            it's difficult for musicians to reach new (or even existing "
+"audiences) because people are fragmented\n"
+"            across so many different social spaces on the internet.  Also, "
+"many of them don't have the technology\n"
+"            (or now the funds) to set up home-streaming solutions."
+msgstr ""
+"A raíz de COVID-19, casi todos los músicos que actuaban perdieron la mayor "
+"parte, si no todos, de sus ingresos. La música en vivo requiere que las "
+"personas se reúnan en el mismo lugar de forma regular. En este momento, es "
+"difícil para los músicos llegar a audiencias nuevas (o incluso existentes) "
+"porque las personas están fragmentadas en tantos espacios sociales "
+"diferentes en Internet. Además, muchos de ellos no tienen la tecnología (o "
+"ahora los fondos) para configurar soluciones de transmisión en el hogar."
+
 #: templates/core/about.html:22
 msgid "The Mission"
+msgstr "La Misión"
+
+#: templates/core/about.html:23
+msgid ""
+"We decided to create a virtual venue, a place where muscians and audience "
+"alike could gather and, with a \n"
+"            few simple clicks, share music with one another.  Musicians "
+"would be free to perform in an open environment\n"
+"            that would allow people to \"walk in off the street\" to see "
+"what was happening at any given time and just\n"
+"            join in watching performances from up the street or across the "
+"world."
 msgstr ""
+"Decidimos crear un lugar virtual, un lugar donde los músicos y el público "
+"pudieran reunirse y, con unos pocos clics, compartir música entre ellos. Los "
+"músicos serían libres de actuar en un entorno abierto que permitiría a la "
+"gente 'caminar fuera de la calle' para ver lo que estaba sucediendo en un "
+"momento dado y simplemente unirse a las actuaciones de la calle o del otro "
+"lado del mundo."
 
 #: templates/core/about.html:30
 msgid "The Solution"
-msgstr "La Misión"
+msgstr "La solución"
+
+#: templates/core/about.html:31
+msgid ""
+"We set up easy, one-click, peer-to-peer sharing between musicians and their "
+"audiences.  Included are links\n"
+"            to various social media platforms so all users can share "
+"upcoming events with their friends via Facebook,\n"
+"            Twitter, or email.  We've provided places for musicians to set "
+"out their virtual tip jars to make it easy\n"
+"            for audience members to donate to them through easy QR "
+"interfaces or links to popular payment sites.\n"
+"            There is live chat during all performaces so that audience "
+"members can communicate with musicians during\n"
+"            performances."
+msgstr ""
+"Configuramos el uso compartido de igual a igual con un solo clic entre los "
+"músicos y sus audiencias. Se incluyen enlaces a varias plataformas de redes "
+"sociales para que todos los usuarios puedan compartir los próximos eventos "
+"con sus amigos a través de Facebook, Twitter o correo electrónico. Hemos "
+"proporcionado lugares para que los músicos coloquen sus frascos de propinas "
+"virtuales para que los miembros de la audiencia puedan donarlos fácilmente a "
+"través de interfaces QR fáciles o enlaces a sitios de pago populares. Hay "
+"chat en vivo durante todas las actuaciones para que los miembros de la "
+"audiencia puedan comunicarse con los músicos durante las actuaciones."
 
 #: templates/core/about.html:40
 msgid "The Result"
 msgstr "El Resultado"
+
+#: templates/core/about.html:41
+msgid ""
+"We're really proud of the work we were able to do in two short weeks.  We "
+"feel we've really made something\n"
+"            special where communities can gather for music or strangers can "
+"walk through the door and discover something new.\n"
+"            It's a place where musicians in need can pull out their "
+"instruments and play for the world that in a time when\n"
+"            they otherwise wouldn't be able to as easily.  It's a coffee "
+"shop, a bar, an open door with a few notes\n"
+"            drifting by for anyone to hear, enjoy, and support."
+msgstr ""
+"Estamos muy orgullosos del trabajo que pudimos hacer en dos cortas semanas. "
+"Creemos que realmente hemos hecho algo especial donde las comunidades pueden "
+"reunirse para escuchar música o donde los extraños pueden cruzar la puerta y "
+"descubrir algo nuevo. Es un lugar donde los músicos necesitados pueden sacar "
+"sus instrumentos y tocar para el mundo que en un momento en el que de otra "
+"manera no podrían hacerlo tan fácilmente. Es una cafetería, un bar, una "
+"puerta abierta con algunas notas que pasan para que cualquiera las escuche, "
+"disfrute y apoye."
 
 #: templates/core/donation_form.html:7
 msgid "Donation Form:"
@@ -139,6 +227,10 @@ msgstr "por"
 #: templates/core/event.html:49
 msgid "About this event:"
 msgstr "Sobre el evento:"
+
+#: templates/core/event.html:51 templates/core/event_add_edit.html:31
+msgid "Genre:"
+msgstr "Género:"
 
 #: templates/core/event.html:54
 msgid "This event will begin at"
@@ -176,10 +268,6 @@ msgstr "Comentario!"
 msgid "Title:"
 msgstr "Título:"
 
-#: templates/core/event_add_edit.html:31
-msgid "Genre:"
-msgstr "Género:"
-
 #: templates/core/event_add_edit.html:33
 msgid "Date and time:"
 msgstr "Fecha y hora:"
@@ -208,27 +296,27 @@ msgstr "Eventos Guardados"
 msgid "Live Now"
 msgstr "En Vivo Ahora:"
 
-#: templates/core/homepage.html:14
+#: templates/core/homepage.html:14 templates/core/homepage_search.html:16
 msgid "live/upcoming by date"
 msgstr "en vivo/próximamente"
 
-#: templates/core/homepage.html:15
+#: templates/core/homepage.html:15 templates/core/homepage_search.html:17
 msgid "random"
 msgstr "azar"
 
-#: templates/core/homepage.html:16
+#: templates/core/homepage.html:16 templates/core/homepage_search.html:18
 msgid "live now"
 msgstr "en vivo ahora"
 
-#: templates/core/homepage.html:17
+#: templates/core/homepage.html:17 templates/core/homepage_search.html:19
 msgid "past events"
 msgstr "eventos pasados"
 
-#: templates/core/homepage.html:22
+#: templates/core/homepage.html:22 templates/core/homepage_search.html:24
 msgid "Search here..."
 msgstr "Busca aquí..."
 
-#: templates/core/homepage.html:23
+#: templates/core/homepage.html:23 templates/core/homepage_search.html:25
 msgid "Search now!"
 msgstr "Buscar ahora!"
 
