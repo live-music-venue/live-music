@@ -48,7 +48,7 @@
                 <div class="">
                     <h5>{% translate "About this event:" %}</h5>
                     {% if event.genre %}
-                    <p>Genre: {{event.genre}} </p>
+                    <p>{% translate "Genre:" %} {{event.genre}} </p>
                     {% endif %}
                     <p>{{event.description | linebreaks}}</p>
                     <p>{% translate "This event will begin at" %} {{event.date_time}}</p>

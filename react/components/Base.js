@@ -103,7 +103,7 @@ export default class Base extends React.Component {
                   key='1'
                   overlay={accountMenu}
                 >
-                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>{isAuthenticated ? `Welcome, ${username}!` : 'Account'} <DownOutlined /></span>
+                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>{isAuthenticated ? `${gettext('Welcome')}, ${username}!` : 'Account'} <DownOutlined /></span>
                 </Dropdown>
               ]}
             />
@@ -137,7 +137,7 @@ export default class Base extends React.Component {
                     redirect('/')
                   }}
                 >
-                  Home
+                  {gettext('Home')}
                 </Menu.Item>
 
                 {!isMusician && isAuthenticated && (
@@ -148,7 +148,7 @@ export default class Base extends React.Component {
                       redirect(musicianSignupURL)
                     }}
                   >
-                    Become a Streamer!
+                    {gettext('Become a Streamer!')}
                   </Menu.Item>
                 )}
 
@@ -160,7 +160,7 @@ export default class Base extends React.Component {
                       redirect(profileURL)
                     }}
                   >
-                    Profile
+                    {gettext('Profile')}
                   </Menu.Item>
                 )}
 
@@ -172,7 +172,7 @@ export default class Base extends React.Component {
                       redirect(addEventURL)
                     }}
                   >
-                    Add Event
+                    {gettext('Add Event')}
                   </Menu.Item>
                 )}
 
@@ -184,7 +184,7 @@ export default class Base extends React.Component {
                       redirect(favoritesURL)
                     }}
                   >
-                    Favorites
+                    {gettext('Favorites')}
                   </Menu.Item>
                 )}
 
@@ -195,7 +195,7 @@ export default class Base extends React.Component {
                       redirect(mapURL)
                     }}
                   >
-                    Map
+                    {gettext('Map')}
                   </Menu.Item>
 
 
@@ -206,7 +206,7 @@ export default class Base extends React.Component {
                     redirect(aboutUsURL)
                   }}
                 >
-                  About Band Together
+                  {gettext('About Band Together')}
                 </Menu.Item>
 
                 {!isAuthenticated && (
@@ -217,7 +217,7 @@ export default class Base extends React.Component {
                       redirect(loginURL)
                     }}
                   >
-                    Login
+                    {gettext('Login')}
                   </Menu.Item>
                 )}
 
@@ -229,7 +229,7 @@ export default class Base extends React.Component {
                       redirect(signupURL)
                     }}
                   >
-                    Register
+                    {gettext('Register')}
                   </Menu.Item>
                 )}
 
@@ -241,7 +241,7 @@ export default class Base extends React.Component {
                       redirect(logoutURL)
                     }}
                   >
-                    Logout
+                    {gettext('Logout')}
                   </Menu.Item>
                 )}
 

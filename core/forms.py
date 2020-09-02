@@ -1,6 +1,8 @@
 from django.forms import ModelForm, Textarea, DateTimeInput, ClearableFileInput, FileInput
 from .models import Musician, MusicianComment, Event, EventComment
 from django import forms
+from django.utils.translation import gettext_lazy
+
 
 
 class MusicianForm(ModelForm):
@@ -34,7 +36,7 @@ class EventForm(ModelForm):
         ]
         widgets = {
            # 'date_time': DateTimeInput(attrs={"placeholder": "MM/DD/YYYY HH:MM"}),
-            'description': Textarea(attrs={"placeholder": "Tell everyone about your concert!"}),
+            'description': Textarea(attrs={"placeholder": gettext_lazy("Tell everyone about your concert!")}),
             'cover_photo': FileInput(attrs={})
         }
         labels = {
