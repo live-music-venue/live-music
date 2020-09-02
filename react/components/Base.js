@@ -103,7 +103,7 @@ export default class Base extends React.Component {
                   key='1'
                   overlay={accountMenu}
                 >
-                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>{isAuthenticated ? `Welcome, ${username}!` : 'Account'} <DownOutlined /></span>
+                  <span className='ant-dropdown-link f5 pointer mt2' style={{ color: blue.primary, userSelect: 'none' }} onClick={e => e.preventDefault()}>{isAuthenticated ? `${gettext('Welcome')}, ${username}!` : 'Account'} <DownOutlined /></span>
                 </Dropdown>
               ]}
             />
@@ -160,7 +160,7 @@ export default class Base extends React.Component {
                       redirect(profileURL)
                     }}
                   >
-                    Profile
+                    {gettext('Profile')}
                   </Menu.Item>
                 )}
 
