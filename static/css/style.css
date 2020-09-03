@@ -6,6 +6,16 @@ body {
   width: 100vw;
 }
 
+.ant-menu .ant-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.ant-dropdown-menu .ant-dropdown-menu-item {
+  display: flex;
+  align-items: center;
+}
+
 .ant-page-header-back-button:focus {
   outline: none;
   box-shadow: none;

@@ -8,9 +8,8 @@ import {
   VideoCameraAddOutlined, AudioOutlined, GlobalOutlined
 } from '@ant-design/icons'
 import { blue, grey } from '@ant-design/colors'
-import axios from 'axios'
 
-/* global location isAuthenticated loginURL signupURL logoutURL isMusician username musicianSignupURL profileURL addEventURL favoritesURL */
+/* global location isAuthenticated loginURL signupURL logoutURL isMusician username musicianSignupURL profileURL addEventURL favoritesURL mapURL aboutUsURL */
 
 const { Header, Content, Sider } = Layout
 
@@ -108,7 +107,7 @@ export default class Base extends React.Component {
               ]}
             />
           </Header>
-          <Layout className='site-layout' hasSider='true' style={{ marginLeft: showMenu ? 200 : 75, marginTop: 64 }}>
+          <Layout className='site-layout' hasSider='true' style={{ marginLeft: showMenu ? 225 : 75, marginTop: 64 }}>
             <Sider
               trigger={null}
               style={{
@@ -119,7 +118,8 @@ export default class Base extends React.Component {
               }}
               theme='light'
               collapsible
-              // collapsedWidth={0}
+              width={225}
+              collapsedWidth={75}
               defaultCollapsed={false}
               collapsed={!showMenu}
               onCollapse={e => toggleMenu()}
@@ -188,16 +188,15 @@ export default class Base extends React.Component {
                   </Menu.Item>
                 )}
 
-                  <Menu.Item
-                    key='map'
-                    icon={<GlobalOutlined />}
-                    onClick={e => {
-                      redirect(mapURL)
-                    }}
-                  >
-                    Map
-                  </Menu.Item>
-
+                <Menu.Item
+                  key='map'
+                  icon={<GlobalOutlined />}
+                  onClick={e => {
+                    redirect(mapURL)
+                  }}
+                >
+                  Map
+                </Menu.Item>
 
                 <Menu.Item
                   key='about'
