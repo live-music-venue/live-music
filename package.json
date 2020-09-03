@@ -7,7 +7,7 @@
     "devStart": "nodemon server.js --watch server.js",
     "start": "node server.js",
     "devBuild": "webpack --watch --mode development ./react/index.js --output ./static/main.js",
-    "build": "webpack --mode production ./react/index.js --output ./static/main.js && rm -rf staticfiles && python manage.py collectstatic"
+    "build": "webpack --mode production ./react/index.js --output ./static/main.js && cp node_modules/antd/dist/antd.css static/css/antd.css && rm -rf staticfiles && python manage.py collectstatic"
   },
   "repository": {
     "type": "git",
