@@ -79,7 +79,7 @@ export default class Event extends React.Component {
             player: null
           })
           document.getElementById('event-container').removeAttribute('style')
-          // document.getElementById('social-container').removeAttribute('style')
+          document.getElementById('social-container').setAttribute('style', 'display: none;')
           document.getElementById('comments-container').removeAttribute('style')
           if (startLink) startLink.removeAttribute('style')
         })
@@ -106,7 +106,7 @@ export default class Event extends React.Component {
 
   joinStream (peerId) {
     document.getElementById('event-container').setAttribute('style', 'display: none;')
-    // document.getElementById('social-container').setAttribute('style', 'display: none;')
+    document.getElementById('social-container').removeAttribute('style')
     document.getElementById('comments-container').setAttribute('style', 'display: none;')
     if (startLink) startLink.setAttribute('style', 'display: none;')
 
@@ -150,48 +150,54 @@ export default class Event extends React.Component {
     if (inProgress) {
       view = (
         <>
-          <div className='flex center'>
-            <div className='flex flex-column'>
-              {player}
-              <p><i className='fas fa-eye' /> {viewers}</p>
+          <div className='flex center justify-between'>
+            <div id='stream' className='flex flex-row'>
+              <div className='flex flex-column'>
+                {player}
+                <p><i className='fas fa-eye' /> {viewers}</p>
+              </div>
+              <div>
+                <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
+                  {chat.map((data, idx) => {
+                    return (
+                      <div key={idx} className={idx % 2 !== 0 ? 'bg-near-white' : 'bg-white'}>
+                        <p style={{ overflowWrap: 'break-word' }}><span className={props.ownerId === data.userId ? 'blue' : 'black'}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
+                      </div>
+                    )
+                  })}
+                </div>
+                <input
+                  className='bl bb br0 bw1 outline-0'
+                  style={{ width: 271 }}
+                  type='text'
+                  value={message}
+                  onChange={e => {
+                    if (e.target.value.length <= 255) this.setState({ message: e.target.value })
+                  }}
+                  onKeyPress={e => {
+                    if (e.key === 'Enter') {
+                      document.querySelector('#send-button').click()
+                    }
+                  }}
+                />
+                <button
+                  id='send-button'
+                  className='br bb br0 bw1 outline-0'
+                  onClick={e => {
+                    if (isAuthenticated) socket.emit('send_message', message)
+                    else this.setState({ chat: this.state.chat.concat({ userId: 0, username: null, message: 'You must be signed in to chat' }) })
+                    this.setState({
+                      message: ''
+                    })
+                  }}
+                >
+                  Send
+                </button>
+              </div>
             </div>
             <div>
-              <div id='chat' className='pre bg-white pa2 bl bt br br0 bw1' style={{ whiteSpace: 'normal', width: 320, height: 452 }}>
-                {chat.map((data, idx) => {
-                  return (
-                    <div key={idx} className={idx % 2 !== 0 ? 'bg-near-white' : 'bg-white'}>
-                      <p style={{ overflowWrap: 'break-word' }}><span className={props.ownerId === data.userId ? 'blue' : 'black'}>{data.username}</span>{!!data.username && ':'} <span className={data.userId === 0 && 'red'}>{data.message}</span></p>
-                    </div>
-                  )
-                })}
-              </div>
-              <input
-                className='bl bb br0 bw1 outline-0'
-                style={{ width: 271 }}
-                type='text'
-                value={message}
-                onChange={e => {
-                  if (e.target.value.length <= 255) this.setState({ message: e.target.value })
-                }}
-                onKeyPress={e => {
-                  if (e.key === 'Enter') {
-                    document.querySelector('#send-button').click()
-                  }
-                }}
-              />
-              <button
-                id='send-button'
-                className='br bb br0 bw1 outline-0'
-                onClick={e => {
-                  if (isAuthenticated) socket.emit('send_message', message)
-                  else this.setState({ chat: this.state.chat.concat({ userId: 0, username: null, message: 'You must be signed in to chat' }) })
-                  this.setState({
-                    message: ''
-                  })
-                }}
-              >
-                Send
-              </button>
+              <div dangerouslySetInnerHTML={{ __html: document.querySelector('#social-div').innerHTML }} />
+              <div dangerouslySetInnerHTML={{ __html: document.querySelector('#qr-div').innerHTML }} />
             </div>
           </div>
         </>
