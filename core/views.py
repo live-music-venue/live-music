@@ -22,6 +22,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from project.settings import EMAIL_HOST_USER
 from django.utils.translation import gettext
+from datetime import datetime, timedelta
+
 
 
 
@@ -218,10 +220,11 @@ class getGeocode(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        events = list(musician.events.all())
+        events = list(musician.events.all().order_by("date_time"))
         empty_list = []
         for event in events:
-            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            adjusted_time = event.date_time - timedelta(hours=4)
+            empty_list.append({"start": adjusted_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         if request.user.is_authenticated:
             user_favorite = request.user.is_favorite_musician(musician)
         else: 
@@ -292,7 +295,8 @@ class FavoriteMusician(View):
         events = list(saved_events)
         empty_list = []
         for event in events:
-            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            adjusted_time = event.date_time - timedelta(hours=4)
+            empty_list.append({"start": adjusted_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         return render(request, "core/favorite_musicians.html", {
             'events': json.dumps(empty_list),
             "user":user, "favorites":favorites, "saved_events":saved_events,})

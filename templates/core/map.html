@@ -37,13 +37,13 @@
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-78.904722, 35.995278],
+            center: [-78.769873, 35.908518],
             zoom: 9
         })
         for (let i = 0; i < info.length; i++) {
             let musician = info[i]
             var html = `<div style="border-radius: 3px; width: 200px;">
-                            <h6>Name: ${musician.name}</h6>
+                            <h6 style="border-radius: 2px;">${musician.name}</h6>
                             <img src=${musician.thumb}></img>
                             <a href="/musician/${musician.pk}" class="marker-popup">See their page!</a>
                             <p>${musician.bio}</p>
