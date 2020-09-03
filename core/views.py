@@ -26,7 +26,6 @@ from datetime import datetime, timedelta
 
 
 
-
 # Create your views here.
 class About(View):
     def get(self, request):
@@ -122,13 +121,13 @@ class EventPage(View):
 
 
 class AddEvent(View):
-    form_title = gettext("Add an Event:")
 
     def get(self, request, musician_pk):
+        form_title = gettext("Add an Event:")
         musician = get_object_or_404(Musician, pk=musician_pk)
         if musician.user == request.user:
             form = EventForm()
-            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": self.form_title, "edit": False})
+            return render(request, 'core/event_add_edit.html', {"form": form, "musician": musician, "form_title": form_title, "edit": False})
         return redirect(to="show-musician", musician_pk=musician_pk)
 
     def post(self, request, musician_pk):

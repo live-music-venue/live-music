@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: node_modules/antd/dist/antd.min.js:23
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-01 21:23-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "big_int"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "num"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "string"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "template_head"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "comment2"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "regexp"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "operator"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "eof"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "expand"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "punc"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "arrow"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "name"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "atom"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "keyword"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "("
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ")"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ":"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ";"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid ","
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "]"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "}"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "{"
+msgstr ""
+
+#: node_modules/terser/dist/bundle.min.js:1
+msgid "["
+msgstr ""
+
+#: react/components/Base.js:106
+msgid "Welcome"
+msgstr "Bienvenidos"
+
+#: react/components/Base.js:140
+msgid "Home"
+msgstr "Hogar"
+
+#: react/components/Base.js:163
+msgid "Profile"
+msgstr "Perfil"
+
+#: react/components/Base.js:175
+msgid "Add Event"
+msgstr "Añadir evento"
+
+#: react/components/Base.js:187
+msgid "Favorites"
+msgstr "Favoritas"
+
+#: react/components/Base.js:198
+msgid "Map"
+msgstr "Mapa"
+
+#: react/components/Base.js:209
+msgid "About Band Together"
+msgstr "Acerca de Band Together"
+
+#: react/components/Base.js:220
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: react/components/Base.js:232
+msgid "Register"
+msgstr "Registrarse"
+
+#: react/components/Base.js:244
+msgid "Logout"
+msgstr "Cerrar sesión"

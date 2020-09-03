@@ -1,47 +1,48 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div class="ma4 about-container">
     <div class="mt3">
-        <h2>Who We Are</h2>
-        <p class="pl3">We're a team of 5 budding software developers who were all part of Momentum Learning's second post-COVID team.
+        <h2>{% translate "Who We Are" %}</h2>
+        <p class="pl3">{% blocktranslate %}We're a team of 5 budding software developers who were all part of Momentum Learning's second post-COVID team.
             We've used our extra time during the pandemic to hone our coding skills and turn ourselves toward 
-            software development careers.
+            software development careers.{% endblocktranslate %}
         </p>
     </div>
     <div class="mt3">
-        <h2>The Problem</h2>
-        <p class="pl3">In the wake of COVID-19, nearly all performing musicians lost most, if not all, of their income.  
+        <h2>{% translate "The Problem" %}</h2>
+        <p class="pl3">{% blocktranslate %}In the wake of COVID-19, nearly all performing musicians lost most, if not all, of their income.  
             Live music requires people to be gathered in the same location on a regular basis.  In this time,
             it's difficult for musicians to reach new (or even existing audiences) because people are fragmented
             across so many different social spaces on the internet.  Also, many of them don't have the technology
-            (or now the funds) to set up home-streaming solutions.</p> 
+            (or now the funds) to set up home-streaming solutions.{% endblocktranslate %}</p> 
     </div>
     <div class="mt3">
-        <h2>The Mission</h2>
-        <p class="pl3">We decided to create a virtual venue, a place where muscians and audience alike could gather and, with a 
+        <h2>{% translate "The Mission" %}</h2>
+        <p class="pl3">{% blocktranslate %}We decided to create a virtual venue, a place where muscians and audience alike could gather and, with a 
             few simple clicks, share music with one another.  Musicians would be free to perform in an open environment
             that would allow people to "walk in off the street" to see what was happening at any given time and just
-            join in watching performances from up the street or across the world.
+            join in watching performances from up the street or across the world.{% endblocktranslate %}
         </p> 
     </div>
     <div class="mt3">
-        <h2>The Solution</h2>
-        <p class="pl3">We set up easy, one-click, peer-to-peer sharing between musicians and their audiences.  Included are links
+        <h2>{% translate "The Solution" %}</h2>
+        <p class="pl3">{% blocktranslate %}We set up easy, one-click, peer-to-peer sharing between musicians and their audiences.  Included are links
             to various social media platforms so all users can share upcoming events with their friends via Facebook,
             Twitter, or email.  We've provided places for musicians to set out their virtual tip jars to make it easy
             for audience members to donate to them through easy QR interfaces or links to popular payment sites.
             There is live chat during all performaces so that audience members can communicate with musicians during
-            performances.
+            performances.{% endblocktranslate %}
         </p>        
     </div>
     <div class="mt3">
-        <h2>The Result</h2>
-        <p class="pl3">We're really proud of the work we were able to do in two short weeks.  We feel we've really made something
+        <h2>{% translate "The Result" %}</h2>
+        <p class="pl3">{% blocktranslate %}We're really proud of the work we were able to do in two short weeks.  We feel we've really made something
             special where communities can gather for music or strangers can walk through the door and discover something new.
             It's a place where musicians in need can pull out their instruments and play for the world that in a time when
             they otherwise wouldn't be able to as easily.  It's a coffee shop, a bar, an open door with a few notes
-            drifting by for anyone to hear, enjoy, and support.
+            drifting by for anyone to hear, enjoy, and support.{% endblocktranslate %}
         </p>
     </div>
 </div>
