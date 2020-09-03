@@ -1,21 +1,16 @@
+const PORT = process.env.PORT || 3000
+if (PORT === 3000) require('dotenv').config('project/.env')
 const { google } = require('googleapis')
 const express = require('express')
 const app = express()
-const moment = require('moment')
-// app.use(require('cors')())
+if (PORT === 3000) app.use(require('cors')())
 const server = require('http').Server(app)
 const proxy = require('express-http-proxy')
-const PORT = process.env.PORT || 3000
 const { ExpressPeerServer } = require('peer')
-const { json } = require('body-parser')
 
-const clientId = '692425137307-37k9jj72s9n8k7nfml0m78q0kqg7jjok.apps.googleusercontent.com'
-const clientSecret = 'YWFKvGtQ05oTwqATTk22xdJn'
-const redirectUris = ['http://localhost:3000', 'rhappsody.herokuapp.com']
-
+const redirectUris = ['http://localhost:3000', 'https://band-together-momentum.herokuapp.com']
 const SCOPES = ['https://www.googleapis.com/auth/calendar']
-
-const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0])
+const oAuth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET, redirectUris[PORT === 3000 ? 0 : 1])
 
 // Redirect to https if on Heroku
 function requireHTTPS (req, res, next) {
@@ -66,7 +61,7 @@ app.use('/', proxy('http://localhost:8000', {
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     // Modify headers if running on Heroku
     proxyReqOpts.headers['X-Forwarded-Proto'] = PORT === 3000 ? 'http' : 'https'
-    proxyReqOpts.headers.Host = PORT === 3000 ? 'localhost:3000' : 'rhappsody.herokuapp.com'
+    proxyReqOpts.headers.Host = PORT === 3000 ? 'localhost:3000' : 'band-together-momentum.herokuapp.com'
     return proxyReqOpts
   },
   limit: '100mb'

@@ -35,9 +35,11 @@ MEDIA_URL = "/media/"
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
+ALLOWED_HOSTS = ['localhost', 'band-together-momentum.herokuapp.com']
 
 # Application definition
 
@@ -86,8 +88,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '490504866963-ra0juimmee0kabtl8g6kig593v1kd10g.apps.googleusercontent.com',
-            'secret': 'Ipqb8tI-zeBlCo-ir5vwRmlx',
+            'client_id': env('GOOGLE_CLIENT_ID'),
+            'secret': env('GOOGLE_CLIENT_SECRET'),
             'key': ''
         }
     }
@@ -97,8 +99,8 @@ MAPBOX_API_KEY = env("MAPBOX_API_KEY")
 
 
 
-CSRF_TRUSTED_ORIGINS = ['rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com']
-CORS_ORIGIN_WHITELIST = ('rhappsody.herokuapp.com', 'rhappsody-staging.herokuapp.com')
+CSRF_TRUSTED_ORIGINS = ['band-together-momentum.herokuapp.com', 'rhappsody-staging.herokuapp.com']
+CORS_ORIGIN_WHITELIST = ('band-together-momentum.herokuapp.com', 'rhappsody-staging.herokuapp.com')
 
 
 
@@ -188,6 +190,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',

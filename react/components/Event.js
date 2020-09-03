@@ -41,7 +41,7 @@ export default class Event extends React.Component {
   async componentDidMount () {
     if (startLink) startLink.onclick = this.startStream
     const secure = PORT !== 3000
-    const hostname = secure ? 'rhappsody.herokuapp.com' : 'localhost'
+    const hostname = secure ? 'band-together-momentum.herokuapp.com' : 'localhost'
     await this.setState({
       socket: io(`http${secure ? 's' : ''}://${hostname}${secure ? '' : `:${PORT}`}`),
       peer: new Peer({
