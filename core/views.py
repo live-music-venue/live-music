@@ -22,6 +22,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from project.settings import EMAIL_HOST_USER
 from django.utils.translation import gettext
+from datetime import datetime, timedelta
+
 
 
 # Create your views here.
@@ -62,17 +64,17 @@ class HomepageRandom(View):
     def get(self, request):
         events = list(Event.objects.all())
         shuffle(events)
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order"})
 
 class HomepageInProgress(View):
     def get(self, request):
         events = Event.objects.all().filter(in_progress=True)
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now"})
 
 class HomepagePastEvents(View):
     def get(self, request):
         events = Event.objects.all().order_by("-date_time")
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Past Events:", "past_events" : True})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Past Events", "past_events" : True})
 
 
 
@@ -217,10 +219,11 @@ class getGeocode(View):
 class ShowMusician(View):
     def get(self, request, musician_pk):
         musician = get_object_or_404(Musician, pk=musician_pk)
-        events = list(musician.events.all())
+        events = list(musician.events.all().order_by("date_time"))
         empty_list = []
         for event in events:
-            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            adjusted_time = event.date_time - timedelta(hours=4)
+            empty_list.append({"start": adjusted_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         if request.user.is_authenticated:
             user_favorite = request.user.is_favorite_musician(musician)
         else: 
@@ -291,7 +294,8 @@ class FavoriteMusician(View):
         events = list(saved_events)
         empty_list = []
         for event in events:
-            empty_list.append({"start": event.date_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
+            adjusted_time = event.date_time - timedelta(hours=4)
+            empty_list.append({"start": adjusted_time.strftime('%Y-%m-%dT%H:%M'), "url": f'/event/{event.pk}'})
         return render(request, "core/favorite_musicians.html", {
             'events': json.dumps(empty_list),
             "user":user, "favorites":favorites, "saved_events":saved_events,})

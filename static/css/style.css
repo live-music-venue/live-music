@@ -85,7 +85,7 @@ input {
   margin-bottom: 0px;
 }
 
-#id_title, #id_date_time, #id_name, #id_city, #id_bio {
+#id_title, #id_date_time, #id_name, #id_city, #id_bio, #id_genre {
   border-top-style: hidden;
   border-right-style: hidden;
   border-left-style: hidden;
