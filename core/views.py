@@ -64,17 +64,17 @@ class HomepageRandom(View):
     def get(self, request):
         events = list(Event.objects.all())
         shuffle(events)
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Random Order"})
 
 class HomepageInProgress(View):
     def get(self, request):
         events = Event.objects.all().filter(in_progress=True)
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now:"})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Live Now"})
 
 class HomepagePastEvents(View):
     def get(self, request):
         events = Event.objects.all().order_by("-date_time")
-        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Past Events:", "past_events" : True})
+        return render(request, 'core/homepage_search.html', {'events': events, 'page_header': "Past Events", "past_events" : True})
 
 
 
