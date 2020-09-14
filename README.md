@@ -1,3 +1,5 @@
+# This was the final project for my group at Momentum during August.  Not all of this code is mine, but it was a team effort.
+
 # live-music
 
 ### How to start
